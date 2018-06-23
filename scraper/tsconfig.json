@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "allowJs": false,
+        "target": "es5",
+        "lib": [
+            "es5",
+            "es6",
+            "es2015.promise",
+            "dom"
+        ],
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs"
+    },
+    "include": [
+        "src/**/*",
+        "tests/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
