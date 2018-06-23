@@ -2,7 +2,13 @@
   "name": "immo-feed",
   "version": "1.0.0",
   "description": "A extensible app for scraping property listings",
-  "keywords": ["immobilier", "real estate", "scraper", "api", "notification"],
+  "keywords": [
+    "immobilier",
+    "real estate",
+    "scraper",
+    "api",
+    "notification"
+  ],
   "scripts": {
     "test": "test",
     "start": "tsc && node ./build/run.js",

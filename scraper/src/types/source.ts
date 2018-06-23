@@ -47,7 +47,11 @@ export class HTMLSource extends Source {
                 const { type, selector } = attribute
                 const format = attribute.format || formatters[type]
                 const element = selector ? $(selector, resultElement) : $(resultElement)
-                resultAttributes[type] = format($, element)
+                try {
+                    resultAttributes[type] = format($, element)
+                } catch (e) {
+                    console.log(e)
+                }
             })
 
             resultList.push(Object.assign(new Result(), resultAttributes))

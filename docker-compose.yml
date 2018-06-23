@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  mongodb:
+      image: mongo:latest
+      volumes:
+        - ./data/db:/data/db
+      ports:
+          - 27017:27017
+
+  scraper:
+    depends_on:
+      - mongodb
+    build:
+      context: .
+      dockerfile: scraper/Dockerfile
+    volumes:
+      - ./scraper/:/usr/src/app
+    ports:
+      - '3000:3000'
+

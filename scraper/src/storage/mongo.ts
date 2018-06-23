@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/immo-feed')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://mongodb/immo-feed')
 
 const Result = mongoose.model('Result', {
     date: Date,
@@ -11,10 +11,6 @@ const Result = mongoose.model('Result', {
     photo: String,
     hidden: { type: Boolean, default: false }
 })
-
-function handleError(error: string, data: any) {
-    return { type: 'failed', message: error }
-}
 
 function getSortValue(sortType: string) {
     return sortType === 'ASC' ? 1 : -1
