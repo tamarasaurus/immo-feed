@@ -14,7 +14,7 @@ export default class LebonCoin extends HTMLSource {
             type: 'price',
             selector: '.item_price',
             format($: CheerioStatic, price: CheerioStatic) {
-                return getPrice($(price).attr('content'))
+                return getPrice($(price).attr('content') || '0')
             }
         },
         {

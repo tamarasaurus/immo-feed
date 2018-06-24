@@ -5,15 +5,14 @@ export default function notify(updatedRecords: any[]) {
 
     if (!url || url.length === 0) throw Error('You have to specify the SLACK_WEBHOOK_URL in your environment variables')
 
-    request.post(url, {
+    return request.post(url, {
         json: {
             channel: '#immo-feed',
             username: 'immo-feed',
             text: `:house: ${updatedRecords.length} new result(s) found`,
             icon_emoji: ':house:'
         }
-    }, (err, response, body) => {
-        if (!err ) return console.log('🔔  Slack notification sent')
-        return console.log('🔔  Slack notification failed')
     })
+    .then(() => console.log('🔔  Slack notification sent'))
+    .catch(err => console.log('🔔  Slack notification failed'))
 }

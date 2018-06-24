@@ -1,15 +1,14 @@
 import * as glob from 'glob'
-import { join, extname, basename } from 'path'
+import { join, extname, basename, resolve } from 'path'
 import { Result } from './types/result'
 import { Storage } from './storage/mongo'
 import notify from './notification/slack'
 
-const storage = new Storage()
 const formatters: any = {}
-const formatterList = glob.sync('build/formatter/**/*.js')
+const formatterList = glob.sync(resolve(__dirname, './formatter/**/*.js'))
 
 formatterList.forEach(formatterPath => {
-    const formatter = require(join(process.cwd(), formatterPath))
+    const formatter = require(formatterPath)
     const ext = extname(formatterPath)
     const name = basename(formatterPath).replace(ext, '')
     formatters[name] = formatter.default
@@ -17,11 +16,11 @@ formatterList.forEach(formatterPath => {
 
 const scrape = async () => {
     const startTime = new Date().getTime()
-    const sources: String[] = glob.sync('build/source/**/*.js')
+    const sources: String[] = glob.sync(resolve(__dirname, './source/**/*.js'))
 
     const results = await Promise.all(
-            sources.map(async (sourcePath: string) => {
-            const source = require(join(process.cwd(), sourcePath))
+        sources.map(async (sourcePath: string) => {
+            const source = require(sourcePath)
 
             try {
                 return new source.default().scrape(formatters)
@@ -32,10 +31,18 @@ const scrape = async () => {
     )
 
     const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-    await Promise.all(flatResults.map((result: Result) => storage.updateOrCreate(result) ))
 
-    // notify(await storage.findUpdatedSince(startTime))
-    storage.cleanup()
+    if (flatResults.length === 0) return;
+
+    const storage = new Storage();
+    await Promise.all(flatResults.map((result: Result) => storage.updateOrCreate(result)))
+
+    if (process.env.NOTIFY) {
+        const updatedRecords = await storage.findUpdatedSince(startTime);
+        await notify(updatedRecords)
+    }
+
+    storage.cleanup();
 }
 
 scrape()

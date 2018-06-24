@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/immo-feed')
 
 const Result = mongoose.model('Result', {
     date: Date,
@@ -17,6 +16,10 @@ function getSortValue(sortType: string) {
 }
 
 export class Storage {
+    constructor() {
+        mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/immo-feed");
+    }
+
     findById(id: string) {
         return Result.findById(id)
     }
@@ -48,7 +51,7 @@ export class Storage {
     }
 
     cleanup() {
-        mongoose.connection.close()
+        return mongoose.connection.close()
     }
 
     findUpdatedSince(date: any) {
