@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - /data/db:/data/db
+    ports:
+      - 27017:27017
+
+  scraper:
+    build:
+      context: .
+      dockerfile: scraper/Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 3000:3000
+    environment:
+      MONGODB_URI: 'mongo'
+    command: bash -c 'npm run start && npm run serve'
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - 8080:8080
+    command: 'npm run start'
+    depends_on:
+      - mongo
+      - scraper

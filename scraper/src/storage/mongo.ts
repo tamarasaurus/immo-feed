@@ -17,7 +17,9 @@ function getSortValue(sortType: string) {
 
 export class Storage {
     constructor() {
-        mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/immo-feed");
+        let path = 'localhost'
+        if (process.env.MONGODB_URI) path = process.env.MONGODB_URI
+        mongoose.connect(`mongodb://${path}/immo-feed`);
     }
 
     findById(id: string) {

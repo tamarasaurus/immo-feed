@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "test": "test",
+    "build": "tsc",
     "start": "tsc && node ./build/run.js",
     "serve": "tsc && node ./build/api/server.js"
   },
