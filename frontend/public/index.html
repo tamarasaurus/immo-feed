@@ -6,20 +6,33 @@
     <title>immo-feed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
     <div id="app">
+        <nav>
+            <h1>immo-feed</h1>
+            <label for="sort">Sort by</label>
+            <select name="sort" id="sort">
+                <option value="date">Date</option>
+                <option value="price">Price</option>
+                <option value="size">Size</option>
+            </select>
+        </nav>
+
         <ul id="results" v-cloak>
-            <li class="result" v-for="result in results">
-                <a v-bind:href="result.link"><img width="400" v-bind:src="result.photo" /></a>
-                <h2>{{ result.name }}</h2>
-                <p>{{ result.description }}</p>
-                <span>{{ new Date(result.date).toLocaleString() }}</span>
-                <span>{{ result.price }} euros</span> | <span>{{ result.size }}m2</span>
-                <button class="hide">hide</button>
+            <li :id="result._id" class="result" v-for="result in results">
+                <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
+                <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
+                <span class="result-date">{{ new Date(result.date).toLocaleString() }}</span>
+                <p class="result-description">{{ result.description }}</p>
+                <span class="result-details">€{{ result.price }} | {{ result.size }}m²</span>
+                <button class="result-hide">❌</button>
             </li>
         </ul>
     </div>
+
+    <footer>By Tamara Robichet 😛 <a href="https://github.com/tamarasaurus/immo-feed/">https://github.com/tamarasaurus/immo-feed</a></footer>
 
     <script defer src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" defer src="main.js"></script>
