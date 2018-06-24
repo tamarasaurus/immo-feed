@@ -19,7 +19,7 @@ export default class LebonCoin extends HTMLSource {
         },
         {
             type: 'photo',
-            selector: '[itemprop="image"]',
+            selector: '.item_imagePic span.lazyload',
             format($: CheerioStatic, photo: CheerioStatic): string {
                 return $(photo).data('imgsrc')
             }

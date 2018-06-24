@@ -10,6 +10,12 @@ export default class Francois extends HTMLSource {
         { type: 'size', selector: '.panel-body .text-justify' },
         { type: 'link', selector: 'a' },
         { type: 'price', selector: '.panel-body .text-right' },
-        { type: 'photo', selector: '.bien-pic' }
+        {
+            type: 'photo',
+            selector: '.bien-pic',
+            format($: CheerioStatic, photo: CheerioStatic): string {
+                return `https://www.francois-et-francois-immobilier.com/${$(photo).attr('src')}`
+            }
+        }
     ]
 }

@@ -1,11 +1,14 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
+import * as cors from 'cors'
+
 import { Storage } from '../storage/mongo'
 
 const app = express()
 const storage = new Storage()
 
 app.use(bodyParser.json())
+app.use(cors())
 
 app.get("/results", async (req: any, res: any) => {
     const records = await storage.findAll();
