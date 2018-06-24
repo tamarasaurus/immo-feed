@@ -1,9 +1,12 @@
-### scraper
+### immo-feed
+
+immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bienici etc.. for listings and makes the aggregated results available with a simple api and frontend. it's super easy to create new scrapers and customise the existing ones to suit your search.
 
 ### requirements
 
 - node.js
 - mongodb
+- docker, docker-compose (optional)
 
 ### setup
 
@@ -23,7 +26,7 @@ Visit `http://localhost:3000` to see and manage the results
 
 For example, running the scraper every 10 minutes
 
-`/user/local/bin/node` - Run `which node` to find out the real path
+`/user/local/bin/node` - Run `which node` to find out the path on your machine
 
 
 ```
