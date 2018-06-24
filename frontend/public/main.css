@@ -76,7 +76,7 @@ h1 {
 }
 
 .result-description {
-    padding: 0;
+    padding-bottom: 20px;
     margin: 0;
 }
 
@@ -92,10 +92,15 @@ h1 {
     margin-bottom: 20px;
     margin-top: 0;
     display: inline-block;
+    color: #666;
 }
 
 .result-details {
     display: inline-block;
+    border-top: 1px #eee solid;
+    padding-top: 10px;
+    border-bottom: 1px #eee solid;
+    padding-bottom: 10px;
 }
 
 nav {
@@ -116,7 +121,7 @@ nav select {
 nav label {
     font-size: 20px;
     padding-right: 10px;
-    line-height: 24px;
+    line-height: 28px;
     cursor: pointer;
 }
 

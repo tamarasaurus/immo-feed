@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <nav>
-            <h1>immo-feed</h1>
+            <h1>🏠 immo-feed</h1>
             <label for="sort">Sort by</label>
             <select name="sort" id="sort">
                 <option value="date">Date</option>
@@ -21,13 +21,13 @@
         </nav>
 
         <ul id="results" v-cloak>
-            <li :id="result._id" class="result" v-for="result in results">
+            <li class="result" v-for="result in results">
                 <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
                 <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
                 <span class="result-date">{{ new Date(result.date).toLocaleString() }}</span>
-                <p class="result-description">{{ result.description }}</p>
-                <span class="result-details">€{{ result.price }} | {{ result.size }}m²</span>
-                <button class="result-hide">❌</button>
+                <p v-if="result.description" class="result-description">{{ result.description }}</p>
+                <span class="result-details">€{{ result.price }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ result.size }}m²</span>
+                <button :data-id="result._id" class="result-hide">❌</button>
             </li>
         </ul>
     </div>
