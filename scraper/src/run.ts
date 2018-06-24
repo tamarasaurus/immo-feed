@@ -22,7 +22,12 @@ const scrape = async () => {
     const results = await Promise.all(
             sources.map(async (sourcePath: string) => {
             const source = require(join(process.cwd(), sourcePath))
-            return new source.default().scrape(formatters)
+
+            try {
+                return new source.default().scrape(formatters)
+            } catch (e) {
+                console.error(e)
+            }
         })
     )
 

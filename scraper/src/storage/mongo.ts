@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://mongodb/immo-feed')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/immo-feed')
 
 const Result = mongoose.model('Result', {
     date: Date,
