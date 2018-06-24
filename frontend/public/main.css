@@ -1,3 +1,31 @@
 body {
 
 }
+
+[v-cloak] {
+    display: none
+}
+
+ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+  grid-auto-rows: minmax(100px, auto);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column
+}
+
+img {
+    width: 100%;
+    background: #eee;
+    min-height: 400px;
+}
