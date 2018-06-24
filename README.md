@@ -2,7 +2,7 @@
 
 immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bienici etc.. for listings and makes the aggregated results available with a simple api and frontend. it's super easy to create new scrapers and customise the existing ones to suit your search.
 
-![feed](https://user-images.githubusercontent.com/1336344/41823180-13dc8342-77fc-11e8-9815-fc0dd96bdcb2.png)
+![feed](https://user-images.githubusercontent.com/1336344/41823195-53306a0e-77fc-11e8-84d2-4bcf11dbc702.png)
 
 ### requirements
 
