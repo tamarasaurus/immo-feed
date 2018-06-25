@@ -8,10 +8,6 @@
     "start": "http-server ./public -p 8080"
   },
   "dependencies": {
-    "http-server": "^0.11.1",
-    "ts-loader": "^4.3.0",
-    "typescript": "^2.9.1",
-    "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.4"
+    "http-server": "^0.11.1"
   }
 }
