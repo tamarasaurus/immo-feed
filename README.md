@@ -30,7 +30,13 @@ cd scraper && npm start && npm run serve
 cd frontend && npm start
 ```
 
-Visit `http://localhost:3000` to see and manage the results
+Visit `http://localhost:8080` to see and manage the results
+
+### api
+
+`GET /results` - list all the results (not yet paginated)
+`GET /results/:id` - get a single result
+`POST /results/:id/hide` - hide a result
 
 ### running the scraper
 
