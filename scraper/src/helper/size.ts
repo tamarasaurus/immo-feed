@@ -8,5 +8,5 @@ export const getSize = (size: string): any => {
         .replace(/m2|m²/g, '')
         .trim()
 
-    return parseInt(cleanedSize.replace(/\D+/g, ''))
+    return parseInt(cleanedSize.replace(/[^0-9,.]/g, ''));
 }

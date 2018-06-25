@@ -1,5 +1,4 @@
 import { HTMLSource } from '../types/source'
-import { getPrice } from '../helper/price'
 
 export default class LebonCoin extends HTMLSource {
     public url = 'https://www.leboncoin.fr/ventes_immobilieres/offres/'
@@ -10,8 +9,8 @@ export default class LebonCoin extends HTMLSource {
         { type: 'description', selector: '[itemprop="availableAtOrFrom"]' },
         { type: 'size', selector: '[itemprop="name"]' },
         { type: 'price', selector: '[itemprop="price"]' },
-        { 
-            type: 'link', 
+        {
+            type: 'link',
             selector: '> a',
             format($: CheerioStatic, link: CheerioStatic): string {
                 return `https://www.leboncoin.fr${$(link).attr('href')}`
