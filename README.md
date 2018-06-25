@@ -46,8 +46,6 @@ SCRAPER_FREQUENCY=15 docker-compose run --rm runner
 
 The `SCRAPER_FREQUENCY` environment variable is passed to the runner script, which executes the scrapers every x minutes. 
 
-If you're using docker-compose, you don't have to set up the cron job. You can customise the frequency using the environment variable `SCRAPER_FREQUENCY`. It is set to 10 minutes by default, but you can set it like this:
-
 ### environment variables
 - `NOTIFY` - Turn notifications on
 - `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
