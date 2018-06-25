@@ -6,22 +6,22 @@ export default class LebonCoin extends HTMLSource {
     public resultSelector = 'li[itemtype="http://schema.org/Offer"]'
 
     public resultAttributes = [
-        { type: 'name', selector: '.item_title' },
-        { type: 'description', selector: '.ispro' },
-        { type: 'size', selector: '.item_title' },
-        { type: 'link', selector: '> a' },
-        {
-            type: 'price',
-            selector: '.item_price',
-            format($: CheerioStatic, price: CheerioStatic) {
-                return getPrice($(price).attr('content') || '0')
+        { type: 'name', selector: '[itemprop="name"]' },
+        { type: 'description', selector: '[itemprop="availableAtOrFrom"]' },
+        { type: 'size', selector: '[itemprop="name"]' },
+        { type: 'price', selector: '[itemprop="price"]' },
+        { 
+            type: 'link', 
+            selector: '> a',
+            format($: CheerioStatic, link: CheerioStatic): string {
+                return `https://www.leboncoin.fr${$(link).attr('href')}`
             }
         },
         {
             type: 'photo',
-            selector: '.item_imagePic span.lazyload',
+            selector: '.LazyLoad',
             format($: CheerioStatic, photo: CheerioStatic): string {
-                return ($(photo).data('imgsrc') || '').replace('-thumb', '-large')
+                return ($(photo).attr('content') || '').replace('-thumb', '-large')
             }
         }
     ]
