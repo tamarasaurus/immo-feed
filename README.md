@@ -34,9 +34,9 @@ Visit `http://localhost:8080` to see and manage the results
 
 ### api
 
-`GET /results` - list all the results (not yet paginated)
-`GET /results/:id` - get a single result
-`POST /results/:id/hide` - hide a result
+- `GET /results` - list all the results (not yet paginated)
+- `GET /results/:id` - get a single result
+- `POST /results/:id/hide` - hide a result
 
 ### running the scraper
 
