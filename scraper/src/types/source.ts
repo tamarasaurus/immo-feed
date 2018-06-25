@@ -1,6 +1,7 @@
 import * as request from 'request-promise'
 import * as cheerio from 'cheerio'
 import { Result } from './result'
+import * as puppeteer from 'puppeteer'
 
 class Source {
     public url: string = null
@@ -34,8 +35,17 @@ export class JSONSource extends Source {
 
 export class HTMLSource extends Source {
     public async scrape(formatters: any[]): Promise<Result[]> {
-        const response = await request.get(this.url, { resolveWithFullResponse: true })
-        const $: CheerioStatic = cheerio.load(response.body)
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        })
+        const page = await browser.newPage()
+        console.log('Scraping', this.url)
+        await page.goto(this.url)
+        const response = await page.content()
+        await browser.close()
+
+        const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes
         const resultList: Result[] = []
@@ -56,7 +66,7 @@ export class HTMLSource extends Source {
 
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
-
+        
         return resultList
     }
 }

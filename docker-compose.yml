@@ -2,7 +2,6 @@ version: '3.4'
 
 services:
   mongo:
-    restart: always
     image: mongo
     volumes:
       - /data/db:/data/db
@@ -10,22 +9,18 @@ services:
       - 27017:27017
 
   scraper:
-    restart: always
     image: scraper
     build:
       context: .
       dockerfile: scraper/Dockerfile
     depends_on:
       - mongo
-    ports:
-      - 3000:3000
     environment:
       MONGODB_URI: 'mongo'
     command: 'npm run serve'
 
   runner:
     image: scraper
-    restart: always
     environment:
       MONGODB_URI: 'mongo'
       SCRAPER_FREQUENCY: ${SCRAPER_FREQUENCY:-10}
@@ -34,12 +29,9 @@ services:
       - scraper
   
   frontend:
-    restart: always
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    ports:
-      - 8080:8080
     command: 'npm run start'
     depends_on:
       - mongo
