@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   mongo:
+    restart: always
     image: mongo
     volumes:
       - /data/db:/data/db
@@ -33,6 +34,7 @@ services:
       - scraper
   
   frontend:
+    restart: always
     build:
       context: .
       dockerfile: frontend/Dockerfile
