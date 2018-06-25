@@ -4,7 +4,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - /data/db:/data/db
+      - mongo:/data/db
     ports:
       - 27017:27017
 
@@ -36,3 +36,6 @@ services:
     depends_on:
       - mongo
       - scraper
+
+volumes:
+  mongo: ~
