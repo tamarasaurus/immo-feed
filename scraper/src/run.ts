@@ -45,4 +45,12 @@ const scrape = async () => {
     storage.cleanup();
 }
 
-scrape()
+async function run() {
+    scrape()
+    setInterval(function () {
+        console.log('Running scraper')
+        scrape()
+    }, parseInt(process.env.SCRAPE_FREQUENCY || '10') * 60 * 1000);
+}
+
+run();

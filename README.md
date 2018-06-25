@@ -14,7 +14,6 @@ immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bieni
 
 #### To run with docker
 
-
 ```
 docker-compose up --build
 ```
@@ -24,36 +23,35 @@ docker-compose up --build
 - Make sure mongodb is running
 
 ```
-    cd scraper && npm install
-    cd frontend && npm install
+cd scraper && npm install
+cd frontend && npm install
 
-    cd scraper && npm start && npm run serve
-    cd frontend && npm start
+cd scraper && npm start && npm run serve
+cd frontend && npm start
 ```
 
 Visit `http://localhost:3000` to see and manage the results
 
-### crontab
+### running the scraper
 
-If you're using docker-compose, you don't have to set up the cron job (but you can customise the frequency)
-
-However for running the app manually you can do the following:
-
+You can run the scraper in a couple of ways:
 
 ```
-crontab -e
+# manually
+cd scraper && SCRAPER_FREQUENCY=15 npm run start
 
-# Add this line
-*/10 * * * * /usr/local/bin/node /home/username/immo-feed/scraper/build/run.js > /home/username/log/cron.log 2>&1
-
+# using docker-compose
+SCRAPER_FREQUENCY=15 docker-compose run --rm runner
 ```
 
-`/user/local/bin/node` - Run `which node` to find out the path on your machine
+The `SCRAPER_FREQUENCY` environment variable is passed to the runner script, which executes the scrapers every x minutes. 
+
+If you're using docker-compose, you don't have to set up the cron job. You can customise the frequency using the environment variable `SCRAPER_FREQUENCY`. It is set to 10 minutes by default, but you can set it like this:
 
 ### environment variables
 - `NOTIFY` - Turn notifications on
-- `SLACK_WEBHOOK_URL` - Slack
-- `MONGODB_URI` - Mongo uri
+- `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
+- `SCRAPER_FREQUENCY` - How often the scrapers should be run (in minutes)
 
 ### customising scraper sources
 

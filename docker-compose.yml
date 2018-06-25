@@ -9,6 +9,8 @@ services:
       - 27017:27017
 
   scraper:
+    restart: always
+    image: scraper
     build:
       context: .
       dockerfile: scraper/Dockerfile
@@ -18,8 +20,18 @@ services:
       - 3000:3000
     environment:
       MONGODB_URI: 'mongo'
-    command: bash -c 'npm run start && npm run serve'
+    command: 'npm run serve'
 
+  runner:
+    image: scraper
+    restart: always
+    environment:
+      MONGODB_URI: 'mongo'
+      SCRAPER_FREQUENCY: ${SCRAPER_FREQUENCY:-10}
+    command: 'npm run start'
+    depends_on:
+      - scraper
+  
   frontend:
     build:
       context: .
