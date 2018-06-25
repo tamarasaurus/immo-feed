@@ -27,7 +27,7 @@ services:
     command: 'npm run start'
     depends_on:
       - scraper
-  
+
   frontend:
     build:
       context: .

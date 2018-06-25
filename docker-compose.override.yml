@@ -3,8 +3,6 @@ version: '3.4'
 services:
   mongo:
     restart: always
-    volumes:
-      - /data/db:/data/db
     ports:
       - 27017:27017
 
@@ -16,13 +14,15 @@ services:
       MONGODB_URI: 'mongo'
     volumes:
       - ./scraper:/usr/src/app
+      - /usr/src/app/node_modules
 
   runner:
     environment:
       SCRAPER_FREQUENCY: ${SCRAPER_FREQUENCY:-10}
     volumes:
       - ./scraper:/usr/src/app
-  
+      - /usr/src/app/node_modules
+
   frontend:
     restart: always
     ports:
