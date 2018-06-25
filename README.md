@@ -59,6 +59,58 @@ The `SCRAPER_FREQUENCY` environment variable is passed to the runner script, whi
 
 ### customising scraper sources
 
+In the `./scraper/src/source/` folder you will find the default scrapers. Each scraper corresponds to a search url that will be requested and parsed. 
+
+Each result can have these properties:
+
+```javascript
+export class Result {
+    name: string
+    price: number
+    size: number
+    description: string
+    link: string
+    image: string
+    date: number
+}
+
+```
+
+So in each scraper we specify a set of selectors where these attribute can be found.
+
+A scraper can parse a HTML or JSON response. For HTML:  
+
+``` javascript
+// Use the HTML scraper type
+import { HTMLSource } from '../types/source'
+
+export default class Thierry extends HTMLSource {
+    // We give the scraper the search URL that contains the results
+    public url = 'https://www.thierry-immobilier.fr/vente/appartement--maison'
+
+    // We define where the scraper can find the list of items in the page
+    public resultSelector = '.teaser--immobilier'
+
+    // We map each Result attribute to a selector
+    public resultAttributes = [
+        { 
+            type: 'name', 
+            selector: '.teaser__title' 
+            
+            // Each attribute comes with a default formatter but we can define a custom one to extract the data we want from the `.teaser__title` element
+            format($: CheerioStatic, photo: CheerioStatic): string {
+                return $(photo).attr('data-whatever')
+            }
+        },
+        { type: 'description', selector: '.teaser__body .dot-ellipsis p' },
+        { type: 'size', selector: '.teaser__additional-inner span:nth-child(2)' },
+        { type: 'price', selector: '.teaser__price b' },
+        { type: 'link', selector: '> a' },
+        { type: 'photo', selector: '.field-type-image img', }
+    ]
+}
+```
+
 ### adding a new scraper source
 
 ### deployment
