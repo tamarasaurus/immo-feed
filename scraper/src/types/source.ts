@@ -11,6 +11,7 @@ class Source {
 
 export class JSONSource extends Source {
     public async scrape(formatters: any[]): Promise<Result[]> {
+        console.log('➡️ scraping', this.url)
         const response = await request.get(this.url, { resolveWithFullResponse: true })
         const contents = JSON.parse(response.body)
         const results = contents[this.resultSelector]
@@ -29,6 +30,8 @@ export class JSONSource extends Source {
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
 
+        console.log('✔️ found', resultList.length, 'results for', this.url)
+
         return resultList
     }
 }
@@ -40,7 +43,7 @@ export class HTMLSource extends Source {
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         })
         const page = await browser.newPage()
-        console.log('Scraping', this.url)
+        console.log('➡️ scraping', this.url)
         await page.goto(this.url)
         const response = await page.content()
         await browser.close()
@@ -67,6 +70,7 @@ export class HTMLSource extends Source {
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
         
+        console.log('✔️ found', resultList.length, 'results for', this.url)
         return resultList
     }
 }

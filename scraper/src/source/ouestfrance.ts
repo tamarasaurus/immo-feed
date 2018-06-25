@@ -19,7 +19,7 @@ export default class Ouestfrance extends HTMLSource {
         {
             type: 'link',
             format($: CheerioStatic, element: CheerioElement): string {
-                return $(element).attr('href')
+                return `https://www.ouestfrance-immo.com${$(element).attr('href')}`
             }
         },
         {
