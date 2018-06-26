@@ -8,8 +8,6 @@ const scrape = async (sourcePath: string) => {
     const sourceModule: any = require(resolve(__dirname, '../', sourcePath))
     const source = sourceModule.default()
 
-    console.log(source.type)
-
     if (source.type === 'json') return;
 
     const browser = await puppeteer.launch({
@@ -19,6 +17,7 @@ const scrape = async (sourcePath: string) => {
 
     const page = await browser.newPage()
     await page.goto(source.url)
+    await page.waitForSelector(source.resultSelector)
     const response = await page.content()
     await browser.close()
 
@@ -26,24 +25,23 @@ const scrape = async (sourcePath: string) => {
     const results = $(source.resultSelector)
     const attributes = source.resultAttributes
 
-    assert(results.length > 0, `${source.resultSelector} is empty`)
+    assert(results.length > 0, `${sourcePath} - ${source.resultSelector} is empty`)
 
     results.toArray().forEach((resultElement: CheerioElement) => {
         attributes.forEach((attribute: any) => {
             const { type, selector } = attribute
-            assert.equal(
-                $(selector, resultElement).length, 1,
-                `${type} element with selector ${selector} is missing`
-            )
+
+            if (selector && type !== 'photo') {
+                assert(
+                    $(selector, resultElement).length > 0,
+                    `${sourcePath} - ${type} element with selector ${selector} is missing`
+                )
+            }
         })
     })
 }
 
 const sources: String[] = glob.sync(resolve(__dirname, '../source/**/*.js'))
-console.log(sources)
-
 sources.map(async (sourcePath: string) => scrape(sourcePath))
-
-// scrape('./source/leboncoin.js')
 
 export default scrape
