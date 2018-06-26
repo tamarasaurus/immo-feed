@@ -1,4 +1,4 @@
-### immo-feed
+# 🏠 immo-feed
 
 [![Build Status](https://travis-ci.org/tamarasaurus/immo-feed.svg?branch=master)](https://travis-ci.org/tamarasaurus/immo-feed)
 
@@ -6,7 +6,7 @@ immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bieni
 
 ![feed](https://user-images.githubusercontent.com/1336344/41823195-53306a0e-77fc-11e8-84d2-4bcf11dbc702.png)
 
-### how it works
+# How it works
 
 immo-feed is made of:
 
@@ -17,15 +17,15 @@ immo-feed is made of:
 - a frontend app to view the results
 - a way to send notifications for new results (only Slack is available for now)
 
-### requirements
+## Requirements
 
 - node.js (>= v8.1.0)
 - mongodb (>= v3.4)
 - docker (~v18.03), docker-compose (~v1.19.0) (optional)
 
-### setup
+# Setup
 
-#### To start with docker
+## To start with docker
 
 ```bash
 docker-compose up --build
@@ -37,7 +37,7 @@ To view the logs you can run
 docker-compose logs -f --tail=10
 ```
 
-#### To start manually
+## To start manually
 
 - Make sure mongodb is running
 
@@ -51,13 +51,13 @@ cd scraper && npm run serve # starts the api
 cd frontend && npm start # serves the frontend
 ```
 
-### accessing the results
+## Accessing the results
 
-#### frontend
+### Frontend
 
 Visit `http://localhost:8080` to see and manage the results (sort, hide).
 
-#### api
+### API
 
 Visit `http://localhost:3000` with these endpoints to acess the API: 
 
@@ -65,7 +65,7 @@ Visit `http://localhost:3000` with these endpoints to acess the API:
 - `GET /results/:id` - get a single result
 - `POST /results/:id/hide` - hide a result
 
-### customising the scraper frequency
+## Customising the scraper frequency
 
 You can run the scraper in a couple of ways:
 
@@ -79,14 +79,14 @@ SCRAPER_FREQUENCY=15 docker-compose run --rm runner
 
 The `SCRAPER_FREQUENCY` environment variable is passed to the runner script, which executes the scrapers every x minutes. 
 
-### environment variables
+## Environment variables
 - `NOTIFY` - Turn notifications on
 - `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
 - `SCRAPER_FREQUENCY` - How often the scrapers should be run (in minutes)
 
-### customising scraper sources
+## Customising scraper sources
 
-#### the short explanation
+### The short explanation
 
 In each file inside `./scraper/src/source/` replace the `url` value with your own search URL for that website (with your own parameters like price or location).
 
@@ -111,7 +111,7 @@ cd scraper && npm start
 
 If you visit `http://localhost:8080` you can view the results as they are scraped and stored.
 
-#### the long explanation
+### The long explanation
 
 In the `./scraper/src/source/` folder you will find the default scrapers. Each scraper corresponds to a search url that will be requested and parsed. 
 
@@ -201,7 +201,7 @@ export default class Bienici extends JSONSource {
 }
 ```
 
-### adding a new scraper source
+## Adding a new scraper source
 
 If you want to add a new scraper, it's pretty simple:
 
@@ -267,4 +267,16 @@ docker-compose up --build && docker-compose restart
 # manually 
 cd scraper && npm start 
 
+```
+
+## Testing
+
+Every scraper in the `./scraper/source/` directory is tested automatically (and each time a new one is added) on Travis CI nightly. To run the tests locally you can do:
+
+```bash
+# docker
+docker-compose run --rm test npm run test
+
+# manually
+cd scraper && npm test
 ```
