@@ -12,10 +12,16 @@ const scrape = async (sourcePath: string) => {
     if (source.type === 'json') return;
 
     try {
-        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            pipe: true,
+            timeout: 60000
+        })
+
         const page = await browser.newPage()
         await page.goto(source.url)
-        await page.waitForSelector(source.resultSelector)
+        await page.waitForSelector(source.resultSelector, { timeout: 60000 })
         const response = await page.content()
         await browser.close()
 
