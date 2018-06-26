@@ -28,7 +28,6 @@ services:
     depends_on:
     - runner
     - scraper
-    command: 'npm run test'
     volumes:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules
