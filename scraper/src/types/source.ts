@@ -10,6 +10,8 @@ class Source {
 }
 
 export class JSONSource extends Source {
+    public type = 'json'
+
     public async scrape(formatters: any[]): Promise<Result[]> {
         console.log('➡️ scraping', this.url)
         const response = await request.get(this.url, { resolveWithFullResponse: true })
@@ -37,6 +39,8 @@ export class JSONSource extends Source {
 }
 
 export class HTMLSource extends Source {
+    public type = 'html'
+
     public async scrape(formatters: any[]): Promise<Result[]> {
         const browser = await puppeteer.launch({
             headless: true,
@@ -69,7 +73,7 @@ export class HTMLSource extends Source {
 
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
-        
+
         console.log('✔️ found', resultList.length, 'results for', this.url)
         return resultList
     }

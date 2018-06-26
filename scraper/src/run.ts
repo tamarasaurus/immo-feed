@@ -31,12 +31,12 @@ const scrape = async () => {
     )
 
     const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-    
+
     if (flatResults.length === 0) return;
 
     const storage = new Storage();
     await Promise.all(flatResults.map((result: Result) => storage.updateOrCreate(result)))
-    
+
     if (process.env.NOTIFY) {
         const updatedRecords = await storage.findUpdatedSince(startTime);
         await notify(updatedRecords)

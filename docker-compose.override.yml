@@ -23,6 +23,16 @@ services:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules
 
+  test:
+    image: scraper
+    depends_on:
+    - runner
+    - scraper
+    command: 'npm run test'
+    volumes:
+      - ./scraper:/usr/src/app
+      - /usr/src/app/node_modules
+
   frontend:
     restart: always
     ports:

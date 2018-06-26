@@ -10,7 +10,7 @@
     "notification"
   ],
   "scripts": {
-    "test": "test",
+    "test": "tsc && node ./build/test/run-test.js",
     "build": "tsc",
     "start": "tsc && node ./build/run.js",
     "serve": "tsc && node ./build/api/server.js"
