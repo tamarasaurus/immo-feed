@@ -45,9 +45,14 @@ const scrape = async (sourcePath: string) => {
 
         for (let i in selectors) {
             const selector = selectors[i]
-            assert.notEqual(selector.every((val: any) => val.isEmpty === true), `✖ ${sourceName} - ${i}`);
 
-            console.log(`✔ ${sourceName} - ${i}`);
+            if (selector.every((val: any) => val.isEmpty === true)) {
+                console.log(`✖ ${sourceName} - ${i}`);
+                process.exit(1)
+            } else {
+                console.log(`✔ ${sourceName} - ${i}`);
+            }
+
         }
 
         console.log('\n')
