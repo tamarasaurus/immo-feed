@@ -40,8 +40,13 @@ export class JSONSource extends Source {
 
 export class HTMLSource extends Source {
     public type = 'html'
+    public nextButtonSelector: string = null
 
-    public async scrape(formatters: any[]): Promise<Result[]> {
+    private async getNextPageUrl() {
+
+    }
+
+    private async openPage(next: boolean = false) {
         const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -49,7 +54,13 @@ export class HTMLSource extends Source {
         const page = await browser.newPage()
         console.log('➡️ scraping', this.url)
         await page.goto(this.url)
-        const response = await page.content()
+        const response = await page.content();
+
+        return { browser, page, response }
+    }
+
+    public async scrape(formatters: any[]): Promise<Result[]> {
+        const { browser, page, response } = await this.openPage()
         await browser.close()
 
         const $: CheerioStatic = cheerio.load(response)
@@ -76,6 +87,11 @@ export class HTMLSource extends Source {
 
         console.log('✔️ found', resultList.length, 'results for', this.url)
         return resultList
+    }
+
+    public async next() {
+        const period = process.env.SCRAPER_PERIOD_DAYS;
+        console.log('go next', period)
     }
 }
 
