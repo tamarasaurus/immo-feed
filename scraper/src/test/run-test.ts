@@ -26,6 +26,13 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
     const attributes = source.resultAttributes
 
     assert(results.length > 0, `${sourceName} - ${source.resultSelector} is empty`)
+    console.log(`✔ ${sourceName} - ${source.resultSelector}`)
+
+    if (source.nextPageLink) {
+        const nextPageLink = $(source.nextPageLink)
+        assert(nextPageLink.length > 0, `${sourceName} - ${source.nextPageLink} is empty`)
+        console.log(`✔ ${sourceName} - ${source.nextPageLink}`)
+    }
 
     const selectors: any = {}
 
