@@ -30,7 +30,6 @@ const scrape = async () => {
     }
 
     const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-    console.log(flatResults)
     if (flatResults.length === 0) return;
 
     const storage = new Storage();

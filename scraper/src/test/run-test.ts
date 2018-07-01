@@ -28,10 +28,10 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
     assert(results.length > 0, `${sourceName} - ${source.resultSelector} is empty`)
     console.log(`✔ ${sourceName} - ${source.resultSelector}`)
 
-    if (source.nextPageLink) {
-        const nextPageLink = $(source.nextPageLink)
-        assert(nextPageLink.length > 0, `${sourceName} - ${source.nextPageLink} is empty`)
-        console.log(`✔ ${sourceName} - ${source.nextPageLink}`)
+    if (source.nextPageSelector) {
+        const nextPageSelector = $(source.nextPageSelector)
+        assert(nextPageSelector.length > 0, `${sourceName} - ${source.nextPageSelector} is empty`)
+        console.log(`✔ ${sourceName} - ${source.nextPageSelector}`)
     }
 
     const selectors: any = {}

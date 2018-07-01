@@ -40,8 +40,8 @@ export class JSONSource extends Source {
 
 export class HTMLSource extends Source {
     public type = 'html'
-    // @todo add to tests
-    public nextPageLink: string = null
+    public nextPageSelector: string = null
+    public pagesToScrape: number = 1
 
     private async getPageContents(): Promise<{ browser: puppeteer.Browser, page: puppeteer.Page}> {
         const browser = await puppeteer.launch({
@@ -87,14 +87,12 @@ export class HTMLSource extends Source {
         const { browser, page } = await this.getPageContents()
         const results = []
 
-        // @todo use time period in a while loop
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < this.pagesToScrape; i++) {
             await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
-
-            const nextLink = await page.$(this.nextPageLink)
+            const nextLink = await page.$(this.nextPageSelector)
 
             if (i > 0 && nextLink) {
-                await page.click(this.nextPageLink)
+                await page.click(this.nextPageSelector)
                 await page.waitForSelector(this.resultSelector)
             }
 
@@ -103,7 +101,7 @@ export class HTMLSource extends Source {
             console.log('➡️ scrape', page.url())
             results.push(await this.extractResults(response, formatters))
 
-            if (this.nextPageLink === null) break;
+            if (this.nextPageSelector === null) break;
         }
 
         const flatResults = results.reduce((acc, val) => acc.concat(val), [])
