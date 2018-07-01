@@ -16,22 +16,21 @@ formatterList.forEach(formatterPath => {
 
 const scrape = async () => {
     const startTime = new Date().getTime()
-    const sources: String[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+    const sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+    const results = []
 
-    const results = await Promise.all(
-        sources.map(async (sourcePath: string) => {
-            const source = require(sourcePath)
+    for (let sourcePath of sources) {
+        const source = require(sourcePath)
 
-            try {
-                return new source.default().scrape(formatters)
-            } catch (e) {
-                console.error(e)
-            }
-        })
-    )
+        try {
+            results.push(await new source.default().scrape(formatters))
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-
+    console.log(flatResults)
     if (flatResults.length === 0) return;
 
     const storage = new Storage();
