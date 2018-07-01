@@ -3,6 +3,7 @@ import { HTMLSource } from '../types/source'
 export default class Thierry extends HTMLSource {
     public url = 'https://www.thierry-immobilier.fr/vente/appartement--maison'
     public resultSelector = '.teaser--immobilier'
+    public nextPageLink = '.pager-next > a'
 
     public resultAttributes = [
         { type: 'name', selector: '.teaser__title' },

@@ -91,7 +91,9 @@ export class HTMLSource extends Source {
         for (let i = 0; i < 5; i++) {
             await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
 
-            if (i > 0) {
+            const nextLink = await page.$(this.nextPageLink)
+
+            if (i > 0 && nextLink) {
                 await page.click(this.nextPageLink)
                 await page.waitForSelector(this.resultSelector)
             }

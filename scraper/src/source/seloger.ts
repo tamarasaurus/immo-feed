@@ -4,6 +4,7 @@ import { getSize } from '../helper/size'
 export default class Seloger extends HTMLSource {
     public url = 'https://www.seloger.com/list.htm?types=1,2&projects=2,5&natures=1,2,4&qsVersion=1.0'
     public resultSelector = '[data-listing-id]'
+    public nextPageLink = '.pagination-next'
 
     public resultAttributes = [
         { type: 'name', selector: '.c-pa-link' },
