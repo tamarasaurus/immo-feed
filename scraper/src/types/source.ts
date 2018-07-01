@@ -40,29 +40,24 @@ export class JSONSource extends Source {
 
 export class HTMLSource extends Source {
     public type = 'html'
-    public nextButtonSelector: string = null
+    // @todo add to tests
+    public nextPageLink: string = null
 
-    private async getNextPageUrl() {
-
-    }
-
-    private async openPage(next: boolean = false) {
+    private async getPageContents(): Promise<{ browser: puppeteer.Browser, page: puppeteer.Page}> {
         const browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+          headless: true,
+          args: ["--no-sandbox", "--disable-setuid-sandbox"]
         })
-        const page = await browser.newPage()
-        console.log('➡️ scraping', this.url)
-        await page.goto(this.url)
-        const response = await page.content();
 
-        return { browser, page, response }
+        const page = await browser.newPage()
+        console.log("➡️ scraping", this.url)
+        page.setViewport({ width: 1280, height: 1000 })
+        await page.goto(this.url)
+
+        return { browser, page }
     }
 
-    public async scrape(formatters: any[]): Promise<Result[]> {
-        const { browser, page, response } = await this.openPage()
-        await browser.close()
-
+    private async extractResults(response: string, formatters: any[]): Promise<Result[]> {
         const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes
@@ -85,13 +80,35 @@ export class HTMLSource extends Source {
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
 
-        console.log('✔️ found', resultList.length, 'results for', this.url)
         return resultList
     }
 
-    public async next() {
-        const period = process.env.SCRAPER_PERIOD_DAYS;
-        console.log('go next', period)
+    public async scrape(formatters: any[]): Promise<Result[]> {
+        const { browser, page } = await this.getPageContents()
+        const results = []
+
+        if (!this.nextPageLink) {
+            const response = await page.content()
+            await browser.close()
+            return this.extractResults(response, formatters)
+        }
+
+        // @todo use time period in a while loop, remove block above
+        for (let i = 0; i < 5; i++) {
+            if (i > 0) {
+                await page.click(this.nextPageLink)
+                await page.waitForSelector(this.resultSelector)
+            }
+
+            const response = await page.content()
+            results.push(await this.extractResults(response, formatters))
+        }
+
+        const flatResults = results.reduce((acc, val) => acc.concat(val), [])
+        console.log('✔️ found', flatResults.length, 'results for', this.url)
+        await browser.close()
+
+        return flatResults
     }
 }
 
