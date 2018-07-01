@@ -19,7 +19,7 @@ export class Storage {
     constructor() {
         let path = 'localhost'
         if (process.env.MONGODB_URI) path = process.env.MONGODB_URI
-        mongoose.connect(`mongodb://${path}/immo-feed`);
+        mongoose.connect(`mongodb://${path}/immo-feed`)
     }
 
     findById(id: string) {

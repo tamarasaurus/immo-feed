@@ -1,8 +1,9 @@
 import * as glob from 'glob'
-import { join, extname, basename, resolve } from 'path'
+import { extname, basename, resolve } from 'path'
 import { Result } from './types/result'
 import { Storage } from './storage/mongo'
 import notify from './notification/slack'
+import chalk from 'chalk'
 
 const formatters: any = {}
 const formatterList = glob.sync(resolve(__dirname, './formatter/**/*.js'))
@@ -25,30 +26,31 @@ const scrape = async () => {
         try {
             results.push(await new source.default().scrape(formatters))
         } catch (e) {
-            console.error(e)
+            console.error('\n', chalk.red(e), '\n')
         }
     }
 
     const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-    if (flatResults.length === 0) return;
+    if (flatResults.length === 0) return
 
-    const storage = new Storage();
+    const storage = new Storage()
     await Promise.all(flatResults.map((result: Result) => storage.updateOrCreate(result)))
 
     if (process.env.NOTIFY) {
-        const updatedRecords = await storage.findUpdatedSince(startTime);
+        const updatedRecords = await storage.findUpdatedSince(startTime)
         await notify(updatedRecords)
     }
 
-    storage.cleanup();
+    storage.cleanup()
 }
 
 async function run() {
+    console.log(chalk.bgGreen('🏠  starting immo-feed scraper \n'))
     scrape()
     setInterval(function () {
-        console.log(new Date().toLocaleString(), 'Running scraper')
+        console.log(chalk.green(new Date().toLocaleString(), 'running'))
         scrape()
-    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000);
+    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
 }
 
-run();
+run()

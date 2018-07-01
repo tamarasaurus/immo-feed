@@ -15,7 +15,7 @@ export default class Thierry extends HTMLSource {
             type: 'link',
             selector: '> a',
             format($: CheerioStatic, link: CheerioStatic) {
-                return `https://www.thierry-immobilier.fr${$(link).attr('href')}`;
+                return `https://www.thierry-immobilier.fr${$(link).attr('href')}`
             }
         }
     ]

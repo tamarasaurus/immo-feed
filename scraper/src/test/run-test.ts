@@ -4,7 +4,8 @@ import * as puppeteer from 'puppeteer'
 import * as cheerio from 'cheerio'
 import * as assert from 'assert'
 import * as request from 'request-promise'
-import { HTMLSource, JSONSource } from '../types/source';
+import chalk from 'chalk'
+import { HTMLSource, JSONSource } from '../types/source'
 
 const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
     const sourceName = basename(sourcePath, '.js')
@@ -60,7 +61,7 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
             `✖ ${sourceName} - ${i}`
         )
 
-        console.log(`✔ ${sourceName} - ${i}`);
+        console.log(`✔ ${sourceName} - ${i}`)
     }
 
     console.log('\n')
@@ -76,7 +77,7 @@ const testJSONSource = async (source: JSONSource, sourcePath: string) => {
         `✖ ${sourceName} - ${source.resultSelector}`
     )
 
-    console.log(`✔ ${sourceName} - ${source.resultSelector}`);
+    console.log(`✔ ${sourceName} - ${source.resultSelector}`)
 
     source.resultAttributes.forEach(attribute => {
         const firstItem = contents[source.resultSelector][0]
@@ -86,7 +87,7 @@ const testJSONSource = async (source: JSONSource, sourcePath: string) => {
             `✖ ${sourceName} - ${attribute.selector}`
         )
 
-        console.log(`✔ ${sourceName} - ${attribute.selector}`);
+        console.log(`✔ ${sourceName} - ${attribute.selector}`)
     })
 
     console.log('\n')
@@ -103,7 +104,7 @@ const scrape = async (sourcePath: string) => {
 
         return await testJSONSource(source, sourcePath)
     } catch (e) {
-        console.log('\n Tests failed with error: \n\n', sourcePath, '\n', e, '\n')
+        console.log(chalk.red('\n Tests failed with error: \n\n', sourcePath, '\n', e, '\n'))
         process.exit(1)
     }
 }

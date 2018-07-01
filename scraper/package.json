@@ -39,5 +39,8 @@
     "request": "^2.85.0",
     "request-promise": "^4.2.2",
     "typescript": "^2.9.1"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.1"
   }
 }

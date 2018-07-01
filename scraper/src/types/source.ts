@@ -2,18 +2,20 @@ import * as request from 'request-promise'
 import * as cheerio from 'cheerio'
 import { Result } from './result'
 import * as puppeteer from 'puppeteer'
+import chalk from 'chalk'
 
 class Source {
     public url: string = null
     public resultAttributes: any[] = []
     public resultSelector: string = null
+    public scraperName = this.constructor.name.toLocaleLowerCase()
 }
 
 export class JSONSource extends Source {
     public type = 'json'
 
     public async scrape(formatters: any[]): Promise<Result[]> {
-        console.log('➡️ scraping', this.url)
+        console.log(chalk.blue('➡️ scraping', this.scraperName))
         const response = await request.get(this.url, { resolveWithFullResponse: true })
         const contents = JSON.parse(response.body)
         const results = contents[this.resultSelector]
@@ -32,7 +34,7 @@ export class JSONSource extends Source {
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
 
-        console.log('✔️ found', resultList.length, 'results for', this.url)
+        console.log(chalk.green(`   ✔️ found ${resultList.length} results for ${this.scraperName} \n`))
 
         return resultList
     }
@@ -50,7 +52,7 @@ export class HTMLSource extends Source {
         })
 
         const page = await browser.newPage()
-        console.log("➡️ scraping", this.url)
+        console.log(chalk.blue('➡️ scraping', this.scraperName))
         page.setViewport({ width: 1280, height: 1000 })
         await page.goto(this.url)
 
@@ -73,7 +75,7 @@ export class HTMLSource extends Source {
                 try {
                     resultAttributes[type] = format($, element)
                 } catch (e) {
-                    console.log(e)
+                    console.error('\n', chalk.red(e), '\n')
                 }
             })
 
@@ -98,14 +100,14 @@ export class HTMLSource extends Source {
 
             await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
             const response = await page.content()
-            console.log('➡️ scrape', page.url())
+            console.log(chalk.magenta('   ↘ go to page', page.url()))
             results.push(await this.extractResults(response, formatters))
 
-            if (this.nextPageSelector === null) break;
+            if (this.nextPageSelector === null) break
         }
 
         const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-        console.log('✔️ found', flatResults.length, 'results for', this.constructor.name.toLowerCase())
+        console.log(chalk.green(`   ✔️ found ${flatResults.length} results for ${this.scraperName} \n`))
         await browser.close()
 
         return flatResults
