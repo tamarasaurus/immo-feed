@@ -89,13 +89,16 @@ export class HTMLSource extends Source {
 
         // @todo use time period in a while loop
         for (let i = 0; i < 5; i++) {
+            await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
+
             if (i > 0) {
                 await page.click(this.nextPageLink)
                 await page.waitForSelector(this.resultSelector)
             }
 
+            await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
             const response = await page.content()
-            console.log('    ➡️ scrape', page.url())
+            console.log('➡️ scrape', page.url())
             results.push(await this.extractResults(response, formatters))
 
             if (this.nextPageLink === null) break;
