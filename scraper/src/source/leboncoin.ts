@@ -3,6 +3,8 @@ import { HTMLSource } from '../types/source'
 export default class LebonCoin extends HTMLSource {
     public url = 'https://www.leboncoin.fr/ventes_immobilieres/offres/'
     public resultSelector = 'li[itemtype="http://schema.org/Offer"]'
+    public nextPageSelector = '.bgMain nav ul li:last-child > a'
+    public pagesToScrape = 3
 
     public resultAttributes = [
         { type: 'name', selector: '[itemprop="name"]' },

@@ -18,7 +18,7 @@ services:
 
   runner:
     environment:
-      SCRAPER_FREQUENCY: ${SCRAPER_FREQUENCY:-10}
+      SCRAPER_FREQUENCY_MINUTES: ${SCRAPER_FREQUENCY_MINUTES:-10}
     volumes:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules

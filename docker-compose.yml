@@ -23,7 +23,6 @@ services:
     image: scraper
     environment:
       MONGODB_URI: 'mongo'
-      SCRAPER_FREQUENCY: ${SCRAPER_FREQUENCY:-10}
     command: 'npm run start'
     depends_on:
       - scraper

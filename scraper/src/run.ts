@@ -1,8 +1,9 @@
 import * as glob from 'glob'
-import { join, extname, basename, resolve } from 'path'
+import { extname, basename, resolve } from 'path'
 import { Result } from './types/result'
 import { Storage } from './storage/mongo'
 import notify from './notification/slack'
+import chalk from 'chalk'
 
 const formatters: any = {}
 const formatterList = glob.sync(resolve(__dirname, './formatter/**/*.js'))
@@ -16,41 +17,40 @@ formatterList.forEach(formatterPath => {
 
 const scrape = async () => {
     const startTime = new Date().getTime()
-    const sources: String[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+    const sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+    const results = []
 
-    const results = await Promise.all(
-        sources.map(async (sourcePath: string) => {
-            const source = require(sourcePath)
+    for (let sourcePath of sources) {
+        const source = require(sourcePath)
 
-            try {
-                return new source.default().scrape(formatters)
-            } catch (e) {
-                console.error(e)
-            }
-        })
-    )
+        try {
+            results.push(await new source.default().scrape(formatters))
+        } catch (e) {
+            console.error('\n', chalk.red(e), '\n')
+        }
+    }
 
     const flatResults = results.reduce((acc, val) => acc.concat(val), [])
+    if (flatResults.length === 0) return
 
-    if (flatResults.length === 0) return;
-
-    const storage = new Storage();
+    const storage = new Storage()
     await Promise.all(flatResults.map((result: Result) => storage.updateOrCreate(result)))
 
     if (process.env.NOTIFY) {
-        const updatedRecords = await storage.findUpdatedSince(startTime);
+        const updatedRecords = await storage.findUpdatedSince(startTime)
         await notify(updatedRecords)
     }
 
-    storage.cleanup();
+    storage.cleanup()
 }
 
 async function run() {
+    console.log(chalk.bgGreen('🏠  starting immo-feed scraper \n'))
     scrape()
     setInterval(function () {
-        console.log('Running scraper')
+        console.log(chalk.green(new Date().toLocaleString(), 'running'))
         scrape()
-    }, parseInt(process.env.SCRAPE_FREQUENCY || '10') * 60 * 1000);
+    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
 }
 
-run();
+run()

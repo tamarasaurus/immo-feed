@@ -17,7 +17,7 @@ function hideResult() {
 }
 
 function renderList() {
-    new Vue({ el: '#results', data: { results: data.results } });
+    new Vue({ el: '#results', data: { results: data.results } })
 
     const hideButtons = Array.from(document.querySelectorAll('.result-hide'))
     hideButtons.forEach(button => button.addEventListener('click', hideResult))
@@ -30,11 +30,11 @@ getResults().then(results => {
 
 document.getElementById('sort').addEventListener('change', function () {
     if (this.value === 'date') {
-        return window.location.reload();
+        return window.location.reload()
     }
 
     data.results.sort((a, b) => {
         return parseInt(b[this.value]) - parseInt(a[this.value])
     })
-});
+})
 

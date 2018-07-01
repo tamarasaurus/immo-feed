@@ -25,13 +25,32 @@ immo-feed is made of:
 
 # Setup
 
+## Customising the scraper frequency
+
+You can run the scraper in a couple of ways:
+
+```bash
+# manually
+cd scraper && SCRAPER_FREQUENCY_MINUTES=15 npm run start
+
+# using docker-compose
+SCRAPER_FREQUENCY_MINUTES=15 docker-compose run --rm runner
+```
+
+The `SCRAPER_FREQUENCY_MINUTES` environment variable is passed to the runner script, which executes the scrapers every x minutes.
+
+## Environment variables
+- `NOTIFY` - Turn notifications on
+- `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
+- `SCRAPER_FREQUENCY_MINUTES` - How often the scrapers should be run
+
 ## To start with docker
 
 ```bash
 docker-compose up --build
 ```
 
-To view the logs you can run 
+To view the logs you can run
 
 ```bash
 docker-compose logs -f --tail=10
@@ -45,7 +64,7 @@ docker-compose logs -f --tail=10
 cd scraper && npm install
 cd frontend && npm install
 
-# in three separate processes for each command: 
+# in three separate processes for each command:
 cd scraper && npm start # starts the scraper
 cd scraper && npm run serve # starts the api
 cd frontend && npm start # serves the frontend
@@ -59,30 +78,11 @@ Visit `http://localhost:8080` to see and manage the results (sort, hide).
 
 ### API
 
-Visit `http://localhost:3000` with these endpoints to acess the API: 
+Visit `http://localhost:3000` with these endpoints to acess the API:
 
 - `GET /results` - list all the results (not yet paginated)
 - `GET /results/:id` - get a single result
 - `POST /results/:id/hide` - hide a result
-
-## Customising the scraper frequency
-
-You can run the scraper in a couple of ways:
-
-```bash
-# manually
-cd scraper && SCRAPER_FREQUENCY=15 npm run start
-
-# using docker-compose
-SCRAPER_FREQUENCY=15 docker-compose run --rm runner
-```
-
-The `SCRAPER_FREQUENCY` environment variable is passed to the runner script, which executes the scrapers every x minutes. 
-
-## Environment variables
-- `NOTIFY` - Turn notifications on
-- `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
-- `SCRAPER_FREQUENCY` - How often the scrapers should be run (in minutes)
 
 ## Customising scraper sources
 
@@ -104,8 +104,8 @@ To apply the changes:
 # docker
 docker-compose up --build && docker-compose restart
 
-# manually 
-cd scraper && npm start 
+# manually
+cd scraper && npm start
 
 ```
 
@@ -113,7 +113,7 @@ If you visit `http://localhost:8080` you can view the results as they are scrape
 
 ### The long explanation
 
-In the `./scraper/src/source/` folder you will find the default scrapers. Each scraper corresponds to a search url that will be requested and parsed. 
+In the `./scraper/src/source/` folder you will find the default scrapers. Each scraper corresponds to a search url that will be requested and parsed.
 
 Each result can have these properties:
 
@@ -145,12 +145,18 @@ export default class Thierry extends HTMLSource {
     // We define the selector for each list item element
     public resultSelector = '.teaser--immobilier'
 
+    // Provide the selector for the next page button
+    public nextPageSelector = '.pager-next > a'
+
+    // Specify how many pages we should scrape each time (1 by default)
+    public pagesToScrape: number = 5
+
     // We map each Result attribute to a selector
     public resultAttributes = [
-        { 
-            type: 'name', 
-            selector: '.teaser__title' 
-            
+        {
+            type: 'name',
+            selector: '.teaser__title'
+
             // Each attribute comes with a default formatter but we can define a custom one to extract the data we want from the `.teaser__title` element
             format($: CheerioStatic, photo: CheerioStatic): string {
                 return $(photo).attr('data-whatever')
@@ -192,7 +198,7 @@ export default class Bienici extends JSONSource {
             type: 'photo',
             selector: 'photos',
 
-            // If we want to access an array item at a particular index we can use a custom formatter. In `photos` it will return the array of photos that we specified in the `selector` property above. 
+            // If we want to access an array item at a particular index we can use a custom formatter. In `photos` it will return the array of photos that we specified in the `selector` property above.
             format: (photos: any) => {
                 return photos.length > 0 && photos[0].url
             }
@@ -227,7 +233,7 @@ export default class MySource extends HTMLSource {
 
 ```
 
-3. Define the selector for each result element
+3. Define the selectors
 
 ```javascript
 import { HTMLSource } from '../types/source'
@@ -235,6 +241,8 @@ import { HTMLSource } from '../types/source'
 export default class MySource extends HTMLSource {
     public url = 'https://www.super-cool-immobilier/nantes/results'
     public resultSelector = 'li.result'
+    public nextPageSelector = 'button.next-page'
+    public pagesToScrape = 2
 }
 
 ```
@@ -247,6 +255,8 @@ import { HTMLSource } from '../types/source'
 export default class MySource extends HTMLSource {
     public url = 'https://www.super-cool-immobilier/nantes/results'
     public resultSelector = 'li.result'
+    public nextPageSelector = 'button.next-page'
+    public pagesToScrape = 2
 
     public resultAttributes = [
         // So we can find the name of the result inside `li.result .item_title`
@@ -264,8 +274,8 @@ And that's all you need to do !
 # docker
 docker-compose up --build && docker-compose restart
 
-# manually 
-cd scraper && npm start 
+# manually
+cd scraper && npm start
 
 ```
 

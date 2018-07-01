@@ -12,13 +12,13 @@ app.use(bodyParser.json())
 app.options('*', cors())
 
 app.get('/results', cors(), async (req: any, res: any) => {
-    const records = await storage.findAll();
-    res.json(records.filter((record: any) => !record.hidden));
-});
+    const records = await storage.findAll()
+    res.json(records.filter((record: any) => !record.hidden))
+})
 
 app.get('/results/:id', cors(), async (req: any, res: any) => {
     const { id } = req.params
-    const record = await storage.findById(id);
+    const record = await storage.findById(id)
     res.json(record)
 })
 
@@ -26,7 +26,7 @@ app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
     const { id } = req.params
 
     try {
-        await storage.updateOrCreate({id,  hidden: true });
+        await storage.updateOrCreate({id,  hidden: true })
         res.sendStatus(200)
     } catch (e) {
         res.sendStatus(500)

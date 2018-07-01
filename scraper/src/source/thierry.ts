@@ -3,6 +3,7 @@ import { HTMLSource } from '../types/source'
 export default class Thierry extends HTMLSource {
     public url = 'https://www.thierry-immobilier.fr/vente/appartement--maison'
     public resultSelector = '.teaser--immobilier'
+    public nextPageSelector = '.pager-next > a'
 
     public resultAttributes = [
         { type: 'name', selector: '.teaser__title' },
@@ -14,7 +15,7 @@ export default class Thierry extends HTMLSource {
             type: 'link',
             selector: '> a',
             format($: CheerioStatic, link: CheerioStatic) {
-                return `https://www.thierry-immobilier.fr${$(link).attr('href')}`;
+                return `https://www.thierry-immobilier.fr${$(link).attr('href')}`
             }
         }
     ]
