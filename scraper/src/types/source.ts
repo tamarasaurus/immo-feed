@@ -87,13 +87,7 @@ export class HTMLSource extends Source {
         const { browser, page } = await this.getPageContents()
         const results = []
 
-        if (!this.nextPageLink) {
-            const response = await page.content()
-            await browser.close()
-            return this.extractResults(response, formatters)
-        }
-
-        // @todo use time period in a while loop, remove block above
+        // @todo use time period in a while loop
         for (let i = 0; i < 5; i++) {
             if (i > 0) {
                 await page.click(this.nextPageLink)
@@ -101,11 +95,14 @@ export class HTMLSource extends Source {
             }
 
             const response = await page.content()
+            console.log('    ➡️ scrape', page.url())
             results.push(await this.extractResults(response, formatters))
+
+            if (this.nextPageLink === null) break;
         }
 
         const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-        console.log('✔️ found', flatResults.length, 'results for', this.url)
+        console.log('✔️ found', flatResults.length, 'results for', this.constructor.name.toLowerCase())
         await browser.close()
 
         return flatResults
