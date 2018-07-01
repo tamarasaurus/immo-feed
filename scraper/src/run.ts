@@ -47,9 +47,9 @@ const scrape = async () => {
 async function run() {
     scrape()
     setInterval(function () {
-        console.log('Running scraper')
+        console.log(new Date().toLocaleString(), 'Running scraper')
         scrape()
-    }, parseInt(process.env.SCRAPE_FREQUENCY || '10') * 60 * 1000);
+    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000);
 }
 
 run();
