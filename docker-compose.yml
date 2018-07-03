@@ -34,7 +34,6 @@ services:
     command: 'npm run start'
     depends_on:
       - mongo
-      - scraper
 
 volumes:
   mongo: ~
