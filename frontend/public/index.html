@@ -12,18 +12,23 @@
     <div id="app">
         <nav>
             <h1>🏠 immo-feed</h1>
-            <label for="sort">Sort by</label>
-            <select name="sort" id="sort">
-                <option value="date">Date</option>
-                <option value="price">Price</option>
-                <option value="size">Size</option>
-            </select>
         </nav>
 
-        <div id="pagination" class="pagination" v-cloak>
-            <a class="pagination-prev" v-if="page > 1" v-bind:href="`/?page=${Math.max(1, page - 1)}`">previous</a>
-            <div class="pagination-total">page {{page}} / {{pages}}</div>
-            <a class="pagination-next" v-if="page < pages" v-bind:href="`/?page=${Math.min(pages, page + 1)}`">next</a>
+        <div class="filters">
+            <div id="pagination" class="pagination pagination-top">
+                <a class="pagination-link" v-if="page > 1" v-bind:href="`/?page=${Math.max(1, page - 1)}`">previous</a>
+                <div class="pagination-total" v-cloak>page {{page}} / {{pages}}</div>
+                <a class="pagination-link" v-if="page < pages" v-bind:href="`/?page=${Math.min(pages, page + 1)}`">next</a>
+            </div>
+
+            <div class="sort">
+                <label for="sort">sort by&nbsp;</label>
+                <select name="sort" id="sort">
+                    <option value="date">date</option>
+                    <option value="price">price</option>
+                    <option value="size">size</option>
+                </select>
+            </div>
         </div>
 
         <ul id="results" v-cloak>
@@ -36,6 +41,12 @@
                 <button :data-id="result._id" class="result-hide">❌</button>
             </li>
         </ul>
+
+        <div id="pagination" class="pagination pagination-bottom">
+            <a class="pagination-link" v-if="page > 1" v-bind:href="`/?page=${Math.max(1, page - 1)}`">previous</a>
+            <div class="pagination-total" v-cloak>page {{page}} / {{pages}}</div>
+            <a class="pagination-link" v-if="page < pages" v-bind:href="`/?page=${Math.min(pages, page + 1)}`">next</a>
+        </div>
     </div>
 
     <footer>By Tamara Robichet 😛 <a href="https://github.com/tamarasaurus/immo-feed/">https://github.com/tamarasaurus/immo-feed</a></footer>

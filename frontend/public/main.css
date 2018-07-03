@@ -134,6 +134,40 @@ footer {
     padding-bottom: 30px;
 }
 
+.pagination {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-bottom: 40px;
+}
+
+.pagination-bottom {
+    padding-bottom: 0;
+    padding-top: 40px;
+}
+
+.pagination-total {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #666;
+}
+
+.filters {
+  display: flex; 
+  justify-content: flex-end;
+}
+
+.sort {
+  margin-left: 20px;
+  color: #666;
+}
+
+.sort:before {
+  content: '|';
+  margin-right: 10px;
+  color: #ddd;
+}
+
 @media screen and (min-width: 40em) {
   ul {
     grid-template-columns: repeat(3, 1fr);

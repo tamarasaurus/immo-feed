@@ -22,7 +22,8 @@ function hideResult() {
 
 function renderList() {
     new Vue({ el: '#results', data: { results: data.results } })
-    new Vue({ el: '#pagination', data: { pages: data.pages, page: data.page }})
+    new Vue({ el: '.pagination-top', data: { pages: data.pages, page: data.page }})
+    new Vue({ el: '.pagination-bottom', data: { pages: data.pages, page: data.page }})
 
     const hideButtons = Array.from(document.querySelectorAll('.result-hide'))
     hideButtons.forEach(button => button.addEventListener('click', hideResult))
