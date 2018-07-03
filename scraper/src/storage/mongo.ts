@@ -26,12 +26,16 @@ export class Storage {
         return Result.findById(id)
     }
 
-    findAll(sort = ['date', 'desc'], filter = '') {
+    async findAll(page: string = '1', sort = ['date', 'desc'], filter = '') {
         const sortParams = { [sort[0]]: getSortValue(sort[1]) }
         const filterWords = filter.trim().split(' ').join('|')
         const filterRegexp = new RegExp(filterWords, 'gmi')
+        const perPage = 18
 
-        return Result.find({})
+        const count = await Result.count().exec()
+        const results = await Result.find({})
+            .skip((perPage * parseInt(page)) - perPage)
+            .limit(perPage)
             .sort(sortParams)
             .or([
                 { name: filterRegexp },
@@ -39,6 +43,12 @@ export class Storage {
                 { link: filterRegexp }
             ])
             .exec()
+
+        return {
+            results,
+            page: parseInt(page),
+            pages: Math.round(count / perPage)
+        }
     }
 
     updateOrCreate(data: any) {

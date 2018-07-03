@@ -12,8 +12,10 @@ app.use(bodyParser.json())
 app.options('*', cors())
 
 app.get('/results', cors(), async (req: any, res: any) => {
-    const records = await storage.findAll()
-    res.json(records.filter((record: any) => !record.hidden))
+    const page = req.query.page
+    const records = await storage.findAll(page)
+    records.results = records.results.filter((record: any) => !record.hidden)
+    res.json(records)
 })
 
 app.get('/results/:id', cors(), async (req: any, res: any) => {

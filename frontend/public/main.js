@@ -1,9 +1,13 @@
 const data = {
-    results: []
+    results: [],
+    page: 1,
+    pages: null
 }
 
 function getResults() {
-    return fetch(new Request('http://localhost:3000/results'), {
+    const params = new URLSearchParams(location.search)
+    const page = params.get('page') || 1
+    return fetch(new Request(`http://localhost:3000/results?page=${page}`), {
         mode: 'cors',
         method: 'get'
     }).then(response => response.json())
@@ -23,8 +27,11 @@ function renderList() {
     hideButtons.forEach(button => button.addEventListener('click', hideResult))
 }
 
-getResults().then(results => {
-    data.results = results
+getResults().then(response => {
+    data.results = response.results
+    data.page = response.page
+    data.pages = response.pages
+
     renderList()
 })
 
