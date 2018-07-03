@@ -4,7 +4,29 @@
 
 immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bienici etc. for listings and makes the aggregated results available with a simple api and frontend. it's super easy to create new scraper sources and customise the existing ones to suit your search.
 
-![feed](https://user-images.githubusercontent.com/1336344/41823195-53306a0e-77fc-11e8-84d2-4bcf11dbc702.png)
+![immo-feed](https://user-images.githubusercontent.com/1336344/42247317-a0cec83e-7f20-11e8-9051-6070580f1fa0.png)
+
+# Changelog
+
+## 1.1.0
+- Add tests for scraper sources #18 #17
+    - These are run nightly on Travis CI for every source
+    - Can also be run locally (see [Testing](https://github.com/tamarasaurus/immo-feed#testing))
+- Add handling of multiple pages in the runner #21
+    - Now you can specify these new properties in your sources (see [Adding a new source](https://github.com/tamarasaurus/immo-feed#adding-a-new-scraper-source)):
+    ```
+        // The selector for the next page button
+        public nextPageSelector = '.pager-next > a'
+
+        // How many pages do you want to scrape
+        public pagesToScrape: number = 5
+    ```
+- Add pagination in the database, api and frontend #23
+- Run the scrapers sequentially to improve stability
+- Add some clearer and prettier logging to the runner #1
+
+## 1.0.0
+- First release of the app !
 
 # How it works
 
