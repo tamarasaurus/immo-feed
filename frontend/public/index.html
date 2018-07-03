@@ -20,6 +20,12 @@
             </select>
         </nav>
 
+        <div id="pagination" class="pagination" v-cloak>
+            <a class="pagination-prev" v-if="page > 1" v-bind:href="`/?page=${Math.max(1, page - 1)}`">previous</a>
+            <div class="pagination-total">page {{page}} / {{pages}}</div>
+            <a class="pagination-next" v-if="page < pages" v-bind:href="`/?page=${Math.min(pages, page + 1)}`">next</a>
+        </div>
+
         <ul id="results" v-cloak>
             <li class="result" v-for="result in results">
                 <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
