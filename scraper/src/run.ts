@@ -35,6 +35,7 @@ const scrape = async () => {
     if (flatResults.length === 0) return
 
     const storage = new Storage()
+
     const updatedOrCreatedResults = await Promise.all(flatResults.map(async (result: Result) => {
         try {
             return await storage.updateOrCreate(result)

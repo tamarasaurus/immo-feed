@@ -54,10 +54,13 @@ export class Storage {
     updateOrCreate(data: any) {
         const { link, id } = data
 
+        const date = new Date()
+
         return Result.findOneAndUpdate(
             id ? { _id: id } : { link },
-            Object.assign(data, { $setOnInsert: { date: new Date().getTime() } }),
-            { new: true, upsert: true }
+            Object.assign(data, { $setOnInsert: { date } }),
+            { new: true, upsert: true },
+            (error: any, record: any) => record
         )
     }
 

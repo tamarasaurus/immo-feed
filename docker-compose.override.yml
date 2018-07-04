@@ -12,12 +12,14 @@ services:
       MONGODB_URI: 'mongo'
     volumes:
       - ./scraper:/usr/src/app
+      - /usr/src/app/node_modules
 
   runner:
     environment:
       SCRAPER_FREQUENCY_MINUTES: ${SCRAPER_FREQUENCY_MINUTES:-10}
     volumes:
       - ./scraper:/usr/src/app
+      - /usr/src/app/node_modules
 
   test:
     image: scraper
@@ -26,6 +28,7 @@ services:
     - scraper
     volumes:
       - ./scraper:/usr/src/app
+      - /usr/src/app/node_modules
 
   frontend:
     ports:

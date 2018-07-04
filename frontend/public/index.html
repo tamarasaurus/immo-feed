@@ -35,7 +35,7 @@
             <li class="result" v-for="result in results">
                 <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
                 <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
-                <span class="result-date">{{ new Date(result.date).toLocaleString() }}</span>
+                <span class="result-date">{{ result.date }}</span>
                 <p v-if="result.description" class="result-description">{{ result.description }}</p>
                 <span class="result-details">€{{ result.price }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ result.size }}m²</span>
                 <button :data-id="result._id" class="result-hide">❌</button>
