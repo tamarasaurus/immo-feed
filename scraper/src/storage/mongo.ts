@@ -56,9 +56,8 @@ export class Storage {
 
         return Result.findOneAndUpdate(
             id ? { _id: id } : { link },
-            Object.assign(data, { $setOnInsert: { date: new Date().getTime() }}),
-            { new: true, upsert: true },
-            (error: any, record: any) => record
+            Object.assign(data, { $setOnInsert: { date: new Date().getTime() } }),
+            { new: true, upsert: true }
         )
     }
 
@@ -66,7 +65,7 @@ export class Storage {
         return mongoose.connection.close()
     }
 
-    findUpdatedSince(date: any) {
+    findUpdatedSince(date: Date) {
         return Result
             .find({ date: { $gte: date } })
             .exec()

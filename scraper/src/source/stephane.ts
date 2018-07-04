@@ -22,7 +22,8 @@ export default class Stephane extends HTMLSource {
         {
             type: 'link',
             format($: CheerioStatic, link: CheerioElement): string {
-                return `http://www.stephaneplazaimmobilier-nantesest.com${$(link).data('url')}`
+                const url = $(link).data('url').split('?')[0]
+                return `http://www.stephaneplazaimmobilier-nantesest.com${url}`
             }
         }
     ]

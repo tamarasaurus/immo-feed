@@ -16,7 +16,8 @@ formatterList.forEach(formatterPath => {
 })
 
 const scrape = async () => {
-    const startTime = new Date().getTime()
+    const startTime = new Date()
+    console.log(chalk.yellow(`  🗘  started at (${startTime.toLocaleString('en-GB')}) \n`))
     const sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
     const results = []
 
@@ -34,18 +35,31 @@ const scrape = async () => {
     if (flatResults.length === 0) return
 
     const storage = new Storage()
-    await Promise.all(flatResults.map((result: Result) => storage.updateOrCreate(result)))
+    const updatedOrCreatedResults = await Promise.all(flatResults.map(async (result: Result) => {
+        try {
+            return await storage.updateOrCreate(result)
+        } catch (e) {
+            console.log(chalk.red(`\n Error storing result: ${JSON.stringify(result, null, 2)} ${e}`))
+            return null
+        }
+    }))
+
+    const newlyCreatedResults = updatedOrCreatedResults.filter((result: Result) => {
+        return result && new Date(result.date).getTime() > startTime.getTime()
+    })
+
+    console.log('\n', chalk.yellow(` ⇣  stored ${newlyCreatedResults.length} new results`))
+    console.log(chalk.yellow(`\n  ●  finished at (${new Date().toLocaleString('en-GB')}) \n`))
 
     if (process.env.NOTIFY) {
-        const updatedRecords = await storage.findUpdatedSince(startTime)
-        await notify(updatedRecords)
+        await notify(newlyCreatedResults)
     }
 
     storage.cleanup()
 }
 
 async function run() {
-    console.log(chalk.bgGreen('🏠  starting immo-feed scraper \n'))
+    console.log(chalk.green('  🏠  starting immo-feed scraper \n'))
     scrape()
     setInterval(function () {
         console.log(chalk.green(new Date().toLocaleString(), 'running'))

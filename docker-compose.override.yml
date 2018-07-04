@@ -2,26 +2,22 @@ version: '3.4'
 
 services:
   mongo:
-    restart: always
     ports:
       - 27017:27017
 
   scraper:
-    restart: always
     ports:
       - 3000:3000
     environment:
       MONGODB_URI: 'mongo'
     volumes:
       - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
 
   runner:
     environment:
       SCRAPER_FREQUENCY_MINUTES: ${SCRAPER_FREQUENCY_MINUTES:-10}
     volumes:
       - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
 
   test:
     image: scraper
@@ -30,9 +26,7 @@ services:
     - scraper
     volumes:
       - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
 
   frontend:
-    restart: always
     ports:
       - 8080:8080
