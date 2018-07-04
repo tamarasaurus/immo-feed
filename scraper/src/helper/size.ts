@@ -1,5 +1,4 @@
 export const getSize = (size: string): any => {
-    return NaN
     size = size.replace('(', '').replace(')', '')
     const matchingSize = size.match(/\S+\s?(m2|m²)/gmi)
 
