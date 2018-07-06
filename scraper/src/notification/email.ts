@@ -1,7 +1,8 @@
 import * as request from 'request-promise'
 import chalk from 'chalk'
+import emailTemplate from './email-template'
 
-export default function notify(updatedRecords: any[]) {
+export default function notify(updatedResults: any[]) {
     const apiKey = process.env.MAILGUN_API_KEY
     const domain = process.env.MAILGUN_API_BASE_URL
     const email = process.env.MAILGUN_NOTIFY_EMAIL
@@ -18,8 +19,8 @@ export default function notify(updatedRecords: any[]) {
         form: {
             from: email,
             to: email,
-            subject: `🏠 ${updatedRecords.length} new result${updatedRecords.length > 1 ? 's' : ''} found`,
-            text: 'test'
+            subject: `🏠 ${updatedResults.length} new result${updatedResults.length > 1 ? 's' : ''} found`,
+            html: emailTemplate(updatedResults)
         }
     })
     .then(() => console.log(chalk.green(`  🔔  Email sent to ${email}`)))

@@ -52,7 +52,7 @@ const scrape = async () => {
     console.log('\n', chalk.yellow(` ⇣  stored ${newlyCreatedResults.length} new results`))
     console.log(chalk.yellow(`\n  ●  finished at (${new Date().toLocaleString('en-GB')}) \n`))
 
-    if (process.env.NOTIFY) {
+    if (process.env.NOTIFY && newlyCreatedResults.length > 0) {
         await notify(newlyCreatedResults)
     }
 
