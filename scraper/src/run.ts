@@ -2,7 +2,7 @@ import * as glob from 'glob'
 import { extname, basename, resolve } from 'path'
 import { Result } from './types/result'
 import { Storage } from './storage/mongo'
-import notify from './notification/slack'
+import notify from './notification/email'
 import chalk from 'chalk'
 
 const formatters: any = {}
