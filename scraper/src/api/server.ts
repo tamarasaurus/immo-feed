@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
+import { parse } from 'json2csv'
 
 import { Storage } from '../storage/mongo'
 
@@ -33,6 +34,26 @@ app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
     } catch (e) {
         res.sendStatus(500)
     }
+})
+
+app.get('/export', cors(), async (req: any, res: any) => {
+    const { since, type, download } = req.query
+    let records = await storage.findUpdatedSince(since)
+
+    if (type === 'csv') {
+        records = parse(records, {
+            fields: [ '_id', 'date', 'name', 'description', 'price', 'size', 'link', 'photo' ]
+        })
+
+        if (download === 'true') {
+            res.setHeader('Content-disposition', `attachment; filename=immo-feed-${new Date().getTime()}.csv`);
+            res.set('Content-Type', 'text/csv');
+        }
+
+        return res.status(200).send(records);
+    }
+
+    res.json(records)
 })
 
 app.listen(process.env.PORT || 3000)

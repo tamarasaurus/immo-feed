@@ -69,10 +69,7 @@ export class Storage {
     }
 
     findUpdatedSince(date: Date) {
-        return Result
-            .find({ date: { $gte: date } })
-            .exec()
+        if (date) return Result.find({ date: { $gte: date } }).exec()
+        return Result.find({}).exec()
     }
 }
-
-
