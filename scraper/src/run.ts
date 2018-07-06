@@ -47,6 +47,8 @@ const scrape = async () => {
 
     const newlyCreatedResults = updatedOrCreatedResults.filter((result: Result) => {
         return result && new Date(result.date).getTime() > startTime.getTime()
+    }).sort((a: Result, b: Result) => {
+        return new Date(a.date).getTime() > new Date(b.date).getTime() ? -1 : 1
     })
 
     console.log('\n', chalk.yellow(` ⇣  stored ${newlyCreatedResults.length} new results`))
