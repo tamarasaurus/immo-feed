@@ -65,6 +65,10 @@ The `SCRAPER_FREQUENCY_MINUTES` environment variable is passed to the runner scr
 - `NOTIFY` - Turn notifications on
 - `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
 - `SCRAPER_FREQUENCY_MINUTES` - How often the scrapers should be run
+- `MAILGUN_API_KEY` - Mailgun API key
+- `MAILGUN_API_BASE_URL` - Mailgun domain base url
+- `MAILGUN_NOTIFY_EMAIL` - The email address that will receive notifications
+- `NOTIFY` - Turn on email notifications (false by default)
 
 ## To start with docker
 
@@ -105,6 +109,18 @@ Visit `http://localhost:3000` with these endpoints to acess the API:
 - `GET /results` - list all the results (not yet paginated)
 - `GET /results/:id` - get a single result
 - `POST /results/:id/hide` - hide a result
+
+## Setting up notifications
+
+immo-feed supports email notifications for newly scraped results. Emails will be sent after each run of the scraper (defined by `SCRAPER_FREQUENCY_MINUTES`). To enable email notifications:
+
+1. Set the `NOTIFY` environment variable to true
+2. Sign up for a [Mailgun](https://www.mailgun.com/) account
+3. Set the following environment variables for immo-feed defined in your Mailgun domain page: 
+    - `MAILGUN_API_KEY` - API key
+    - `MAILGUN_API_BASE_URL` - API Base URL
+    - `MAILGUN_NOTIFY_EMAIL` - Your email address
+4. Build and restart the runner
 
 ## Customising scraper sources
 
