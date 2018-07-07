@@ -109,6 +109,7 @@ Visit `http://localhost:3000` with these endpoints to acess the API:
 - `GET /results` - list all the results (not yet paginated)
 - `GET /results/:id` - get a single result
 - `POST /results/:id/hide` - hide a result
+- `GET /export?type=csv&download=true|false` - export all results (type is json by default)
 
 ## Setting up notifications
 
