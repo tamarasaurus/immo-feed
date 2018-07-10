@@ -32,8 +32,8 @@ export class Storage {
         const filterRegexp = new RegExp(filterWords, 'gmi')
         const perPage = 18
 
-        const count = await Result.count().exec()
-        const results = await Result.find({})
+        const count = await Result.countDocuments({ hidden: false }).exec()
+        const results = await Result.find({ hidden: false })
             .skip((perPage * parseInt(page)) - perPage)
             .limit(perPage)
             .sort(sortParams)
@@ -59,7 +59,7 @@ export class Storage {
         return Result.findOneAndUpdate(
             id ? { _id: id } : { link },
             Object.assign(data, { $setOnInsert: { date } }),
-            { new: true, upsert: true },
+            { new: true, upsert: true, setDefaultsOnInsert: true },
             (error: any, record: any) => record
         )
     }
@@ -69,7 +69,7 @@ export class Storage {
     }
 
     findUpdatedSince(date: Date) {
-        if (date) return Result.find({ date: { $gte: date } }).exec()
+        if (date) return Result.find({ date: { $gte: date }, hidden: false}).exec()
         return Result.find({}).exec()
     }
 }

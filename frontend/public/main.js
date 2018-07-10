@@ -5,8 +5,8 @@ const data = {
 }
 
 function getResults() {
-    const params = new URLSearchParams(location.search)
-    const page = params.get('page') || 1
+    const page = getPage()
+
     return fetch(new Request(`http://localhost:3000/results?page=${page}`), {
         mode: 'cors',
         method: 'get'
@@ -14,10 +14,35 @@ function getResults() {
 }
 
 function hideResult() {
-    return fetch(new Request(`http://localhost:3000/results/${this.dataset.id}/hide`), {
+    const id = this.dataset.id
+
+    return fetch(new Request(`http://localhost:3000/results/${id}/hide`), {
         mode: 'cors',
         method: 'post'
-    }).then(() => this.parentNode.parentNode.removeChild(this.parentNode))
+    })
+    .then(() => {
+        const matchingResult = data.results.filter(result => result._id === id)[0]
+        matchingResult.hidden = true
+        this.parentNode.parentNode.removeChild(this.parentNode)
+    })
+    .then(() => {
+       const displayedResults = data.results.filter(result => !result.hidden)
+       if (displayedResults.length === 0) {
+           setPage(Math.max(1, getPage() - 1))
+           window.location.reload()
+       }
+    })
+}
+
+function getPage() {
+    const params = new URLSearchParams(location.search)
+    return params.get('page') || 1
+}
+
+function setPage(pageNumber) {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set('page', pageNumber);
+    window.location.search = searchParams.toString();
 }
 
 function renderList() {
