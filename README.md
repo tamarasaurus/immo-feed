@@ -4,15 +4,20 @@
 
 immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bienici etc. for listings and makes the aggregated results available with a simple api and frontend. it's super easy to create new scraper sources and customise the existing ones to suit your search.
 
-![immo-feed](https://user-images.githubusercontent.com/1336344/42247317-a0cec83e-7f20-11e8-9051-6070580f1fa0.png)
+![immo-feed-1.2.0](https://user-images.githubusercontent.com/1336344/42539414-619a6b70-849b-11e8-8b51-5db87fe398b5.png)
 
 # Changelog
 
+## 1.2.0
+- [#25](https://github.com/tamarasaurus/immo-feed/issues/25) Add email notifications with Mailgun (see [Setting up notifications](https://github.com/tamarasaurus/immo-feed#setting-up-notifications))
+- [#26](https://github.com/tamarasaurus/immo-feed/issues/26) Add CSV and JSON export endpoint with a download option
+- [#30](https://github.com/tamarasaurus/immo-feed/issues/30) Fix pagination when results are hidden in the UI
+
 ## 1.1.0
-- Add tests for scraper sources #18 #17
+- Add tests for scraper sources [#18](https://github.com/tamarasaurus/immo-feed/issues/18) [#17](https://github.com/tamarasaurus/immo-feed/issues/17)
     - These are run nightly on Travis CI for every source
     - Can also be run locally (see [Testing](https://github.com/tamarasaurus/immo-feed#testing))
-- Add handling of multiple pages in the runner #21
+- Add handling of multiple pages in the runner [#21](https://github.com/tamarasaurus/immo-feed/issues/21)
     - Now you can specify these new properties in your sources (see [Adding a new source](https://github.com/tamarasaurus/immo-feed#adding-a-new-scraper-source)):
     ```
         // The selector for the next page button
@@ -21,9 +26,9 @@ immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bieni
         // How many pages do you want to scrape
         public pagesToScrape: number = 5
     ```
-- Add pagination in the database, api and frontend #23
+- Add pagination in the database, api and frontend [#23](https://github.com/tamarasaurus/immo-feed/issues/23)
 - Run the scrapers sequentially to improve stability
-- Add some clearer and prettier logging to the runner #1
+- Add some clearer and prettier logging to the runner [#1](https://github.com/tamarasaurus/immo-feed/issues/30)
 
 ## 1.0.0
 - First release of the app !
@@ -37,7 +42,7 @@ immo-feed is made of:
 - a mongo database to store the results
 - a tiny api to access the results
 - a frontend app to view the results
-- a way to send notifications for new results (only Slack is available for now)
+- a way to send notifications for new results (only email is available for now)
 
 ## Requirements
 
@@ -117,7 +122,7 @@ immo-feed supports email notifications for newly scraped results. Emails will be
 
 1. Set the `NOTIFY` environment variable to true
 2. Sign up for a [Mailgun](https://www.mailgun.com/) account
-3. Set the following environment variables for immo-feed defined in your Mailgun domain page: 
+3. Set the following environment variables for immo-feed defined in your Mailgun domain page:
     - `MAILGUN_API_KEY` - API key
     - `MAILGUN_API_BASE_URL` - API Base URL
     - `MAILGUN_NOTIFY_EMAIL` - Your email address

@@ -36,24 +36,44 @@ app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
     }
 })
 
-app.get('/export', cors(), async (req: any, res: any) => {
-    const { since, type, download } = req.query
+app.get('/export/csv', cors(), async (req: any, res: any) => {
+    const { since, download } = req.query
     let records = await storage.findUpdatedSince(since)
 
-    if (type === 'csv') {
-        records = parse(records, {
-            fields: [ '_id', 'date', 'name', 'description', 'price', 'size', 'link', 'photo' ]
-        })
+    records = parse(records, {
+        fields: [
+            '_id',
+            'date',
+            'name',
+            'description',
+            'price',
+            'size',
+            'link',
+            'photo'
+        ]
+    })
 
-        if (download === 'true') {
-            res.setHeader('Content-disposition', `attachment; filename=immo-feed-${new Date().getTime()}.csv`);
-            res.set('Content-Type', 'text/csv');
-        }
+    if (!!download) {
+        const fileName = `attachment; filename=immo-feed-${new Date().getTime()}.csv`
+        res.setHeader('Content-disposition', fileName);
+        res.set('Content-Type', 'text/csv');
+    }
 
-        return res.status(200).send(records);
+    return res.status(200).send(records);
+})
+
+app.get('/export/json', cors(), async (req: any, res: any) => {
+    const { since, download } = req.query
+    let records = await storage.findUpdatedSince(since)
+
+    if (!!download) {
+        const fileName = `attachment; filename=immo-feed-${new Date().getTime()}.json`
+        res.setHeader('Content-disposition', fileName);
+        res.set('Content-Type', 'application/json');
     }
 
     res.json(records)
 })
 
 app.listen(process.env.PORT || 3000)
+

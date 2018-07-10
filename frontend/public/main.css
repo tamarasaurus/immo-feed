@@ -125,6 +125,24 @@ nav label {
     cursor: pointer;
 }
 
+nav .button {
+    background: black;
+    border: 0;
+    color: white;
+    height: 30px;
+    width: 100px;
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+}
+
+nav .button:hover {
+    opacity: 0.85
+}
+
 footer {
     margin-top: 40px;
     text-align: center;
@@ -153,7 +171,7 @@ footer {
 }
 
 .filters {
-  display: flex; 
+  display: flex;
   justify-content: flex-end;
 }
 

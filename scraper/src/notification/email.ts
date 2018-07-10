@@ -19,7 +19,7 @@ export default function notify(updatedResults: any[]) {
         form: {
             from: email,
             to: email,
-            subject: `🏠 ${updatedResults.length} new result${updatedResults.length > 1 ? 's' : ''} found`,
+            subject: `🏠 immo-feed - ${updatedResults.length} new result${updatedResults.length > 1 ? 's' : ''} found`,
             html: emailTemplate(updatedResults)
         }
     })

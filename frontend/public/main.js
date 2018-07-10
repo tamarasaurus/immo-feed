@@ -71,4 +71,3 @@ document.getElementById('sort').addEventListener('change', function () {
         return parseInt(b[this.value]) - parseInt(a[this.value])
     })
 })
-
