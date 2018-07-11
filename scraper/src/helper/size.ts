@@ -1,12 +1,11 @@
 export const getSize = (size: string): any => {
-    size = size.replace('(', '').replace(')', '')
-    const matchingSize = size.match(/\S+\s?(m2|m²)/gmi)
+    const parsedSize = parseInt(size)
 
-    if (matchingSize === null) return 0
+    if (Number.isNaN(parsedSize)) {
+        const regex = /^\d+|(\b\d+\s+|\d)+\s?(?=m2|m²|m\s)/gm;
+        const match = regex.exec(size)
+        return match ? match[0].replace(/\D/gm, '') : 0
+    }
 
-    const cleanedSize = matchingSize[0].toLowerCase()
-        .replace(/m2|m²/g, '')
-        .trim()
-
-    return parseInt(cleanedSize.replace(/[^0-9,.]/g, ''))
+    return parsedSize
 }
