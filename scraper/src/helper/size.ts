@@ -4,7 +4,7 @@ export const getSize = (size: string): any => {
     if (Number.isNaN(parsedSize)) {
         const regex = /^\d+|(\b\d+\s+|\d)+\s?(?=m2|m²|m\s)/gm;
         const match = regex.exec(size)
-        return match ? match[0].replace(/\D/gm, '') : 0
+        return match && match[0] ? match[0].replace(/\D/gm, '') : 0
     }
 
     return parsedSize
