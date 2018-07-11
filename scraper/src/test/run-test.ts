@@ -131,4 +131,4 @@ function testHelpers() {
 }
 
 testHelpers()
-// testSources()
+testSources()
