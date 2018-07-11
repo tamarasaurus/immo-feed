@@ -15,9 +15,7 @@ formatterList.forEach(formatterPath => {
     formatters[name] = formatter.default
 })
 
-const scrape = async () => {
-    const startTime = new Date()
-    console.log(chalk.yellow(`  🗘  started at (${startTime.toLocaleString('en-GB')}) \n`))
+const getResultsFromSources = async (): Promise<Result[]> => {
     const sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
     const results = []
 
@@ -31,12 +29,13 @@ const scrape = async () => {
         }
     }
 
-    const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-    if (flatResults.length === 0) return
+    return results.reduce((acc, val) => acc.concat(val), [])
+}
 
+const storeResults = async (results: Result[], startTime: Date) => {
     const storage = new Storage()
 
-    const updatedOrCreatedResults = await Promise.all(flatResults.map(async (result: Result) => {
+    const updatedOrCreatedResults = await Promise.all(results.map(async (result: Result) => {
         try {
             return await storage.updateOrCreate(result)
         } catch (e) {
@@ -45,20 +44,31 @@ const scrape = async () => {
         }
     }))
 
-    const newlyCreatedResults = updatedOrCreatedResults.filter((result: Result) => {
+    const createdResults =  updatedOrCreatedResults.filter((result: Result) => {
         return result && new Date(result.date).getTime() > startTime.getTime()
     }).sort((a: Result, b: Result) => {
         return new Date(a.date).getTime() > new Date(b.date).getTime() ? -1 : 1
     })
 
-    console.log('\n', chalk.yellow(` ⇣  stored ${newlyCreatedResults.length} new results`))
+    storage.cleanup()
+
+    return createdResults
+}
+
+const scrape = async () => {
+    const startTime = new Date()
+    console.log(chalk.yellow(`  🗘  started at (${startTime.toLocaleString('en-GB')}) \n`))
+    const results = await getResultsFromSources()
+
+     if (results.length === 0) return
+    const createdResults = await storeResults(results, startTime)
+
+    console.log('\n', chalk.yellow(` ⇣  stored ${createdResults.length} new results`))
     console.log(chalk.yellow(`\n  ●  finished at (${new Date().toLocaleString('en-GB')}) \n`))
 
-    if (process.env.NOTIFY && newlyCreatedResults.length > 0) {
-        await notify(newlyCreatedResults)
+    if (process.env.NOTIFY && createdResults.length > 0) {
+        await notify(createdResults)
     }
-
-    storage.cleanup()
 }
 
 async function run() {
