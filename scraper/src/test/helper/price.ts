@@ -1,3 +1,3 @@
 export default function() {
-    console.log('test price')
+    // console.log('test price')
 }

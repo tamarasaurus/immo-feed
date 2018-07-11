@@ -27,12 +27,12 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
     const attributes = source.resultAttributes
 
     assert(results.length > 0, `${sourceName} - ${source.resultSelector} is empty`)
-    console.log(`✔ ${sourceName} - ${source.resultSelector}`)
+    console.log(chalk.green(`✔ ${sourceName} - ${source.resultSelector}`))
 
     if (source.nextPageSelector) {
         const nextPageSelector = $(source.nextPageSelector)
         assert(nextPageSelector.length > 0, `${sourceName} - ${source.nextPageSelector} is empty`)
-        console.log(`✔ ${sourceName} - ${source.nextPageSelector}`)
+        console.log(chalk.green(`✔ ${sourceName} - ${source.nextPageSelector}`))
     }
 
     const selectors: any = {}
@@ -61,7 +61,7 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
             `✖ ${sourceName} - ${i}`
         )
 
-        console.log(`✔ ${sourceName} - ${i}`)
+        console.log(chalk.green(`✔ ${sourceName} - ${i}`))
     }
 
     console.log('\n')
@@ -77,7 +77,7 @@ const testJSONSource = async (source: JSONSource, sourcePath: string) => {
         `✖ ${sourceName} - ${source.resultSelector}`
     )
 
-    console.log(`✔ ${sourceName} - ${source.resultSelector}`)
+    console.log(chalk.green(`✔ ${sourceName} - ${source.resultSelector}`))
 
     source.resultAttributes.forEach(attribute => {
         const firstItem = contents[source.resultSelector][0]
@@ -87,7 +87,7 @@ const testJSONSource = async (source: JSONSource, sourcePath: string) => {
             `✖ ${sourceName} - ${attribute.selector}`
         )
 
-        console.log(`✔ ${sourceName} - ${attribute.selector}`)
+        console.log(chalk.green(`✔ ${sourceName} - ${attribute.selector}`))
     })
 
     console.log('\n')
@@ -112,15 +112,23 @@ const scrape = async (sourcePath: string) => {
 
 async function testSources() {
     const sources: string[] = glob.sync(resolve(__dirname, '../source/**/*.js'))
-    console.log('➡️ testing sources \n', sources, '\n')
+    console.log('\n ➡️ testing sources \n', sources, '\n')
     await Promise.all(sources.map(async (sourcePath: string) => scrape(sourcePath)))
 }
 
 function testHelpers() {
     const helpers: string[] = glob.sync(resolve(__dirname, './helper/**/*.js'))
-    console.log('➡️ testing helpers \n', helpers, '\n')
-    helpers.forEach((helper: any) => require(resolve(__dirname, helper)).default())
+    console.log('\n ➡️ testing helpers \n', helpers, '\n')
+    helpers.forEach((helper: any) => {
+        const helperName = basename(helper, '.js')
+        try {
+            require(resolve(__dirname, helper)).default()
+            console.log(chalk.green(`✔ ${helperName}`))
+        } catch (e) {
+            console.log(chalk.red(`✖ - ${helperName} ${e}`))
+        }
+    })
 }
 
 testHelpers()
-// testSources()
+testSources()
