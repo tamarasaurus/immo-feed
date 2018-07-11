@@ -119,8 +119,7 @@ async function testSources() {
 function testHelpers() {
     const helpers: string[] = glob.sync(resolve(__dirname, './helper/**/*.js'))
     console.log('➡️ testing helpers \n', helpers, '\n')
-    const files = helpers.map(helper => require(resolve(__dirname, helper)))
-    console.log(files)
+    helpers.forEach((helper: any) => require(resolve(__dirname, helper)).default())
 }
 
 testHelpers()
