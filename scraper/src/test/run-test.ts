@@ -109,12 +109,19 @@ const scrape = async (sourcePath: string) => {
     }
 }
 
-const sources: String[] = glob.sync(resolve(__dirname, '../source/**/*.js'))
 
-console.log('➡️ testing \n', sources, '\n')
-
-async function test() {
+async function testSources() {
+    const sources: string[] = glob.sync(resolve(__dirname, '../source/**/*.js'))
+    console.log('➡️ testing sources \n', sources, '\n')
     await Promise.all(sources.map(async (sourcePath: string) => scrape(sourcePath)))
 }
 
-test()
+function testHelpers() {
+    const helpers: string[] = glob.sync(resolve(__dirname, './helper/**/*.js'))
+    console.log('➡️ testing helpers \n', helpers, '\n')
+    const files = helpers.map(helper => require(resolve(__dirname, helper)))
+    console.log(files)
+}
+
+testHelpers()
+// testSources()
