@@ -66,13 +66,14 @@ const scrape = async () => {
     console.log('\n', chalk.yellow(` ⇣  stored ${createdResults.length} new results`))
     console.log(chalk.yellow(`\n  ●  finished at (${new Date().toLocaleString('en-GB')}) \n`))
 
-    if (process.env.NOTIFY && createdResults.length > 0) {
+    console.log(process.env.NOTIFY)
+    if (process.env.NOTIFY === 'true' && createdResults.length > 0) {
         await notify(createdResults)
     }
 }
 
 async function run() {
-    console.log(chalk.green('  🏠  starting immo-feed scraper \n'))
+    console.log(chalk.green('  🏠 starting immo-feed scraper \n'))
     scrape()
     setInterval(function () {
         console.log(chalk.green(new Date().toLocaleString(), 'running'))
