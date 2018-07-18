@@ -14,10 +14,14 @@ class Source {
 export class JSONSource extends Source {
     public type = 'json'
 
-    public async scrape(formatters: any[]): Promise<Result[]> {
+    public async getContents(): Promise<any> {
         console.log(chalk.blue('➡️ scraping', this.scraperName))
         const response = await request.get(this.url, { resolveWithFullResponse: true })
-        const contents = JSON.parse(response.body)
+        return JSON.parse(response.body)
+    }
+
+    public async scrape(): Promise<Result[]> {
+        const contents = await this.getContents()
         const results = contents[this.resultSelector]
         const attributes = this.resultAttributes
         const resultList: Result[] = []
@@ -45,10 +49,10 @@ export class HTMLSource extends Source {
     public nextPageSelector: string = null
     public pagesToScrape: number = 1
 
-    private async getPageContents(): Promise<{ browser: puppeteer.Browser, page: puppeteer.Page}> {
+    public async getContents(): Promise<{ browser: puppeteer.Browser, page: puppeteer.Page}> {
         const browser = await puppeteer.launch({
           headless: true,
-          args: ["--no-sandbox", "--disable-setuid-sandbox"]
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
         })
 
         const page = await browser.newPage()
@@ -59,7 +63,7 @@ export class HTMLSource extends Source {
         return { browser, page }
     }
 
-    private async extractResults(response: string, formatters: any[]): Promise<Result[]> {
+    public async extractResults(response: string, formatters: any[]): Promise<Result[]> {
         const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes
@@ -85,21 +89,25 @@ export class HTMLSource extends Source {
         return resultList
     }
 
+    public async scrapePage(page: any, i: number) {
+        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
+        const nextLink = await page.$(this.nextPageSelector)
+
+        if (i > 0 && nextLink) {
+            await page.click(this.nextPageSelector)
+            await page.waitForSelector(this.resultSelector)
+        }
+
+        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
+        return page.content()
+    }
+
     public async scrape(formatters: any[]): Promise<Result[]> {
-        const { browser, page } = await this.getPageContents()
+        const { browser, page } = await this.getContents()
         const results = []
 
         for (let i = 0; i < this.pagesToScrape; i++) {
-            await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
-            const nextLink = await page.$(this.nextPageSelector)
-
-            if (i > 0 && nextLink) {
-                await page.click(this.nextPageSelector)
-                await page.waitForSelector(this.resultSelector)
-            }
-
-            await page.evaluate(_ => { window.scrollBy(0, window.innerHeight) })
-            const response = await page.content()
+            const response = await this.scrapePage(page, i)
             console.log(chalk.magenta('   ↘ go to page', page.url()))
             results.push(await this.extractResults(response, formatters))
 

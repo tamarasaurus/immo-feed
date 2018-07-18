@@ -9,20 +9,11 @@ import { HTMLSource, JSONSource } from '../types/source'
 
 const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
     const sourceName = basename(sourcePath, '.js')
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        pipe: true,
-        timeout: 60000
-    })
-
-    const page = await browser.newPage()
-    await page.goto(source.url)
-    await page.waitForSelector(source.resultSelector, { timeout: 60000 })
-    const response = await page.content()
+    const { browser, page } = await source.getContents()
+    const response = await source.scrapePage(page, 0)
+    const $: CheerioStatic = cheerio.load(response)
     await browser.close()
 
-    const $: CheerioStatic = cheerio.load(response)
     const results = $(source.resultSelector)
     const attributes = source.resultAttributes
 
@@ -38,7 +29,6 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
     const selectors: any = {}
 
     results.toArray().forEach((resultElement: CheerioElement) => {
-
         attributes.forEach((attribute: any) => {
             const type = attribute.type
             let selector = attribute.selector || source.resultSelector
@@ -63,14 +53,11 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
 
         console.log(chalk.green(`✔ ${sourceName} - ${i}`))
     }
-
-    console.log('\n')
 }
 
 const testJSONSource = async (source: JSONSource, sourcePath: string) => {
-    const sourceName = basename(sourcePath, '.js')
-    const response = await request.get(source.url, { resolveWithFullResponse: true })
-    const contents = JSON.parse(response.body)
+    const sourceName = source.scraperName
+    const contents = await source.getContents()
 
     assert(
         contents.hasOwnProperty(source.resultSelector),
@@ -89,13 +76,11 @@ const testJSONSource = async (source: JSONSource, sourcePath: string) => {
 
         console.log(chalk.green(`✔ ${sourceName} - ${attribute.selector}`))
     })
-
-    console.log('\n')
 }
 
 const scrape = async (sourcePath: string) => {
     const sourceModule: any = require(resolve(__dirname, '../', sourcePath))
-    const source = sourceModule.default()
+    const source = new sourceModule.default()
 
     try {
         if (source.type === 'html') {
@@ -109,26 +94,10 @@ const scrape = async (sourcePath: string) => {
     }
 }
 
-
 async function testSources() {
     const sources: string[] = glob.sync(resolve(__dirname, '../source/**/*.js'))
     console.log('\n ➡️ testing sources \n', sources, '\n')
     await Promise.all(sources.map(async (sourcePath: string) => scrape(sourcePath)))
 }
 
-function testHelpers() {
-    const helpers: string[] = glob.sync(resolve(__dirname, './helper/**/*.js'))
-    console.log('\n ➡️ testing helpers \n', helpers, '\n')
-    helpers.forEach((helper: any) => {
-        const helperName = basename(helper, '.js')
-        try {
-            require(resolve(__dirname, helper)).default()
-            console.log(chalk.green(`✔ ${helperName}`))
-        } catch (e) {
-            console.log(chalk.red(`✖ - ${helperName} ${e}`))
-        }
-    })
-}
-
-testHelpers()
 testSources()
