@@ -44,7 +44,7 @@ const storeResults = async (results: Result[], startTime: Date) => {
         }
     }))
 
-    const createdResults =  updatedOrCreatedResults.filter((result: Result) => {
+    const createdResults = updatedOrCreatedResults.filter((result: Result) => {
         return result && new Date(result.date).getTime() > startTime.getTime()
     }).sort((a: Result, b: Result) => {
         return new Date(a.date).getTime() > new Date(b.date).getTime() ? -1 : 1
@@ -71,7 +71,7 @@ const scrape = async () => {
     }
 }
 
-async function run() {
+export async function run() {
     console.log(chalk.green('  🏠 starting immo-feed scraper \n'))
     scrape()
     setInterval(function () {

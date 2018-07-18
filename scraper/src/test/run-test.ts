@@ -1,9 +1,7 @@
 import { resolve, basename } from 'path'
 import * as glob from 'glob'
-import * as puppeteer from 'puppeteer'
 import * as cheerio from 'cheerio'
 import * as assert from 'assert'
-import * as request from 'request-promise'
 import chalk from 'chalk'
 import { HTMLSource, JSONSource } from '../types/source'
 
