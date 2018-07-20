@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio'
 import { Result } from './result'
 import * as puppeteer from 'puppeteer'
 import chalk from 'chalk'
+import Puppeteer from '../driver/puppeteer'
 
 class Source {
     public url: string = null
@@ -48,22 +49,9 @@ export class HTMLSource extends Source {
     public type = 'html'
     public nextPageSelector: string = null
     public pagesToScrape: number = 1
+    public driver: any = new Puppeteer()
 
-    public async getContents(): Promise<{ browser: puppeteer.Browser, page: puppeteer.Page}> {
-        const browser = await puppeteer.launch({
-          headless: true,
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        })
-
-        const page = await browser.newPage()
-        console.log(chalk.blue('➡️ scraping', this.scraperName))
-        page.setViewport({ width: 1280, height: 1000 })
-        await page.goto(this.url)
-
-        return { browser, page }
-    }
-
-    public async extractResults(response: string, formatters: any[]): Promise<Result[]> {
+    public extractResults(response: string, formatters: any[]): Result[] {
         const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes
@@ -74,8 +62,10 @@ export class HTMLSource extends Source {
 
             attributes.forEach((attribute: any) => {
                 const { type, selector } = attribute
-                const format = attribute.format || formatters[type]
+                const textFormatter = () => { return $(selector, resultElement).text().trim() }
+                const format = attribute.format || formatters[type] || textFormatter
                 const element = selector ? $(selector, resultElement) : $(resultElement)
+
                 try {
                     resultAttributes[type] = format($, element)
                 } catch (e) {
@@ -89,36 +79,25 @@ export class HTMLSource extends Source {
         return resultList
     }
 
-    public async scrapePage(page: any, i: number) {
-        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
-        const nextLink = await page.$(this.nextPageSelector)
-
-        if (i > 0 && nextLink) {
-            await page.click(this.nextPageSelector)
-            await page.waitForSelector(this.resultSelector)
-        }
-
-        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
-        return page.content()
-    }
-
     public async scrape(formatters: any[]): Promise<Result[]> {
-        const { browser, page } = await this.getContents()
-        const results = []
+        console.log(chalk.blue('➡️ scraping', this.scraperName))
+        await this.driver.setup(this.url)
+
+        let results = []
 
         for (let i = 0; i < this.pagesToScrape; i++) {
-            const response = await this.scrapePage(page, i)
-            console.log(chalk.magenta('   ↘ go to page', page.url()))
-            results.push(await this.extractResults(response, formatters))
-
+            const response = await this.driver.scrapePage(i > 0, this.nextPageSelector, this.resultSelector)
+            const url = await this.driver.url()
+            console.log(chalk.magenta(`   ↘ go to page ${url}`))
+            results.push(this.extractResults(response, formatters))
             if (this.nextPageSelector === null) break
         }
 
-        const flatResults = results.reduce((acc, val) => acc.concat(val), [])
-        console.log(chalk.green(`   ✔️ found ${flatResults.length} results for ${this.scraperName} \n`))
-        await browser.close()
+        results = results.reduce((acc, val) => acc.concat(val), [])
+        console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
 
-        return flatResults
+        await this.driver.shutdown()
+        return results
     }
 }
 

@@ -10,9 +10,9 @@
     "notification"
   ],
   "scripts": {
-    "test": "npm run test-unit && npm run test-selectors",
+    "test": "npm run test-spec && npm run test-selectors",
     "test-selectors": "tsc && node ./build/test/run-test.js",
-    "test-unit": "tsc && mocha ./build/test/helper",
+    "test-spec": "tsc && mocha ./build/test/helper ./build/test/source",
     "build": "tsc",
     "start": "tsc && node ./build/run.js",
     "serve": "tsc && node ./build/api/server.js"

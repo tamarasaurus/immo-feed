@@ -4,13 +4,15 @@ import * as cheerio from 'cheerio'
 import * as assert from 'assert'
 import chalk from 'chalk'
 import { HTMLSource, JSONSource } from '../types/source'
+import Puppeteer from '../driver/puppeteer'
 
 const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
+    const driver = new Puppeteer()
     const sourceName = basename(sourcePath, '.js')
-    const { browser, page } = await source.getContents()
-    const response = await source.scrapePage(page, 0)
+    await driver.setup(source.url)
+    const response = await driver.scrapePage(false, null, source.resultSelector)
     const $: CheerioStatic = cheerio.load(response)
-    await browser.close()
+    await driver.shutdown()
 
     const results = $(source.resultSelector)
     const attributes = source.resultAttributes
