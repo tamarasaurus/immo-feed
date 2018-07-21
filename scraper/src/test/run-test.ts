@@ -3,7 +3,8 @@ import * as glob from 'glob'
 import * as cheerio from 'cheerio'
 import * as assert from 'assert'
 import chalk from 'chalk'
-import { HTMLSource, JSONSource } from '../types/source'
+import { HTMLSource } from '../types/html-source'
+import { JSONSource } from '../types/json-source'
 import Puppeteer from '../driver/puppeteer'
 
 const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {

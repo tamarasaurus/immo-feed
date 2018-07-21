@@ -1,4 +1,4 @@
-import { HTMLSource } from '../types/source'
+import { HTMLSource } from '../types/html-source'
 import { getSize } from '../helper/size'
 
 export default class Ouestfrance extends HTMLSource {

@@ -1,4 +1,4 @@
-import { HTMLSource } from '../types/source'
+import { HTMLSource } from '../types/html-source'
 
 export default class LebonCoin extends HTMLSource {
     public url = 'https://www.leboncoin.fr/ventes_immobilieres/offres/'

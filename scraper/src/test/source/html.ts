@@ -1,6 +1,6 @@
 import * as sinon from 'sinon'
 import * as assert from 'assert'
-import { HTMLSource } from '../../types/source'
+import { HTMLSource } from '../../types/html-source'
 
 const response = `
         <ul>
@@ -14,7 +14,8 @@ const response = `
             </li>
         </ul>
         <div class="next"></div>
- `
+`
+
 const source = new HTMLSource()
 source.url = 'http://immo-site.com'
 source.resultSelector = 'li'
@@ -30,7 +31,7 @@ source.driver = {
     shutdown: sinon.stub()
 }
 
-describe('it runs the scraper', () => {
+describe('it scrapes a web page', () => {
     it('scrapes results for a given url', (done) => {
         const extractResults = sinon.spy(source, 'extractResults')
 
