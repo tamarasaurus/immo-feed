@@ -8,7 +8,7 @@ immo-feed scrapes french real estate websites like leboncoin, ouestfrance, bieni
 
 # Changelog
 
-Check it out here - [CHANGELOG.md]()
+Check it out here - [CHANGELOG.md](https://github.com/tamarasaurus/immo-feed/blob/master/CHANGELOG.md)
 
 # How it works
 
