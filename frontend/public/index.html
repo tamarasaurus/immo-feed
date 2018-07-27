@@ -35,7 +35,7 @@
 
         <ul id="results" v-cloak>
             <li class="result" v-for="result in results">
-                <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
+                <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photos[0] + ')' }"></a>
                 <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
                 <span class="result-date">{{ new Date(result.date).toLocaleString() }}</span>
                 <p v-if="result.description" class="result-description">{{ result.description }}</p>

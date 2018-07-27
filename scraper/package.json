@@ -15,7 +15,8 @@
     "test-spec": "tsc && mocha ./build/test/helper ./build/test/source",
     "build": "tsc",
     "start": "tsc && node ./build/run.js",
-    "serve": "tsc && node ./build/api/server.js"
+    "serve": "tsc && node ./build/api/server.js",
+    "migrate": "./node_modules/.bin/migrate-mongo"
   },
   "author": "Tamara Robichet",
   "license": "MIT",
@@ -48,6 +49,7 @@
     "@types/request-promise": "^4.1.41",
     "@types/sinon": "^5.0.1",
     "chalk": "^2.4.1",
+    "migrate-mongo": "^3.0.3",
     "mocha": "^5.2.0",
     "sinon": "^6.1.3"
   }
