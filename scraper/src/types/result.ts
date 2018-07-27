@@ -4,6 +4,6 @@ export class Result {
     size: number
     description: string
     link: string
-    photo: string
+    photos: string[]
     date: number
 }

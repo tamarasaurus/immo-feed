@@ -10,13 +10,13 @@ export default class Stephane extends HTMLSource {
         { type: 'price', selector: '.item-products_price' },
         { type: 'size', selector: '.item-products_pieces' },
         {
-            type: 'photo',
+            type: 'photos',
             selector: '.slides-image.webresize',
-            format($: CheerioStatic, photo: CheerioElement) {
+            format($: CheerioStatic, photo: CheerioElement): string[] {
                 const style = $(photo).attr('style')
                 let imageUrl = /(background-image: url\(")(.*)("\))/gm.exec(style)[2]
                 imageUrl = imageUrl.split('../')[1]
-                return `http://www.stephaneplazaimmobilier-nantesest.com/${imageUrl}`
+                return [`http://www.stephaneplazaimmobilier-nantesest.com/${imageUrl}`]
             }
         },
         {
