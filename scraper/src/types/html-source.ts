@@ -8,7 +8,7 @@ export class HTMLSource extends Source {
     public type = 'html'
     public nextPageSelector: string = null
     public pagesToScrape: number = 1
-    public driver: Puppeteer = new Puppeteer()
+    public driver: any = new Puppeteer()
 
     public extractFromResultList(response: string, formatters: any[]): Result[] {
         const $: CheerioStatic = cheerio.load(response)
@@ -39,6 +39,7 @@ export class HTMLSource extends Source {
     }
 
     public async extractFromResultPage(result: Result, formatters: any[]): Promise<any> {
+        console.log(chalk.green('        - scraping ' + result.link))
         await this.driver.goToPage(result.link)
         await this.driver.scrollDown()
 
@@ -47,8 +48,9 @@ export class HTMLSource extends Source {
         for (let attribute of this.richAttributes) {
             try {
                 const { type, selector } = attribute
+
                 if (attribute.wait) {
-                    await this.driver.waitForSelector(selector)
+                    await this.driver.waitForSelector(selector, { timeout: 10000 })
                 }
 
                 const response = await this.driver.getPageContent()
@@ -62,6 +64,10 @@ export class HTMLSource extends Source {
         }
 
         return richAttributes
+    }
+
+    public shouldScrapeRichAttributes(): boolean {
+        return process.env.SCRAPE_RICH_ATTRIBUTES == '1' && this.richAttributes.length > 0
     }
 
     public async scrape(formatters: any[]): Promise<Result[]> {
@@ -81,9 +87,15 @@ export class HTMLSource extends Source {
         results = results.reduce((acc, val) => acc.concat(val), [])
         console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
 
-        if (this.richAttributes.length > 0) {
+        if (this.shouldScrapeRichAttributes()) {
+            console.log(chalk.green('    + scraping rich attributes '))
             for (let result of results) {
-                result = Object.assign(result, await this.extractFromResultPage(result, formatters))
+                try {
+                    const richAttributes = await this.extractFromResultPage(result, formatters)
+                    result = Object.assign(result, richAttributes)
+                } catch (e) {
+                    console.error('\n Can\'t visit page', result.link, chalk.red(e), '\n')
+                }
             }
         }
 

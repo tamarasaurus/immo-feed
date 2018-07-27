@@ -16,7 +16,12 @@ formatterList.forEach(formatterPath => {
 })
 
 const getResultsFromSources = async (): Promise<Result[]> => {
-    const sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+    let sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+
+    if (process.env.SOURCE) {
+        sources = sources.filter(source => source.indexOf(process.env.SOURCE) > -1)
+    }
+
     const results = []
 
     for (let sourcePath of sources) {
@@ -66,7 +71,7 @@ const scrape = async () => {
     console.log('\n', chalk.yellow(` ⇣  stored ${createdResults.length} new results`))
     console.log(chalk.yellow(`\n  ●  finished at (${new Date().toLocaleString('en-GB')}) \n`))
 
-    if (process.env.NOTIFY === 'true' && createdResults.length > 0) {
+    if (parseInt(process.env.NOTIFY) === 1 && createdResults.length > 0) {
         await notify(createdResults)
     }
 }

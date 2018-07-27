@@ -26,7 +26,7 @@ export class Storage {
         return Result.findById(id)
     }
 
-    async findAll(page: string = '1', sort = ['date', 'desc'], filter = '') {
+    async findAll(page: string = '1', filter = '', sort = ['date', 'desc']) {
         const sortParams = { [sort[0]]: getSortValue(sort[1]) }
         const filterWords = filter.trim().split(' ').join('|')
         const filterRegexp = new RegExp(filterWords, 'gmi')
@@ -53,7 +53,6 @@ export class Storage {
 
     updateOrCreate(data: any) {
         const { link, id } = data
-
         const date = new Date()
 
         return Result.findOneAndUpdate(

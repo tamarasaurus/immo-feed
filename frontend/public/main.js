@@ -35,8 +35,13 @@ function hideResult() {
 }
 
 function showGallery(result) {
-    result.showGallery = !result.showGallery
+    result.showGallery = true
     document.documentElement.style = result.showGallery ? 'overflow:hidden': ''
+}
+
+function hideGallery() {
+    data.results.forEach(result => result.showGallery = false)
+    document.documentElement.style = ''
 }
 
 function getPage() {
@@ -45,13 +50,25 @@ function getPage() {
 }
 
 function setPage(pageNumber) {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('page', pageNumber);
-    window.location.search = searchParams.toString();
+    const searchParams = new URLSearchParams(window.location.search)
+    searchParams.set('page', pageNumber)
+    window.location.search = searchParams.toString()
+}
+
+function setActivePhoto(photo) {
+    const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
+    photos.forEach(photo => photo.classList.remove('active'))
+
+    let element = document.querySelector('.result-thumbnail[data-src="'+ photo +'"]')
+
+    if (element) {
+        element.classList.add('active')
+    }
 }
 
 function selectPhoto(result, photo) {
     result.selectedPhoto = photo
+    setActivePhoto(photo)
 }
 
 function renderList() {
@@ -63,6 +80,16 @@ function renderList() {
     hideButtons.forEach(button => button.addEventListener('click', hideResult))
 }
 
+function switchPhoto(result, targetIndex) {
+    const currentPhotoIndex = result.photos.indexOf(result.selectedPhoto)
+    let nextPhotoIndex = parseInt(currentPhotoIndex + targetIndex)
+    if (nextPhotoIndex < 0) nextPhotoIndex = result.photos.length - 1
+    if (nextPhotoIndex > (result.photos.length - 1)) nextPhotoIndex = 0
+    const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
+    photos[nextPhotoIndex].dispatchEvent(new Event('click'))
+    this.selectPhoto(result, result.photos[nextPhotoIndex])
+}
+
 getResults().then(response => {
     data.results = response.results.map(result => {
         result.showGallery = false
@@ -70,10 +97,23 @@ getResults().then(response => {
 
         return result
     })
+
     data.page = response.page
     data.pages = response.pages
 
     renderList()
+
+    document.onkeydown = function(event) {
+        event = event || window.event
+        const { keyCode } = event
+        const modal = document.getElementsByClassName('result-gallery-modal')
+        if (keyCode === 27) return hideGallery()
+
+        if (modal && modal[0]) {
+            if (keyCode === 39) return modal[0].dispatchEvent(new Event('right'))
+            if (keyCode === 37) return modal[0].dispatchEvent(new Event('left'))
+        }
+    }
 })
 
 document.getElementById('sort').addEventListener('change', function () {

@@ -55,8 +55,8 @@ export default class Puppeteer {
         return this.page.click(selector)
     }
 
-    public async waitForSelector(selector: string) {
-        return this.page.waitForSelector(selector)
+    public async waitForSelector(selector: string, options?: any) {
+        return this.page.waitForSelector(selector, options)
     }
 
     public async url(): Promise<string> {
