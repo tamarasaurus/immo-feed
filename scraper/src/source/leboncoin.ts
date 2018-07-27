@@ -38,8 +38,12 @@ export default class LebonCoin extends HTMLSource {
 
                 $('[data-qa-id="slideshow_thumbnails_item"]', $(photos)).each((index, photo) => {
                     const style = $('div', photo).attr('style')
-                    const url = getFromBackgroundImage(style)
-                    if (url) urls.push(url)
+                    let url = getFromBackgroundImage(style)
+
+                    if (url) {
+                        url = url.replace('ad-image', 'ad-large')
+                        urls.push(url)
+                    }
                 })
 
                 return urls
