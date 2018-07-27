@@ -7,7 +7,7 @@ const Result = mongoose.model('Result', {
     size: Number,
     description: String,
     link: { type: String, unique: true },
-    photo: String,
+    photos: Array,
     hidden: { type: Boolean, default: false }
 })
 
