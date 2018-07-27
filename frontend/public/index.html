@@ -35,12 +35,26 @@
 
         <ul id="results" v-cloak>
             <li class="result" v-for="result in results">
-                <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
+                <div class="result-gallery">
+                    <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photos[0] + ')' }"></a>
+                    <div v-on:click="showGallery(result)" v-if="result.photos.length > 0" class="result-photos-count">📷 {{ result.photos.length }}</div>
+                </div>
+
                 <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
                 <span class="result-date">{{ new Date(result.date).toLocaleString() }}</span>
                 <p v-if="result.description" class="result-description">{{ result.description }}</p>
                 <div class="result-details"><span>€{{ result.price }}&nbsp;&nbsp;</span><span v-if="!!result.size && result.size > 0">|&nbsp;&nbsp;{{ result.size }}m²</span></div>
                 <button :data-id="result._id" class="result-hide">❌</button>
+
+                <div class="result-gallery-modal" v-if="result.showGallery === true">
+                    <div class="result-gallery-modal-close" v-on:click="showGallery(result)">❌</div>
+                    <div class="result-gallery-main" v-bind:style="{ 'background-image': 'url(' + result.selectedPhoto + ')' }" ></div>
+                    <div class="result-gallery-thumbnails">
+                        <div class="result-gallery-item" v-for="photo in result.photos">
+                            <div class="result-thumbnail" v-on:click="selectPhoto(result, photo)" v-bind:style="{ 'background-image': 'url(' + photo + ')' }"></div>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
 

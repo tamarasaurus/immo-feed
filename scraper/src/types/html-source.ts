@@ -8,9 +8,9 @@ export class HTMLSource extends Source {
     public type = 'html'
     public nextPageSelector: string = null
     public pagesToScrape: number = 1
-    public driver: any = new Puppeteer()
+    public driver: Puppeteer = new Puppeteer()
 
-    public extractResults(response: string, formatters: any[]): Result[] {
+    public extractFromResultList(response: string, formatters: any[]): Result[] {
         const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes
@@ -38,6 +38,32 @@ export class HTMLSource extends Source {
         return resultList
     }
 
+    public async extractFromResultPage(result: Result, formatters: any[]): Promise<any> {
+        await this.driver.goToPage(result.link)
+        await this.driver.scrollDown()
+
+        const richAttributes: any = []
+
+        for (let attribute of this.richAttributes) {
+            try {
+                const { type, selector } = attribute
+                if (attribute.wait) {
+                    await this.driver.waitForSelector(selector)
+                }
+
+                const response = await this.driver.getPageContent()
+                const $: CheerioStatic = cheerio.load(response)
+                const textFormatter = () => { return $(selector).text().trim() }
+                const format = attribute.format || formatters[type] || textFormatter
+                richAttributes[type] = format($, $(selector))
+            } catch (e) {
+                console.error('\n Error extracting rich attribute', attribute.selector, 'from', await this.driver.url(), '\n', chalk.red(e), '\n')
+            }
+        }
+
+        return richAttributes
+    }
+
     public async scrape(formatters: any[]): Promise<Result[]> {
         console.log(chalk.blue('➡️ scraping', this.scraperName))
         await this.driver.setup(this.url)
@@ -48,14 +74,18 @@ export class HTMLSource extends Source {
             const response = await this.driver.scrapePage(i > 0, this.nextPageSelector, this.resultSelector)
             const url = await this.driver.url()
             console.log(chalk.magenta(`   ↘ go to page ${url}`))
-            results.push(this.extractResults(response, formatters))
-            const nextLink = await this.driver.getElement(this.nextPageSelector)
-            // Only continue on next page if we have a selector and next link is present on current page
-            if (this.nextPageSelector === null || nextLink === null) break
+            results.push(this.extractFromResultList(response, formatters))
+            if (this.nextPageSelector === null) break
         }
 
         results = results.reduce((acc, val) => acc.concat(val), [])
         console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
+
+        if (this.richAttributes.length > 0) {
+            for (let result of results) {
+                result = Object.assign(result, await this.extractFromResultPage(result, formatters))
+            }
+        }
 
         await this.driver.shutdown()
         return results

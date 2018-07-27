@@ -15,10 +15,10 @@ export default class Puppeteer {
         this.browser = await this.launch()
         this.page = await this.browser.newPage()
         this.page.setViewport({ width: 1280, height: 1000 })
-        return this.page.goto(url)
+        return this.goToPage(url)
     }
 
-     public async scrapePage(goNext: boolean, nextSelector: string, waitForSelector: string) {
+    public async scrapePage(goNext?: boolean, nextSelector?: string, waitForSelector?: string) {
         await this.scrollDown()
         const nextLink = await this.getElement(nextSelector)
 
@@ -31,7 +31,11 @@ export default class Puppeteer {
         return this.getPageContent()
     }
 
-    public async scrollDown() {
+    public async goToPage(url: string) {
+        return this.page.goto(url)
+    }
+
+    public async scrollDown(): Promise<void> {
         await this.page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
     }
 
@@ -55,7 +59,7 @@ export default class Puppeteer {
         return this.page.waitForSelector(selector)
     }
 
-    public async url() {
+    public async url(): Promise<string> {
         return this.page.url()
     }
 }
