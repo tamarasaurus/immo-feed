@@ -43,6 +43,7 @@ export class HTMLSource extends Source {
         await this.driver.scrollDown()
 
         const richAttributes: any = []
+
         for (let attribute of this.richAttributes) {
             try {
                 const { type, selector } = attribute
@@ -56,11 +57,11 @@ export class HTMLSource extends Source {
                 const format = attribute.format || formatters[type] || textFormatter
                 richAttributes[type] = format($, $(selector))
             } catch (e) {
-                console.error('\n Error extracting rich attribute', attribute.selector, 'from', await this.driver.url(), chalk.red(e), '\n')
+                console.error('\n Error extracting rich attribute', attribute.selector, 'from', await this.driver.url(), '\n', chalk.red(e), '\n')
             }
         }
 
-        return []
+        return richAttributes
     }
 
     public async scrape(formatters: any[]): Promise<Result[]> {
@@ -82,7 +83,7 @@ export class HTMLSource extends Source {
 
         if (this.richAttributes.length > 0) {
             for (let result of results) {
-                await this.extractFromResultPage(result, formatters)
+                result = Object.assign(result, await this.extractFromResultPage(result, formatters))
             }
         }
 
