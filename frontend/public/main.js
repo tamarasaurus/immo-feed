@@ -34,6 +34,11 @@ function hideResult() {
     })
 }
 
+function showGallery(result) {
+    result.showGallery = !result.showGallery
+    document.documentElement.style = result.showGallery ? 'overflow:hidden': ''
+}
+
 function getPage() {
     const params = new URLSearchParams(location.search)
     return params.get('page') || 1
@@ -43,6 +48,10 @@ function setPage(pageNumber) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('page', pageNumber);
     window.location.search = searchParams.toString();
+}
+
+function selectPhoto(result, photo) {
+    result.selectedPhoto = photo
 }
 
 function renderList() {
@@ -55,7 +64,12 @@ function renderList() {
 }
 
 getResults().then(response => {
-    data.results = response.results
+    data.results = response.results.map(result => {
+        result.showGallery = false
+        result.selectedPhoto = result.photos[0]
+
+        return result
+    })
     data.page = response.page
     data.pages = response.pages
 
