@@ -23,7 +23,14 @@ export default class Seloger extends HTMLSource {
             type: 'photos',
             selector: '[data-lazy]',
             format($: CheerioStatic, photo: CheerioStatic): string[] {
-                return [ $(photo).data('lazy').url ]
+                let url = $(photo).data('lazy').url
+
+                if (url) {
+                    url.replace('310x255', '1280x800')
+                    return [ url ]
+                }
+
+                return []
             }
         }
     ]
