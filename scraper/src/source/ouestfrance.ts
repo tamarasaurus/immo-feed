@@ -24,10 +24,10 @@ export default class Ouestfrance extends HTMLSource {
             }
         },
         {
-            type: 'photo',
+            type: 'photos',
             selector: '.annPhoto',
-            format($: CheerioStatic, photo: CheerioStatic): string {
-                return $(photo).data('original')
+            format($: CheerioStatic, photo: CheerioStatic): string[] {
+                return [ $(photo).data('original') ]
             }
         }
     ]

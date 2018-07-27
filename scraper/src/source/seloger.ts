@@ -20,10 +20,10 @@ export default class Seloger extends HTMLSource {
             }
         },
         {
-            type: 'photo',
+            type: 'photos',
             selector: '[data-lazy]',
-            format($: CheerioStatic, photo: CheerioStatic): string {
-                return $(photo).data('lazy').url
+            format($: CheerioStatic, photo: CheerioStatic): string[] {
+                return [ $(photo).data('lazy').url ]
             }
         }
     ]
