@@ -82,8 +82,8 @@ getResults().then(response => {
 
     document.onkeydown = function(event) {
         event = event || window.event;
-        if (event.keyCode == 27) hideGallery()
-    };
+        if (event.keyCode === 27) hideGallery()
+    }
 })
 
 document.getElementById('sort').addEventListener('change', function () {

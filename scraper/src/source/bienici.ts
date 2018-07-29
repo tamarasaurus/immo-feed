@@ -18,7 +18,7 @@ export default class Bienici extends JSONSource {
             type: 'photos',
             selector: 'photos',
             format: (photos: any): string[] => {
-                return [ (photos.length > 0 && photos[0].url) ]
+                return photos.map((photo: any) => photo.url)
             }
         }
     ]
