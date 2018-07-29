@@ -71,8 +71,6 @@ const scrape = async () => {
     console.log('\n', chalk.yellow(` ⇣  stored ${createdResults.length} new results`))
     console.log(chalk.yellow(`\n  ●  finished at (${new Date().toLocaleString('en-GB')}) \n`))
 
-    console.log('NOTIFY', parseInt(process.env.NOTIFY) === 1)
-
     if (parseInt(process.env.NOTIFY) === 1 && createdResults.length > 0) {
         await notify(createdResults)
     }
