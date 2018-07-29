@@ -53,7 +53,6 @@ export class Storage {
 
     updateOrCreate(data: any) {
         const { link, id } = data
-
         const date = new Date()
 
         return Result.findOneAndUpdate(
