@@ -50,7 +50,7 @@ app.get('/export/csv', cors(), async (req: any, res: any) => {
             'price',
             'size',
             'link',
-            'photo'
+            'photos'
         ]
     })
 
