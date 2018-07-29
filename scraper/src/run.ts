@@ -16,7 +16,12 @@ formatterList.forEach(formatterPath => {
 })
 
 const getResultsFromSources = async (): Promise<Result[]> => {
-    const sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+    let sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
+
+    if (process.env.SCRAPER) {
+        sources = sources.filter(source => source.indexOf(process.env.SCRAPER) > -1)
+    }
+
     const results = []
 
     for (let sourcePath of sources) {
