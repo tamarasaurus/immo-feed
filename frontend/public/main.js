@@ -35,8 +35,13 @@ function hideResult() {
 }
 
 function showGallery(result) {
-    result.showGallery = !result.showGallery
+    result.showGallery = true
     document.documentElement.style = result.showGallery ? 'overflow:hidden': ''
+}
+
+function hideGallery() {
+    data.results.forEach(result => result.showGallery = false)
+    document.documentElement.style = ''
 }
 
 function getPage() {
@@ -74,6 +79,11 @@ getResults().then(response => {
     data.pages = response.pages
 
     renderList()
+
+    document.onkeydown = function(event) {
+        event = event || window.event;
+        if (event.keyCode == 27) hideGallery()
+    };
 })
 
 document.getElementById('sort').addEventListener('change', function () {
