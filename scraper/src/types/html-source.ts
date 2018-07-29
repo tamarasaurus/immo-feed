@@ -81,7 +81,8 @@ export class HTMLSource extends Source {
         results = results.reduce((acc, val) => acc.concat(val), [])
         console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
 
-        if (this.richAttributes.length > 0) {
+        if (parseInt(process.env.SCRAPE_RICH_ATTRIBUTES) === 1 && this.richAttributes.length > 0) {
+            console.log(chalk.green('    + scraping rich attributes '))
             for (let result of results) {
                 result = Object.assign(result, await this.extractFromResultPage(result, formatters))
             }
