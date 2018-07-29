@@ -14,7 +14,8 @@ app.options('*', cors())
 
 app.get('/results', cors(), async (req: any, res: any) => {
     const page = req.query.page
-    const records = await storage.findAll(page)
+    const filter = req.query.filter
+    const records = await storage.findAll(page, filter)
     records.results = records.results.filter((record: any) => !record.hidden)
     res.json(records)
 })
@@ -76,4 +77,3 @@ app.get('/export/json', cors(), async (req: any, res: any) => {
 })
 
 app.listen(process.env.PORT || 3000)
-
