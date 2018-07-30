@@ -20,7 +20,7 @@ export default class Puppeteer {
 
      public async scrapePage(goNext: boolean, nextSelector: string, waitForSelector: string) {
         await this.scrollDown()
-        const nextLink = this.getElement(nextSelector)
+        const nextLink = await this.getElement(nextSelector)
 
         if (goNext && nextLink) {
             await this.click(nextSelector)
