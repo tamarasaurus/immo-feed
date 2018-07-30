@@ -49,7 +49,9 @@ export class HTMLSource extends Source {
             const url = await this.driver.url()
             console.log(chalk.magenta(`   ↘ go to page ${url}`))
             results.push(this.extractResults(response, formatters))
-            if (this.nextPageSelector === null) break
+            const nextLink = await this.driver.getElement(this.nextPageSelector)
+            // Only continue on next page if we have a selector and next link is present on current page
+            if (this.nextPageSelector === null || nextLink === null) break
         }
 
         results = results.reduce((acc, val) => acc.concat(val), [])
