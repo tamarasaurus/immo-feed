@@ -27,6 +27,7 @@ source.resultAttributes = [
 source.driver = {
     setup: sinon.stub(),
     scrapePage: sinon.stub().returns(response),
+    getElement: sinon.stub().returns(null),
     url: sinon.stub().returns(source.url),
     shutdown: sinon.stub()
 }
