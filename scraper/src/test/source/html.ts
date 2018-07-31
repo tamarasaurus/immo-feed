@@ -35,7 +35,7 @@ const source = new HTMLSource()
 source.url = 'http://immo-site.com'
 source.resultSelector = 'li'
 source.nextPageSelector = '.next'
-source.scrapeRichAttributes = true
+source.shouldScrapeRichAttributes = sinon.stub().returns(true)
 source.resultAttributes = [
     { type: 'name', selector: '.name' },
     { type: 'description', selector: '.description' }

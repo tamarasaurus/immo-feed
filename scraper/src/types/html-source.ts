@@ -9,7 +9,6 @@ export class HTMLSource extends Source {
     public nextPageSelector: string = null
     public pagesToScrape: number = 1
     public driver: any = new Puppeteer()
-    public scrapeRichAttributes = (parseInt(process.env.SCRAPE_RICH_ATTRIBUTES) === 1 && this.richAttributes.length > 0)
 
     public extractFromResultList(response: string, formatters: any[]): Result[] {
         const $: CheerioStatic = cheerio.load(response)
@@ -65,6 +64,10 @@ export class HTMLSource extends Source {
         return richAttributes
     }
 
+    public shouldScrapeRichAttributes(): boolean {
+        return process.env.SCRAPE_RICH_ATTRIBUTES == '1' && this.richAttributes.length > 0
+    }
+
     public async scrape(formatters: any[]): Promise<Result[]> {
         console.log(chalk.blue('➡️ scraping', this.scraperName))
         await this.driver.setup(this.url)
@@ -82,7 +85,7 @@ export class HTMLSource extends Source {
         results = results.reduce((acc, val) => acc.concat(val), [])
         console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
 
-        if (this.scrapeRichAttributes) {
+        if (this.shouldScrapeRichAttributes()) {
             console.log(chalk.green('    + scraping rich attributes '))
             for (let result of results) {
                 const richAttributes = await this.extractFromResultPage(result, formatters)
