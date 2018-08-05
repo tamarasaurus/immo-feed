@@ -47,8 +47,9 @@ export class HTMLSource extends Source {
         for (let attribute of this.richAttributes) {
             try {
                 const { type, selector } = attribute
+
                 if (attribute.wait) {
-                    await this.driver.waitForSelector(selector)
+                    await this.driver.waitForSelector(selector, { timeout: 10000 })
                 }
 
                 const response = await this.driver.getPageContent()

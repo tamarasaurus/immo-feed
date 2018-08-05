@@ -20,7 +20,7 @@ export default class Puppeteer {
 
     public async scrapePage(goNext?: boolean, nextSelector?: string, waitForSelector?: string) {
         await this.scrollDown()
-        const nextLink = this.getElement(nextSelector)
+        const nextLink = await this.getElement(nextSelector)
 
         if (goNext && nextLink) {
             await this.click(nextSelector)
@@ -55,8 +55,8 @@ export default class Puppeteer {
         return this.page.click(selector)
     }
 
-    public async waitForSelector(selector: string) {
-        return this.page.waitForSelector(selector)
+    public async waitForSelector(selector: string, options?: any) {
+        return this.page.waitForSelector(selector, options)
     }
 
     public async url(): Promise<string> {

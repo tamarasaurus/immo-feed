@@ -15,7 +15,21 @@ export default class Thierry extends HTMLSource {
             type: 'link',
             selector: '> a',
             format($: CheerioStatic, link: CheerioStatic) {
-                return [`https://www.thierry-immobilier.fr${$(link).attr('href')}`]
+                return `https://www.thierry-immobilier.fr${$(link).attr('href')}`
+            }
+        }
+    ]
+
+    public richAttributes = [
+        {
+            type: 'photos',
+            selector: '.slick-track img',
+            format($: CheerioStatic, photos: CheerioStatic) {
+                const photoUrls = $(photos).map((index: number, photo: CheerioElement) => {
+                    return $(photo).attr('src').replace('styles/medium/public/', '')
+                }).get()
+
+                return photoUrls.filter((photo: string, index: number) => photoUrls.indexOf(photo) !== index)
             }
         }
     ]

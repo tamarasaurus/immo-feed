@@ -55,8 +55,20 @@ function setPage(pageNumber) {
     window.location.search = searchParams.toString()
 }
 
+function setActivePhoto(photo) {
+    const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
+    photos.forEach(photo => photo.classList.remove('active'))
+
+    let element = document.querySelector('.result-thumbnail[data-src="'+ photo +'"]')
+
+    if (element) {
+        element.classList.add('active')
+    }
+}
+
 function selectPhoto(result, photo) {
     result.selectedPhoto = photo
+    setActivePhoto(photo)
 }
 
 function renderList() {
@@ -70,10 +82,12 @@ function renderList() {
 
 function switchPhoto(result, targetIndex) {
     const currentPhotoIndex = result.photos.indexOf(result.selectedPhoto)
-    const nextPhotoIndex = Math.max(0, Math.min(currentPhotoIndex + targetIndex, result.photos.length - 1))
+    let nextPhotoIndex = parseInt(currentPhotoIndex + targetIndex)
+    if (nextPhotoIndex < 0) nextPhotoIndex = result.photos.length - 1
+    if (nextPhotoIndex > (result.photos.length - 1)) nextPhotoIndex = 0
     const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
     photos[nextPhotoIndex].dispatchEvent(new Event('click'))
-    result.selectPhoto = result.photos[nextPhotoIndex]
+    this.selectPhoto(result, result.photos[nextPhotoIndex])
 }
 
 getResults().then(response => {
