@@ -46,7 +46,7 @@
                 <div class="result-details"><span>€{{ result.price }}&nbsp;&nbsp;</span><span v-if="!!result.size && result.size > 0">|&nbsp;&nbsp;{{ result.size }}m²</span></div>
                 <button :data-id="result._id" class="result-hide">❌</button>
 
-                <div class="result-gallery-modal" v-if="result.showGallery === true">
+                <div class="result-gallery-modal" v-on:right="switchPhoto(result, 1)" v-on:left="switchPhoto(result, -1)" v-if="result.showGallery === true">
                     <div class="result-gallery-modal-close" v-on:click="hideGallery()">❌</div>
                     <div class="result-gallery-main" v-bind:style="{ 'background-image': 'url(' + result.selectedPhoto + ')' }" ></div>
                     <div class="result-gallery-thumbnails">

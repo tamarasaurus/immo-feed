@@ -50,9 +50,9 @@ function getPage() {
 }
 
 function setPage(pageNumber) {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('page', pageNumber);
-    window.location.search = searchParams.toString();
+    const searchParams = new URLSearchParams(window.location.search)
+    searchParams.set('page', pageNumber)
+    window.location.search = searchParams.toString()
 }
 
 function selectPhoto(result, photo) {
@@ -68,6 +68,14 @@ function renderList() {
     hideButtons.forEach(button => button.addEventListener('click', hideResult))
 }
 
+function switchPhoto(result, targetIndex) {
+    const currentPhotoIndex = result.photos.indexOf(result.selectedPhoto)
+    const nextPhotoIndex = Math.max(0, Math.min(currentPhotoIndex + targetIndex, result.photos.length - 1))
+    const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
+    photos[nextPhotoIndex].dispatchEvent(new Event('click'))
+    result.selectPhoto = result.photos[nextPhotoIndex]
+}
+
 getResults().then(response => {
     data.results = response.results.map(result => {
         result.showGallery = false
@@ -75,14 +83,22 @@ getResults().then(response => {
 
         return result
     })
+
     data.page = response.page
     data.pages = response.pages
 
     renderList()
 
     document.onkeydown = function(event) {
-        event = event || window.event;
-        if (event.keyCode === 27) hideGallery()
+        event = event || window.event
+        const { keyCode } = event
+        const modal = document.getElementsByClassName('result-gallery-modal')
+        if (keyCode === 27) return hideGallery()
+
+        if (modal && modal[0]) {
+            if (keyCode === 39) return modal[0].dispatchEvent(new Event('right'))
+            if (keyCode === 37) return modal[0].dispatchEvent(new Event('left'))
+        }
     }
 })
 
