@@ -50,8 +50,10 @@
                     <div class="result-gallery-modal-close" v-on:click="hideGallery()">❌</div>
                     <div class="result-gallery-main" v-bind:style="{ 'background-image': 'url(' + result.selectedPhoto + ')' }" ></div>
                     <div class="result-gallery-thumbnails">
-                        <div class="result-gallery-item" v-for="photo in result.photos">
-                            <div class="result-thumbnail" v-on:click="selectPhoto(result, photo)" v-bind:style="{ 'background-image': 'url(' + photo + ')' }"></div>
+                        <div class="result-gallery-container">
+                            <div class="result-gallery-item" v-for="photo in result.photos">
+                                <div class="result-thumbnail" v-bind:class="{active: photo === result.selectedPhoto}" v-bind:data-src="photo" v-on:click="selectPhoto(result, photo)" v-bind:style="{ 'background-image': 'url(' + photo + ')' }"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
