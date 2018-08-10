@@ -1,5 +1,6 @@
 import { HTMLSource } from '../types/html-source'
 import { getSize } from '../helper/size'
+import { getFromBackgroundImage } from '../helper/photo';
 
 export default class Seloger extends HTMLSource {
     public url = 'https://www.seloger.com/list.htm?types=1,2&projects=2,5&natures=1,2,4&qsVersion=1.0'
@@ -31,6 +32,23 @@ export default class Seloger extends HTMLSource {
                 }
 
                 return []
+            }
+        }
+    ]
+
+    public richAttributes = [
+        {
+            type: 'photos',
+            selector: '.carrousel_slide',
+            format($: CheerioStatic, photos: CheerioElement[]): string[] {
+                return $(photos).map((index, photo) => {
+                    const styleImage = getFromBackgroundImage($(photo).attr('style'))
+                    const originalImage = getFromBackgroundImage($(photo).attr('data-original-styling'))
+                    const lazyImage = $(photo).attr('data-lazy')
+                    const lazyImageUrl = lazyImage && JSON.parse(lazyImage).url
+                    const url = styleImage || originalImage || lazyImageUrl
+                    return url && url.replace('800', '2000')
+                }).get()
             }
         }
     ]
