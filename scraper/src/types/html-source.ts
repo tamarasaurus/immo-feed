@@ -39,6 +39,7 @@ export class HTMLSource extends Source {
     }
 
     public async extractFromResultPage(result: Result, formatters: any[]): Promise<any> {
+        console.log(chalk.green('        - scraping ' + result.link))
         await this.driver.goToPage(result.link)
         await this.driver.scrollDown()
 
@@ -89,8 +90,12 @@ export class HTMLSource extends Source {
         if (this.shouldScrapeRichAttributes()) {
             console.log(chalk.green('    + scraping rich attributes '))
             for (let result of results) {
-                const richAttributes = await this.extractFromResultPage(result, formatters)
-                result = Object.assign(result, richAttributes)
+                try {
+                    const richAttributes = await this.extractFromResultPage(result, formatters)
+                    result = Object.assign(result, richAttributes)
+                } catch (e) {
+                    console.error('\n Can\'t visit page', result.link, chalk.red(e), '\n')
+                }
             }
         }
 
