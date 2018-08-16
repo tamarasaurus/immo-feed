@@ -4,18 +4,9 @@ import { resolve } from 'path'
 import { Result } from './types/result'
 import { Storage } from './storage/mongo'
 
-const scrapeAttributes = new Queue('scrape attributes')
-const store = new Queue('store results')
-const scrapeDetails = new Queue('scrape detailed attributes')
-
-const blah = (async () => {
-   await Promise.all([ scrapeAttributes.empty(), store.empty(), scrapeDetails.empty() ]).then(() => {
-        console.log('emptied everything')
-    })
-})().catch((err: Error) => {
-    console.error(err);
-});
-
+const scrapeAttributes = new Queue('scrape_attributes', process.env.REDIS_URL)
+const store = new Queue('store_results', process.env.REDIS_URL)
+const scrapeDetails = new Queue('scrape_detailed_attributes', process.env.REDIS_URL)
 const sources = glob.sync(resolve(__dirname, './source/**/*.js'))
 const sourceList: any = {}
 
@@ -27,18 +18,12 @@ sources.forEach(source => {
 scrapeAttributes.add({ source: 'leboncoin' })
 
 scrapeAttributes.process((job: Queue.Job, done: Queue.DoneCallback) => {
-    try {
-        const { source } = job.data
-        const sourceModule = sourceList[source]
+    const { source } = job.data
+    const sourceModule = sourceList[source]
 
-        sourceModule.scrape()
-            .then((results: Result[]) => done(null, { results }))
-            .catch((e: Error) => done(e))
-
-    } catch(e) {
-        console.log('Error', e)
-    }
-
+    sourceModule.scrape()
+        .then((results: Result[]) => done(null, { results }))
+        .catch((e: Error) => done(e))
 })
 
 scrapeAttributes.on('error', function(error) {
@@ -57,12 +42,7 @@ scrapeAttributes.on('error', function(error) {
         scrapeDetails.add({ source, link: result.link })
     })
 })
-.on('failed', function(job, err){
-  // A job failed with reason `err`!
-})
-.on('removed', function(job){
-  // A job successfully removed.
-})
+.on('failed', function(job, err){}) .on('removed', function(job){})
 
 store.on('active', (job: Queue.Job) => {
     console.log('store', job.data.link)
@@ -76,10 +56,4 @@ store.process(200, async function(job: Queue.Job, done: Queue.DoneCallback) {
     done(null, storedResult)
 })
 
-scrapeDetails.process(20, async function(job: Queue.Job, done: Queue.DoneCallback) {
-    const { source, link } = job.data
-    const sourceModule = sourceList[source]
-    const details = await sourceModule.scrapeDetails(link)
-    store.add({ link, details })
-    done(null, details)
-})
+scrapeDetails.process(2, require('./processors/scrape-details').bind({store, sourceList}))

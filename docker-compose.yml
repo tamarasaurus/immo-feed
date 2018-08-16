@@ -17,8 +17,10 @@ services:
       dockerfile: scraper/Dockerfile
     depends_on:
       - mongo
+      - redis
     environment:
       MONGODB_URI: 'mongo'
+      REDIS_URL: 'redis://cache:6379'
     command: 'npm run serve'
 
   runner:
@@ -37,6 +39,12 @@ services:
     command: 'npm run start'
     depends_on:
       - mongo
+
+  redis:
+      image: redis
+      container_name: cache
+      ports:
+        - 6379:6379
 
 volumes:
   mongo: ~
