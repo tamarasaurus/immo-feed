@@ -3,6 +3,18 @@ import Puppeteer from '../driver/puppeteer'
 import { Source } from './source'
 import { Result } from './result'
 import chalk from 'chalk'
+import * as glob from 'glob'
+import { resolve, extname, basename } from 'path'
+
+const formatters: any = {}
+const formatterList = glob.sync(resolve(__dirname, '../formatter/**/*.js'))
+
+formatterList.forEach(formatterPath => {
+    const formatter = require(formatterPath)
+    const ext = extname(formatterPath)
+    const name = basename(formatterPath).replace(ext, '')
+    formatters[name] = formatter.default
+})
 
 export class HTMLSource extends Source {
     public type = 'html'
@@ -66,11 +78,12 @@ export class HTMLSource extends Source {
         return richAttributes
     }
 
-    public shouldScrapeRichAttributes(): boolean {
-        return process.env.SCRAPE_RICH_ATTRIBUTES == '1' && this.richAttributes.length > 0
-    }
+    // public shouldScrapeRichAttributes(): boolean {
+    //     return process.env.SCRAPE_RICH_ATTRIBUTES == '1' && this.richAttributes.length > 0
+    // }
 
-    public async scrape(formatters: any[]): Promise<Result[]> {
+    public async scrape(): Promise<Result[]> {
+        console.log('scrape', this, this.url)
         console.log(chalk.blue('➡️ scraping', this.scraperName))
         await this.driver.setup(this.url)
 
@@ -87,19 +100,24 @@ export class HTMLSource extends Source {
         results = results.reduce((acc, val) => acc.concat(val), [])
         console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
 
-        if (this.shouldScrapeRichAttributes()) {
-            console.log(chalk.green('    + scraping rich attributes '))
-            for (let result of results) {
-                try {
-                    const richAttributes = await this.extractFromResultPage(result, formatters)
-                    result = Object.assign(result, richAttributes)
-                } catch (e) {
-                    console.error('\n Can\'t visit page', result.link, chalk.red(e), '\n')
-                }
-            }
-        }
+        // if (this.shouldScrapeRichAttributes()) {
+        //     console.log(chalk.green('    + scraping rich attributes '))
+        //     for (let result of results) {
+        //         try {
+        //             const richAttributes = await this.extractFromResultPage(result, formatters)
+        //             result = Object.assign(result, richAttributes)
+        //         } catch (e) {
+        //             console.error('\n Can\'t visit page', result.link, chalk.red(e), '\n')
+        //         }
+        //     }
+        // }
 
         await this.driver.shutdown()
         return results
+    }
+
+    public async scrapeRichAttributes(result: Result) {
+        const richAttributes = await this.extractFromResultPage(result, formatters)
+        return Object.assign(result, richAttributes)
     }
 }

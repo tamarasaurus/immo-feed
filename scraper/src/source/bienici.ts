@@ -15,6 +15,13 @@ export default class Bienici extends JSONSource {
             format: (id: string) => `https://www.bienici.com/annonce/${id}`
         },
         {
+            type: 'photo',
+            selector: 'photos',
+            format: (photos: any): string[] => {
+                return photos.map((photo: any) => photo.url)[0]
+            }
+        },
+        {
             type: 'photos',
             selector: 'photos',
             format: (photos: any): string[] => {

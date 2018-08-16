@@ -7,8 +7,11 @@ const Result = mongoose.model('Result', {
     size: Number,
     description: String,
     link: { type: String, unique: true },
-    photos: Array,
-    hidden: { type: Boolean, default: false }
+    photo: String,
+    hidden: { type: Boolean, default: false },
+    details: {
+        photos: [String]
+    }
 })
 
 function getSortValue(sortType: string) {
