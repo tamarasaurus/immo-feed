@@ -10,7 +10,7 @@ const Result = mongoose.model('Result', {
     photo: String,
     hidden: { type: Boolean, default: false },
     details: {
-        photos: [String]
+        photos: Array
     }
 })
 

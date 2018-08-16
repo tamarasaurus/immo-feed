@@ -3,5 +3,5 @@ export class Source {
     public resultAttributes: any[] = []
     public richAttributes: any[] = []
     public resultSelector: string = null
-    public scraperName = this.constructor.name.toLocaleLowerCase()
+    public sourceName = this.constructor.name.toLocaleLowerCase()
 }
