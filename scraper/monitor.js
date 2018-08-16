@@ -1,5 +1,9 @@
-{
-  "queues": [
+const Arena = require('bull-arena');
+const express = require('express');
+const router = express.Router();
+
+const arena = Arena({
+  queues: [
     {
         "name": "scrape_attributes",
         "hostId": "scrape_attributes",
@@ -19,4 +23,6 @@
         "port": 6379
     }
   ]
-}
+});
+
+router.use('/', arena);
