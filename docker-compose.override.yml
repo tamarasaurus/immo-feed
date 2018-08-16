@@ -15,6 +15,16 @@ services:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules
 
+  monitor:
+    image: scraper
+    ports:
+      - 4567:4567
+    command: 'npm run monitor'
+    depends_on:
+      - scraper
+      - mongo
+      - redis
+
   runner:
     environment:
       SCRAPER_FREQUENCY_MINUTES: ${SCRAPER_FREQUENCY_MINUTES:-10}
@@ -35,13 +45,6 @@ services:
     volumes:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules
-
-  queue:
-    image: mixmaxhq/arena
-    ports:
-      - 4567:4567
-    volumes:
-      - ./scraper/index.json:/opt/arena/src/server/config/index.json
 
   frontend:
     ports:
