@@ -12,13 +12,14 @@ export default class Stephane extends HTMLSource {
         { type: 'price', selector: '.item-products_price' },
         { type: 'size', selector: '.item-products_pieces' },
         {
-            type: 'photos',
+            type: 'photo',
             selector: '.slides-image.webresize',
-            format($: CheerioStatic, photo: CheerioElement): string[] {
+            format($: CheerioStatic, photo: CheerioElement): string {
                 const style = $(photo).attr('style')
                 let imageUrl = /(background-image: url\(")(.*)("\))/gm.exec(style)[2]
                 imageUrl = imageUrl.split('../')[1]
-                return [`${baseUrl}/${imageUrl}`]
+
+                return `${baseUrl}/${imageUrl}`
             }
         },
         {

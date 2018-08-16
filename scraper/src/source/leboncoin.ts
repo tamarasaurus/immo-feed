@@ -20,10 +20,10 @@ export default class LebonCoin extends HTMLSource {
             }
         },
         {
-            type: 'photos',
+            type: 'photo',
             selector: 'img',
-            format($: CheerioStatic, photo: CheerioStatic): string[] {
-                return [($(photo).attr('src') || '').replace('-thumb', '-large')]
+            format($: CheerioStatic, photo: CheerioStatic): string {
+                return ($(photo).attr('src') || '').replace('-thumb', '-large')
             }
         }
     ]

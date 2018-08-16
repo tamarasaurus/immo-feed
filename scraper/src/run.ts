@@ -5,16 +5,6 @@ import { Storage } from './storage/mongo'
 import notify from './notification/email'
 import chalk from 'chalk'
 
-const formatters: any = {}
-const formatterList = glob.sync(resolve(__dirname, './formatter/**/*.js'))
-
-formatterList.forEach(formatterPath => {
-    const formatter = require(formatterPath)
-    const ext = extname(formatterPath)
-    const name = basename(formatterPath).replace(ext, '')
-    formatters[name] = formatter.default
-})
-
 const getResultsFromSources = async (): Promise<Result[]> => {
     let sources: string[] = glob.sync(resolve(__dirname, './source/**/*.js'))
 
@@ -28,7 +18,7 @@ const getResultsFromSources = async (): Promise<Result[]> => {
         const source = require(sourcePath)
 
         try {
-            results.push(await new source.default().scrape(formatters))
+            results.push(await new source.default().scrape())
         } catch (e) {
             console.error('\n', chalk.red(e), '\n')
         }
