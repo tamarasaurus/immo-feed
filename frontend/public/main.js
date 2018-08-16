@@ -81,19 +81,19 @@ function renderList() {
 }
 
 function switchPhoto(result, targetIndex) {
-    const currentPhotoIndex = result.photos.indexOf(result.selectedPhoto)
+    const currentPhotoIndex = result.details.photos.indexOf(result.selectedPhoto)
     let nextPhotoIndex = parseInt(currentPhotoIndex + targetIndex)
-    if (nextPhotoIndex < 0) nextPhotoIndex = result.photos.length - 1
-    if (nextPhotoIndex > (result.photos.length - 1)) nextPhotoIndex = 0
+    if (nextPhotoIndex < 0) nextPhotoIndex = result.details.photos.length - 1
+    if (nextPhotoIndex > (result.details.photos.length - 1)) nextPhotoIndex = 0
     const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
     photos[nextPhotoIndex].dispatchEvent(new Event('click'))
-    this.selectPhoto(result, result.photos[nextPhotoIndex])
+    this.selectPhoto(result, result.details.photos[nextPhotoIndex])
 }
 
 getResults().then(response => {
     data.results = response.results.map(result => {
         result.showGallery = false
-        result.selectedPhoto = result.photos[0]
+        result.selectedPhoto = result.details.photos[0]
 
         return result
     })

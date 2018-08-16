@@ -57,7 +57,7 @@ const testHTMLSource = async (source: HTMLSource, sourcePath: string) => {
 }
 
 const testJSONSource = async (source: JSONSource, sourcePath: string) => {
-    const sourceName = source.scraperName
+    const sourceName = source.sourceName
     const contents = await source.getContents()
 
     assert(

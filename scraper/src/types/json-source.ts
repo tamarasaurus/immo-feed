@@ -8,7 +8,7 @@ export class JSONSource extends Source {
     public driver: any = new Request()
 
     public async getContents(): Promise<any> {
-        console.log(chalk.blue('➡️ scraping', this.scraperName))
+        console.log(chalk.blue('➡️ scraping', this.sourceName))
         const response = await this.driver.get(this.url, { resolveWithFullResponse: true })
         return JSON.parse(response.body)
     }
@@ -31,7 +31,7 @@ export class JSONSource extends Source {
             resultList.push(Object.assign(new Result(), resultAttributes))
         })
 
-        console.log(chalk.green(`   ✔️ found ${resultList.length} results for ${this.scraperName} \n`))
+        console.log(chalk.green(`   ✔️ found ${resultList.length} results for ${this.sourceName} \n`))
 
         return resultList
     }

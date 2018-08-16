@@ -50,12 +50,12 @@ export class HTMLSource extends Source {
         return resultList
     }
 
-    public async extractFromResultPage(result: Result, formatters: any[]): Promise<any> {
-        console.log(chalk.green('        - scraping ' + result.link))
-        await this.driver.goToPage(result.link)
+    public async scrapeDetails(link: Result): Promise<any> {
+        await this.driver.setup(link)
+        console.log(chalk.green('        - scraping ' + link))
         await this.driver.scrollDown()
 
-        const richAttributes: any = []
+        const attributes: any = {}
 
         for (let attribute of this.richAttributes) {
             try {
@@ -69,22 +69,19 @@ export class HTMLSource extends Source {
                 const $: CheerioStatic = cheerio.load(response)
                 const textFormatter = () => { return $(selector).text().trim() }
                 const format = attribute.format || formatters[type] || textFormatter
-                richAttributes[type] = format($, $(selector))
+                attributes[type] = format($, $(selector))
             } catch (e) {
-                console.error('\n Error extracting rich attribute', attribute.selector, 'from', await this.driver.url(), '\n', chalk.red(e), '\n')
+                console.error('\n Error extracting detail', attribute.selector, 'from', await this.driver.url(), '\n', chalk.red(e), '\n')
             }
         }
 
-        return richAttributes
+        await this.driver.shutdown()
+        return attributes
     }
-
-    // public shouldScrapeRichAttributes(): boolean {
-    //     return process.env.SCRAPE_RICH_ATTRIBUTES == '1' && this.richAttributes.length > 0
-    // }
 
     public async scrape(): Promise<Result[]> {
         console.log('scrape', this, this.url)
-        console.log(chalk.blue('➡️ scraping', this.scraperName))
+        console.log(chalk.blue('➡️ scraping', this.sourceName))
         await this.driver.setup(this.url)
 
         let results = []
@@ -98,26 +95,9 @@ export class HTMLSource extends Source {
         }
 
         results = results.reduce((acc, val) => acc.concat(val), [])
-        console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.scraperName} \n`))
-
-        // if (this.shouldScrapeRichAttributes()) {
-        //     console.log(chalk.green('    + scraping rich attributes '))
-        //     for (let result of results) {
-        //         try {
-        //             const richAttributes = await this.extractFromResultPage(result, formatters)
-        //             result = Object.assign(result, richAttributes)
-        //         } catch (e) {
-        //             console.error('\n Can\'t visit page', result.link, chalk.red(e), '\n')
-        //         }
-        //     }
-        // }
+        console.log(chalk.green(`   ✔️ found ${results.length} results for ${this.sourceName} \n`))
 
         await this.driver.shutdown()
         return results
-    }
-
-    public async scrapeRichAttributes(result: Result) {
-        const richAttributes = await this.extractFromResultPage(result, formatters)
-        return Object.assign(result, richAttributes)
     }
 }

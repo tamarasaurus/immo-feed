@@ -36,8 +36,8 @@
         <ul id="results" v-cloak>
             <li class="result" v-for="result in results">
                 <div class="result-gallery">
-                    <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photos[0] + ')' }"></a>
-                    <div v-on:click="showGallery(result)" v-if="result.photos.length > 0" class="result-photos-count">📷 {{ result.photos.length }}</div>
+                    <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
+                    <div v-on:click="showGallery(result)" v-if="result.details.photos.length > 0" class="result-photos-count">📷 {{ result.details.photos.length }}</div>
                 </div>
 
                 <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
@@ -51,7 +51,7 @@
                     <div class="result-gallery-main" v-bind:style="{ 'background-image': 'url(' + result.selectedPhoto + ')' }" ></div>
                     <div class="result-gallery-thumbnails">
                         <div class="result-gallery-container">
-                            <div class="result-gallery-item" v-for="photo in result.photos">
+                            <div class="result-gallery-item" v-for="photo in result.details.photos">
                                 <div class="result-thumbnail" v-bind:class="{active: photo === result.selectedPhoto}" v-bind:data-src="photo" v-on:click="selectPhoto(result, photo)" v-bind:style="{ 'background-image': 'url(' + photo + ')' }"></div>
                             </div>
                         </div>

@@ -4,35 +4,35 @@ import { resolve } from 'path'
 import { Result } from './types/result'
 import { Storage } from './storage/mongo'
 
-const sources = glob.sync(resolve(__dirname, './source/**/*.js'))
 const scrapeAttributes = new Queue('scrape attributes')
-const storeResults = new Queue('store results')
-const scrapeRichAttributes = new Queue('scrape rich attributes')
-const notify = new Queue('notify')
+const store = new Queue('store results')
+const scrapeDetails = new Queue('scrape detailed attributes')
 
+const blah = (async () => {
+   await Promise.all([ scrapeAttributes.empty(), store.empty(), scrapeDetails.empty() ]).then(() => {
+        console.log('emptied everything')
+    })
+})().catch((err: Error) => {
+    console.error(err);
+});
 
-storeResults.process(async function(job, done) {
-    const storage = new Storage()
-    const results = job.data
+const sources = glob.sync(resolve(__dirname, './source/**/*.js'))
+const sourceList: any = {}
 
-    const storedResults = await Promise.all(results.map(async (result: Result) => {
-        return await storage.updateOrCreate(result)
-    }))
-
-    storage.cleanup()
-
-    done(null, storedResults)
+sources.forEach(source => {
+    const sourceModule = new (require(source).default)()
+    sourceList[sourceModule.sourceName] = sourceModule
 })
 
-// Scrape attributes and get a result
-scrapeAttributes.process(function(job, done){
-    try {
-        console.log(job.data)
-        const { path } = job.data
-        const sourceModule = require(path).default
+scrapeAttributes.add({ source: 'leboncoin' })
 
-        new sourceModule().scrape()
-            .then((results: Result[]) => done(null, results))
+scrapeAttributes.process((job: Queue.Job, done: Queue.DoneCallback) => {
+    try {
+        const { source } = job.data
+        const sourceModule = sourceList[source]
+
+        sourceModule.scrape()
+            .then((results: Result[]) => done(null, { results }))
             .catch((e: Error) => done(e))
 
     } catch(e) {
@@ -41,34 +41,45 @@ scrapeAttributes.process(function(job, done){
 
 })
 
-scrapeAttributes.add({ path: sources[1] })
-
 scrapeAttributes.on('error', function(error) {
     console.error('Error scraping', error)
 })
-.on('active', function(job, jobPromise){
-    console.log('Started scraping', job.data.path)
+.on('active', function(job){
+    console.log('Started scraping', job.data.source)
 })
-.on('stalled', function(job){
-  // A job has been marked as stalled. This is useful for debugging job
-  // workers that crash or pause the event loop.
-})
-.on('completed', function(job, results: Result[]){
-    console.log('Finished scraping', job.data.path, 'with', results.length, 'results')
-    storeResults.add(results)
-})
+.on('completed', async function(job: Queue.Job, data: any){
+    const { source } = job.data
+    const results = data.results
+    console.log('Finished scraping', source, 'with', results.length, 'results')
 
+    results.forEach((result: Result) => {
+        store.add(result)
+        scrapeDetails.add({ source, link: result.link })
+    })
+})
 .on('failed', function(job, err){
   // A job failed with reason `err`!
 })
-
-.on('paused', function(){
-  // The queue has been paused.
-})
-
 .on('removed', function(job){
   // A job successfully removed.
 })
 
+store.on('active', (job: Queue.Job) => {
+    console.log('store', job.data.link)
+})
 
-// separate rich attributes from regular ones
+store.process(200, async function(job: Queue.Job, done: Queue.DoneCallback) {
+    const storage = new Storage()
+    const result = job.data
+    const storedResult = await storage.updateOrCreate(result)
+    storage.cleanup()
+    done(null, storedResult)
+})
+
+scrapeDetails.process(20, async function(job: Queue.Job, done: Queue.DoneCallback) {
+    const { source, link } = job.data
+    const sourceModule = sourceList[source]
+    const details = await sourceModule.scrapeDetails(link)
+    store.add({ link, details })
+    done(null, details)
+})
