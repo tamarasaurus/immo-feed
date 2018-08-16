@@ -71,7 +71,7 @@ export class HTMLSource extends Source {
                 const format = attribute.format || formatters[type] || textFormatter
                 attributes[type] = format($, $(selector))
             } catch (e) {
-                console.error('\n Error extracting detail', attribute.selector, 'from', await this.driver.url(), '\n', chalk.red(e), '\n')
+                throw Error(`Error extracting detail ${attribute.selector} from ${await this.driver.url()}`)
             }
         }
 
