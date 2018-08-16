@@ -57,3 +57,6 @@ store.process(200, async function(job: Queue.Job, done: Queue.DoneCallback) {
 })
 
 scrapeDetails.process(2, require('./processors/scrape-details').bind({store, sourceList}))
+scrapeDetails.on('failed', (job, err) => {
+    console.log('Error scraping details', err)
+})
