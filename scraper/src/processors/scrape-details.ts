@@ -4,6 +4,9 @@ module.exports = async function(job: Job, done: DoneCallback) {
     try {
         const { source, link } = job.data
         const sourceModule = this.sourceList[source]
+
+        if (typeof sourceModule.scrapeDetails === 'undefined') return
+
         const details = await sourceModule.scrapeDetails(link)
         this.store.add({ link, details })
         done(null, details)
