@@ -15,7 +15,7 @@ sources.forEach(source => {
     scrapeAttributes.add({ source: sourceModule.sourceName })
 })
 
-scrapeAttributes.process(100, require('./processors/scrape-attributes').bind({ sourceList }))
+scrapeAttributes.process(1, require('./processors/scrape-attributes').bind({ sourceList }))
 scrapeAttributes
     .on('error', error => console.error('Error scraping', error))
     .on('active', job => console.log('Started scraping', job.data.source))
@@ -35,7 +35,7 @@ scrapeAttributes
 store.on('active', (job: Queue.Job) => console.log('store', job.data.link))
 store.process(200, require('./processors/store'))
 
-scrapeDetails.process(2, require('./processors/scrape-details').bind({store, sourceList}))
+scrapeDetails.process(1, require('./processors/scrape-details').bind({store, sourceList}))
 scrapeDetails.on('failed', (job, err) => {
     console.log('Error scraping details', err)
 })
