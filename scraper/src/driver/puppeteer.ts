@@ -8,6 +8,7 @@ export default class Puppeteer {
         return puppeteer.launch({
           headless: true,
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
+          pipe: true
         })
     }
 
@@ -44,7 +45,8 @@ export default class Puppeteer {
     }
 
     public async shutdown() {
-        return this.browser.close()
+        await this.page.close()
+        return await this.browser.close()
     }
 
     public async getElement(selector: string) {
