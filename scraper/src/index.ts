@@ -12,30 +12,48 @@ const sourceList: any = {}
 sources.forEach(source => {
     const sourceModule = new (require(source).default)()
     sourceList[sourceModule.sourceName] = sourceModule
-    scrapeAttributes.add({ source: sourceModule.sourceName })
 })
 
 scrapeAttributes.process(1, require('./processors/scrape-attributes').bind({ sourceList }))
 scrapeAttributes
     .on('error', error => console.error('Error scraping', error))
-    .on('active', job => console.log('Started scraping', job.data.source))
+    .on('active', job => console.log('scrape', job.data.source))
     .on('completed', async function(job: Queue.Job, data: any){
         const { source } = job.data
         const results = data.results
-        console.log('Finished scraping', source, 'with', results.length, 'results')
+        console.log('finished', source, 'with', results.length, 'results')
 
         results.forEach((result: Result) => {
             store.add(result)
             scrapeDetails.add({ source, link: result.link })
         })
     })
-    .on('failed', function(job, err){})
-    .on('removed', function(job){})
 
-store.on('active', (job: Queue.Job) => console.log('store', job.data.link))
-store.process(200, require('./processors/store'))
+store.on('active', (job: Queue.Job) => console.log('stored', job.data.link))
+store.process(500, require('./processors/store'))
 
-scrapeDetails.process(1, require('./processors/scrape-details').bind({store, sourceList}))
-scrapeDetails.on('failed', (job, err) => {
-    console.log('Error scraping details', err)
-})
+scrapeDetails.process(2, require('./processors/scrape-details').bind({store, sourceList}))
+scrapeDetails
+    .on('active', job => console.log('scrape details', job.data.source))
+    .on('failed', (job, err) => console.log('Error scraping details', err))
+
+function scrape() {
+    console.log('--> start scraping')
+
+    for (let sourceName in sourceList) {
+        const sourceModule = sourceList[sourceName]
+        scrapeAttributes.add({ source: sourceModule.sourceName })
+        console.log('--> scrape', sourceModule.sourceName)
+    }
+}
+
+function run() {
+    scrape()
+    console.log('--> start immo-feed')
+
+    setInterval(function () {
+        scrape()
+    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
+}
+
+run()
