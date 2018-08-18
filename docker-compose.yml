@@ -20,14 +20,27 @@ services:
       - redis
     environment:
       MONGODB_URI: 'mongo'
-      REDIS_URL: 'redis://cache:6379'
     command: 'npm run serve'
 
   runner:
     image: scraper
     environment:
       MONGODB_URI: 'mongo'
+      REDIS_URL: 'redis://cache:6379'
     command: 'npm run start'
+    depends_on:
+      - scraper
+
+  checker:
+    image: scraper
+    environment:
+      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
+      MAILGUN_API_BASE_URL: ${MAILGUN_API_BASE_URL}
+      MAILGUN_NOTIFY_EMAIL: ${MAILGUN_NOTIFY_EMAIL}
+      NOTIFY: ${NOTIFY:-0}
+      REDIS_URL: 'redis://cache:6379'
+      MONGODB_URI: 'mongo'
+    command: 'npm run checker'
     depends_on:
       - scraper
 
