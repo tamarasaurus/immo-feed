@@ -10,9 +10,7 @@
     "notification"
   ],
   "scripts": {
-    "test": "npm run test-spec && npm run test-selectors",
-    "test-selectors": "tsc && node ./build/test/run-test.js",
-    "test-spec": "tsc && mocha ./build/test/helper ./build/test/source",
+    "test": "tsc && mocha ./build/test/helper ./build/test/source",
     "build": "tsc",
     "start": "tsc && node ./build/index.js",
     "monitor": "node monitor.js",
