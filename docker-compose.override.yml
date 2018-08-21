@@ -25,18 +25,6 @@ services:
       - mongo
       - redis
 
-  runner:
-    environment:
-      SCRAPER_FREQUENCY_MINUTES: ${SCRAPER_FREQUENCY_MINUTES:-10}
-      SOURCE: ${SOURCE}
-      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
-      MAILGUN_API_BASE_URL: ${MAILGUN_API_BASE_URL}
-      MAILGUN_NOTIFY_EMAIL: ${MAILGUN_NOTIFY_EMAIL}
-      NOTIFY: ${NOTIFY:-0}
-    volumes:
-      - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
-
   test:
     image: scraper
     depends_on:

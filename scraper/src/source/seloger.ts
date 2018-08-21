@@ -47,7 +47,7 @@ export default class Seloger extends HTMLSource {
                     const lazyImage = $(photo).attr('data-lazy')
                     const lazyImageUrl = lazyImage && JSON.parse(lazyImage).url
                     const url = styleImage || originalImage || lazyImageUrl
-                    return url && url.replace('800', '2000')
+                    return url && url.replace('800', '2000').replace('\"', '')
                 }).get()
             }
         }
