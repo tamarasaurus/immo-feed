@@ -34,6 +34,7 @@ export class Storage {
         const filterRegexp = new RegExp(filterWords, 'gmi')
         const perPage = 18
 
+        const count = await Result.count({ hidden: false }).exec()
         const results = await Result.find({ hidden: false })
             .skip((perPage * parseInt(page)) - perPage)
             .limit(perPage)
@@ -48,7 +49,7 @@ export class Storage {
         return {
             results,
             page: parseInt(page),
-            pages: Math.round(results.length / perPage)
+            pages: Math.round(count / perPage)
         }
     }
 
