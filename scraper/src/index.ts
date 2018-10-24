@@ -13,8 +13,6 @@ sources.forEach(source => {
     sourceList[sourceModule.sourceName] = sourceModule
 })
 
-console.log('sourceList', sourceList);
-
 scrapeAttributes.process(1, require('./processors/scrape-attributes').bind({ sourceList }))
 scrapeAttributes
     .on('error', error => console.error('Error scraping', error))

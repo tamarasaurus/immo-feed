@@ -23,7 +23,6 @@ export class HTMLSource extends Source {
     public driver: any = new Puppeteer()
 
     public extractFromResultList(response: string, formatters: any[]): Result[] {
-        console.log('extract', response);
         const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes

@@ -34,16 +34,6 @@ function hideResult() {
     })
 }
 
-function showGallery(result) {
-    result.showGallery = true
-    document.documentElement.style = result.showGallery ? 'overflow:hidden': ''
-}
-
-function hideGallery() {
-    data.results.forEach(result => result.showGallery = false)
-    document.documentElement.style = ''
-}
-
 function getPage() {
     const params = new URLSearchParams(location.search)
     return params.get('page') || 1
@@ -55,22 +45,6 @@ function setPage(pageNumber) {
     window.location.search = searchParams.toString()
 }
 
-function setActivePhoto(photo) {
-    const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
-    photos.forEach(photo => photo.classList.remove('active'))
-
-    let element = document.querySelector('.result-thumbnail[data-src="'+ photo +'"]')
-
-    if (element) {
-        element.classList.add('active')
-    }
-}
-
-function selectPhoto(result, photo) {
-    result.selectedPhoto = photo
-    setActivePhoto(photo)
-}
-
 function renderList() {
     new Vue({ el: '#results', data: { results: data.results } })
     new Vue({ el: '.pagination-top', data: { pages: data.pages, page: data.page }})
@@ -80,21 +54,8 @@ function renderList() {
     hideButtons.forEach(button => button.addEventListener('click', hideResult))
 }
 
-function switchPhoto(result, targetIndex) {
-    const currentPhotoIndex = result.details.photos.indexOf(result.selectedPhoto)
-    let nextPhotoIndex = parseInt(currentPhotoIndex + targetIndex)
-    if (nextPhotoIndex < 0) nextPhotoIndex = result.details.photos.length - 1
-    if (nextPhotoIndex > (result.details.photos.length - 1)) nextPhotoIndex = 0
-    const photos = Array.from(document.getElementsByClassName('result-thumbnail'))
-    photos[nextPhotoIndex].dispatchEvent(new Event('click'))
-    this.selectPhoto(result, result.details.photos[nextPhotoIndex])
-}
-
 getResults().then(response => {
     data.results = response.results.map(result => {
-        result.showGallery = false
-        result.selectedPhoto = result.details.photos[0]
-
         return result
     })
 
@@ -102,18 +63,6 @@ getResults().then(response => {
     data.pages = response.pages
 
     renderList()
-
-    document.onkeydown = function(event) {
-        event = event || window.event
-        const { keyCode } = event
-        const modal = document.getElementsByClassName('result-gallery-modal')
-        if (keyCode === 27) return hideGallery()
-
-        if (modal && modal[0]) {
-            if (keyCode === 39) return modal[0].dispatchEvent(new Event('right'))
-            if (keyCode === 37) return modal[0].dispatchEvent(new Event('left'))
-        }
-    }
 })
 
 document.getElementById('sort').addEventListener('change', function () {
