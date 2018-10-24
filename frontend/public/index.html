@@ -37,7 +37,6 @@
             <li class="result" v-for="result in results">
                 <div class="result-gallery">
                     <a target="_blank" :title="result.name" class="result-link" :href="result.link" v-bind:style="{ 'background-image': 'url(' + result.photo + ')' }"></a>
-                    <div v-on:click="showGallery(result)" v-if="result.details.photos.length > 0" class="result-photos-count">📷 {{ result.details.photos.length }}</div>
                 </div>
 
                 <a target="_blank" :href="result.link"> <h2 class="result-title">{{ result.name }}</h2></a>
@@ -45,18 +44,6 @@
                 <p v-if="result.description" class="result-description">{{ result.description }}</p>
                 <div class="result-details"><span>€{{ result.price }}&nbsp;&nbsp;</span><span v-if="!!result.size && result.size > 0">|&nbsp;&nbsp;{{ result.size }}m²</span></div>
                 <button :data-id="result._id" class="result-hide">❌</button>
-
-                <div class="result-gallery-modal" v-on:right="switchPhoto(result, 1)" v-on:left="switchPhoto(result, -1)" v-if="result.showGallery === true">
-                    <div class="result-gallery-modal-close" v-on:click="hideGallery()">❌</div>
-                    <div class="result-gallery-main" v-bind:style="{ 'background-image': 'url(' + result.selectedPhoto + ')' }" ></div>
-                    <div class="result-gallery-thumbnails">
-                        <div class="result-gallery-container">
-                            <div class="result-gallery-item" v-for="photo in result.details.photos">
-                                <div class="result-thumbnail" v-bind:class="{active: photo === result.selectedPhoto}" v-bind:data-src="photo" v-on:click="selectPhoto(result, photo)" v-bind:style="{ 'background-image': 'url(' + photo + ')' }"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </li>
         </ul>
 

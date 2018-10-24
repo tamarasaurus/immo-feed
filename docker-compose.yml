@@ -21,12 +21,14 @@ services:
     environment:
       MONGODB_URI: 'mongo'
       REDIS_URL: 'redis://cache:6379'
-      SITE: ${SITE}
     command: 'npm run serve'
 
   runner:
     image: scraper
     command: 'npm run start'
+    environment:
+      MONGODB_URI: 'mongo'
+      REDIS_URL: 'redis://cache:6379'
     depends_on:
       - scraper
 
