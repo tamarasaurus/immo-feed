@@ -1,4 +1,4 @@
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../html-source'
 
 const baseUrl = 'http://www.stephaneplazaimmobilier-nantesest.com'
 
@@ -27,18 +27,6 @@ export default class Stephane extends HTMLSource {
             format($: CheerioStatic, link: CheerioElement): string {
                 const url = $(link).data('url').split('?')[0]
                 return `${baseUrl}${url}`
-            }
-        }
-    ]
-
-    public richAttributes = [
-        {
-            type: 'photos',
-            selector: '.slides li > img',
-            format($: CheerioStatic, photos: CheerioElement): string[] {
-                return $(photos).map((index: number, photo: CheerioElement) => {
-                    return `${baseUrl}/${$(photo).attr('src')}`
-                }).get()
             }
         }
     ]

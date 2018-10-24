@@ -10,7 +10,6 @@ services:
       - 3000:3000
     environment:
       MONGODB_URI: 'mongo'
-      SCRAPE_RICH_ATTRIBUTES: ${SCRAPE_RICH_ATTRIBUTES:-1}
     volumes:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules

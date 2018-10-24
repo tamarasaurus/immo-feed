@@ -8,7 +8,7 @@
 - Add colours to logs
 
 BC Breaks
-- Split `HTMLSource` and `JSONSource` into separate files at `/scraper/src/types/html-source.ts` and `/scraper/src/types/json-source.ts`. If you have custom sources you'll need to update your imports.
+- Split `HTMLSource` and `JSONSource` into separate files at `/scraper/src/sources/html-source.ts` and `/scraper/src/sources/json-source.ts`. If you have custom sources you'll need to update your imports.
 
 ## 1.2.0
 - [#25](https://github.com/tamarasaurus/immo-feed/issues/25) Add email notifications with Mailgun (see [Setting up notifications](https://github.com/tamarasaurus/immo-feed#setting-up-notifications))

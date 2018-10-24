@@ -157,7 +157,7 @@ A scraper can parse a HTML or JSON response. For HTML we receive the whole body 
 
 ``` javascript
 // Use the HTML scraper type
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../sources/html-source'
 
 export default class Thierry extends HTMLSource {
     // We give the scraper the search URL that contains the results
@@ -195,7 +195,7 @@ export default class Thierry extends HTMLSource {
 For a JSON response, it's pretty much the same:
 
 ```javascript
-import { JSONSource } from '../types/json-source'
+import { JSONSource } from '../sources/json-source'
 
 export default class Bienici extends JSONSource {
     // We point to a .json instead of a html page
@@ -235,7 +235,7 @@ If you want to add a new scraper, it's pretty simple:
 1. Decide whether it's a HTML or JSON source
 
 ```javascript
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../sources/html-source'
 
 export default class MySource extends HTMLSource {
     ...
@@ -246,7 +246,7 @@ export default class MySource extends HTMLSource {
 2. Provide a search URL that displays a list of results
 
 ```javascript
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../sources/html-source'
 
 export default class MySource extends HTMLSource {
     public url = 'https://www.super-cool-immobilier/nantes/results'
@@ -257,7 +257,7 @@ export default class MySource extends HTMLSource {
 3. Define the selectors
 
 ```javascript
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../sources/html-source'
 
 export default class MySource extends HTMLSource {
     public url = 'https://www.super-cool-immobilier/nantes/results'
@@ -271,7 +271,7 @@ export default class MySource extends HTMLSource {
 4. Define where the scraper can find each attribute inside the `li.result` element
 
 ```javascript
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../sources/html-source'
 
 export default class MySource extends HTMLSource {
     public url = 'https://www.super-cool-immobilier/nantes/results'

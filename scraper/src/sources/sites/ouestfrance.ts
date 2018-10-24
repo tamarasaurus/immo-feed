@@ -1,5 +1,5 @@
-import { HTMLSource } from '../types/html-source'
-import { getSize } from '../helper/size'
+import { HTMLSource } from '../html-source'
+import { getSize } from '../../helper/size'
 
 export default class Ouestfrance extends HTMLSource {
     public url = 'https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement'

@@ -1,4 +1,4 @@
-import { Result } from './../types/result'
+import { Result } from './../sources/result'
 
 export default function emailTemplate(results: Result[]) {
     let resultsList = `<ul style="list-style: none; padding: 0; margin; 0;">`
