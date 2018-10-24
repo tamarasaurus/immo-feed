@@ -23,6 +23,7 @@ export class HTMLSource extends Source {
     public driver: any = new Puppeteer()
 
     public extractFromResultList(response: string, formatters: any[]): Result[] {
+        console.log('extract', response);
         const $: CheerioStatic = cheerio.load(response)
         const results = $(this.resultSelector)
         const attributes = this.resultAttributes
@@ -50,42 +51,19 @@ export class HTMLSource extends Source {
         return resultList
     }
 
-    public async scrapeDetails(link: Result): Promise<any> {
-        await this.driver.setup(link)
-        await this.driver.scrollDown()
-
-        const attributes: any = {}
-
-        for (let attribute of this.richAttributes) {
-            try {
-                const { type, selector } = attribute
-
-                if (attribute.wait) {
-                    await this.driver.waitForSelector(selector, { timeout: 10000 })
-                }
-
-                const response = await this.driver.getPageContent()
-                const $: CheerioStatic = cheerio.load(response)
-                const textFormatter = () => { return $(selector).text().trim() }
-                const format = attribute.format || formatters[type] || textFormatter
-                attributes[type] = format($, $(selector))
-            } catch (e) {
-                console.error(`Error extracting detail ${attribute.selector} from ${await this.driver.url()}`)
-            }
-        }
-
-        await this.driver.shutdown()
-        return attributes
-    }
-
     public async scrape(): Promise<Result[]> {
-        await this.driver.setup(this.url)
+        console.log('-- scrape')
+
+        try {
+            await this.driver.setup(this.url)
+        } catch (e) {
+            console.error('Cannot set up page', e)
+        }
 
         let results = []
 
         for (let i = 0; i < this.pagesToScrape; i++) {
             const response = await this.driver.scrapePage(i > 0, this.nextPageSelector, this.resultSelector)
-            const url = await this.driver.url()
             results.push(this.extractFromResultList(response, formatters))
             if (this.nextPageSelector === null) break
         }

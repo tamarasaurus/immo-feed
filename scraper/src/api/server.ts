@@ -2,7 +2,6 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import { parse } from 'json2csv'
-
 import { Storage } from '../storage/mongo'
 
 const app = express()
@@ -41,7 +40,7 @@ app.get('/export/csv', cors(), async (req: any, res: any) => {
     const { since, download } = req.query
     let records = await storage.findUpdatedSince(since)
 
-    records = parse(records, {
+    const parsedRecords = parse(records, {
         fields: [
             '_id',
             'date',
@@ -60,7 +59,7 @@ app.get('/export/csv', cors(), async (req: any, res: any) => {
         res.set('Content-Type', 'text/csv');
     }
 
-    return res.status(200).send(records);
+    return res.status(200).send(parsedRecords);
 })
 
 app.get('/export/json', cors(), async (req: any, res: any) => {

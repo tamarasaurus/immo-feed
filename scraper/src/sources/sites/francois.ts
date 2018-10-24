@@ -1,4 +1,4 @@
-import { HTMLSource } from '../types/html-source'
+import { HTMLSource } from '../html-source'
 
 export default class Francois extends HTMLSource {
     public url = 'https://www.francois-et-francois-immobilier.com/achat'

@@ -1,4 +1,4 @@
-import { Result } from "../types/result";
+import { Result } from "../sources/result";
 import { Job, DoneCallback } from "bull";
 
 module.exports = function(job: Job, done: DoneCallback) {

@@ -1,4 +1,4 @@
-import { JSONSource } from '../types/json-source'
+import { JSONSource } from '../json-source'
 
 export default class Bienici extends JSONSource {
     public url = 'https://www.bienici.com/realEstateAds.json'

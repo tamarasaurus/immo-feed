@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import * as  mongoose from 'mongoose'
 
-const Result = mongoose.model('Result', {
+const schema = new mongoose.Schema({
     date: Date,
     name: String,
     price: { type: Number },
@@ -9,10 +9,9 @@ const Result = mongoose.model('Result', {
     link: { type: String, unique: true },
     photo: String,
     hidden: { type: Boolean, default: false },
-    details: {
-        photos: Array
-    }
 })
+
+const Result = mongoose.model('Result', schema)
 
 function getSortValue(sortType: string) {
     return sortType === 'ASC' ? 1 : -1
@@ -35,7 +34,6 @@ export class Storage {
         const filterRegexp = new RegExp(filterWords, 'gmi')
         const perPage = 18
 
-        const count = await Result.countDocuments({ hidden: false }).exec()
         const results = await Result.find({ hidden: false })
             .skip((perPage * parseInt(page)) - perPage)
             .limit(perPage)
@@ -50,7 +48,7 @@ export class Storage {
         return {
             results,
             page: parseInt(page),
-            pages: Math.round(count / perPage)
+            pages: Math.round(results.length / perPage)
         }
     }
 

@@ -1,4 +1,5 @@
 import * as puppeteer from 'puppeteer'
+import * as randomUserAgent from 'random-useragent';
 
 export default class Puppeteer {
     page: puppeteer.Page
@@ -16,6 +17,13 @@ export default class Puppeteer {
         this.browser = await this.launch()
         this.page = await this.browser.newPage()
         this.page.setViewport({ width: 1280, height: 1000 })
+        this.page.setExtraHTTPHeaders({
+            'Accept': 'text/html',
+            'Accept-Language': 'fr-FR',
+            'Accept-Encoding': 'gzip'
+        })
+        this.page.setUserAgent(randomUserAgent.getRandom());
+
         return this.goToPage(url)
     }
 
