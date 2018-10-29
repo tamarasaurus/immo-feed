@@ -4,10 +4,10 @@ import { Job, DoneCallback } from 'bull';
 module.exports = async function(job: Job, done: DoneCallback) {
     try {
         const storage = new Storage()
-        const result = job.data
-        const storedResult = await storage.updateOrCreate(result)
+        const results = job.data
+        const storedResults = await storage.updateOrCreate(results)
         storage.cleanup()
-        done(null, storedResult)
+        done(null, storedResults)
     } catch (e) {
         done(e)
     }
