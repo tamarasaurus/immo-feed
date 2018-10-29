@@ -21,13 +21,10 @@ scrapeAttributes
         const { source } = job.data
         const results = data.results
         console.log('finished', source, 'with', results.length, 'results')
-
-        results.forEach((result: Result) => {
-            store.add(result)
-        })
+        store.add(results)
     })
 
-store.on('active', (job: Queue.Job) => console.log('stored', job.data.link))
+store.on('active', (job: Queue.Job) => console.log('stored', job.data.length))
 store.process(500, require('./processors/store'))
 
 function scrape() {
@@ -44,9 +41,9 @@ function run() {
     scrape()
     console.log('--> start immo-feed')
 
-    setInterval(function () {
-        scrape()
-    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
+    // setInterval(function () {
+    //     scrape()
+    // }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
 }
 
 run()

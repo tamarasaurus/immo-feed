@@ -1,4 +1,4 @@
-import { Storage } from './storage/mongo'
+import { Storage } from './storage/postgres'
 
 // const storage = new Storage()
 const redis = require("redis")

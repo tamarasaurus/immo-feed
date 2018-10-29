@@ -53,13 +53,13 @@ export class Storage {
         }
     }
 
-    updateOrCreate(data: any) {
-        const { link, id } = data
+    async updateOrCreate(result: any) {
+        const { link, id } = result
         const date = new Date()
 
-        return Result.findOneAndUpdate(
+        return await Result.findOneAndUpdate(
             id ? { _id: id } : { link },
-            Object.assign(data, { $setOnInsert: { date } }),
+            Object.assign(result, { $setOnInsert: { date } }),
             { new: true, upsert: true, setDefaultsOnInsert: true },
             (error: any, record: any) => record
         )
