@@ -8,10 +8,7 @@ module.exports = function(job: Job, done: DoneCallback) {
 
         sourceModule.scrape()
             .then((results: Result[]) => done(null, { results }))
-            .catch((e: Error) => {
-                console.log('catch error', e)
-                done(e)
-            })
+            .catch((e: Error) => done(e))
     } catch (e) {
         done(e)
     }

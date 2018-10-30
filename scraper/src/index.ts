@@ -41,9 +41,9 @@ function run() {
     scrape()
     console.log('--> start immo-feed')
 
-    // setInterval(function () {
-    //     scrape()
-    // }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
+    setInterval(function () {
+        scrape()
+    }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10') * 60 * 1000)
 }
 
 run()

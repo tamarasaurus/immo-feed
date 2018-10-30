@@ -19,6 +19,11 @@ export class Storage {
     });
 
     this.result = this.database.define('result', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: false,
+        autoIncrement: true,
+      },
       name: TEXT,
       price: INTEGER,
       size: FLOAT,
@@ -70,7 +75,7 @@ export class Storage {
     }
   }
 
-  async updateOrCreate(result: any) {
+  updateOrCreate(result: any) {
     return this.result.upsert(result)
   }
 
@@ -79,6 +84,12 @@ export class Storage {
   }
 
   findUpdatedSince(date: Date) {
-    return this.result.findAll()
+    return this.result.findAll({
+      where: {
+        updatedAt: {
+          [Op.gt]: date
+        }
+      }
+    })
   }
 }
