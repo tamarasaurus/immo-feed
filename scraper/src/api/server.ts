@@ -14,11 +14,8 @@ app.options('*', cors())
 app.get('/results', cors(), async (req: any, res: any) => {
     const page = req.query.page
     const filter = req.query.filter
-    const records = await storage.findAll(page, filter)
-    console.log('NUMBER OF RECORDS', records.length)
-    // console.log(reco)
-    // records.results = records.results.filter((record: any) => !record.hidden)
-    res.json(records)
+    const results = await storage.findAll(page, filter)
+    res.json(results)
 })
 
 // app.get('/results/:id', cors(), async (req: any, res: any) => {

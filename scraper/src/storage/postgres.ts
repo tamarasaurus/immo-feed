@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 
 export class Storage {
   public database: any;
@@ -18,7 +19,7 @@ export class Storage {
     });
 
     this.result = this.database.define('result', {
-      name: Sequelize.STRING,
+      name: Sequelize.TEXT,
       price: Sequelize.INTEGER,
       size: Sequelize.FLOAT,
       description: Sequelize.TEXT,
@@ -40,8 +41,33 @@ export class Storage {
     return this.result.findById(id)
   }
 
-  findAll(page: string = '1', filter = '', sort = ['date', 'DESC']) {
-    return this.result.findAll({ hidden: false })
+  async findAll(page: string = '1', filter = '', sort = ['createdAt', 'DESC']) {
+    const perPage = 18
+    const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+    const where: any = {
+      hidden: false,
+    }
+
+    if (filter.trim().length > 0) {
+      where[Op.or] = [
+        { description: { [Op.iLike]: { [Op.any]: filterWords } } },
+        { name: { [Op.iLike]: { [Op.any]: filterWords } } },
+        { link: { [Op.iLike]: { [Op.any]: filterWords } } },
+      ]
+    }
+
+    const result = await this.result.findAndCountAll({
+      offset: (perPage * parseInt(page)) - perPage,
+      limit: perPage,
+      order: [sort],
+      where,
+    })
+
+    return {
+      results: result.rows,
+      page: parseInt(page),
+      pages: Math.ceil(result.count / perPage)
+    }
   }
 
   async updateOrCreate(result: any) {

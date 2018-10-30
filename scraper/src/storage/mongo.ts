@@ -49,20 +49,26 @@ export class Storage {
         return {
             results,
             page: parseInt(page),
-            pages: Math.round(count / perPage)
+            pages: Math.ceil(count / perPage)
         }
     }
 
-    async updateOrCreate(result: any) {
-        const { link, id } = result
-        const date = new Date()
+    async updateOrCreate(results: any) {
+        const storedResults = []
 
-        return await Result.findOneAndUpdate(
-            id ? { _id: id } : { link },
-            Object.assign(result, { $setOnInsert: { date } }),
-            { new: true, upsert: true, setDefaultsOnInsert: true },
-            (error: any, record: any) => record
-        )
+        for (let result of results) {
+            const { link, id } = result
+            const date = new Date()
+
+            storedResults.push(await Result.findOneAndUpdate(
+                id ? { _id: id } : { link },
+                Object.assign(result, { $setOnInsert: { date } }),
+                { new: true, upsert: true, setDefaultsOnInsert: true },
+                (error: any, record: any) => record
+            ))
+        }
+
+        return storedResults
     }
 
     cleanup() {
