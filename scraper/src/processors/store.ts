@@ -12,6 +12,8 @@ module.exports = async function(job: Job, done: DoneCallback) {
         }
 
         storage.cleanup()
+
+        console.log('stored', storedResults.length)
         done(null, storedResults)
     } catch (e) {
         done(e)
