@@ -43,7 +43,7 @@
                 <span class="result-date">{{ new Date(result.date).toLocaleString() }}</span>
                 <p v-if="result.description" class="result-description">{{ result.description }}</p>
                 <div class="result-details"><span>€{{ result.price }}&nbsp;&nbsp;</span><span v-if="!!result.size && result.size > 0">|&nbsp;&nbsp;{{ result.size }}m²</span></div>
-                <button :data-id="result._id" class="result-hide">❌</button>
+                <button :data-id="result.id" class="result-hide">❌</button>
             </li>
         </ul>
 

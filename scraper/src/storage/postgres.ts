@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op
+const { Op, TEXT, INTEGER, FLOAT, STRING, DATE, BOOLEAN } = Sequelize
 
 export class Storage {
   public database: any;
@@ -19,18 +19,23 @@ export class Storage {
     });
 
     this.result = this.database.define('result', {
-      name: Sequelize.TEXT,
-      price: Sequelize.INTEGER,
-      size: Sequelize.FLOAT,
-      description: Sequelize.TEXT,
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: false,
+        autoIncrement: true,
+      },
+      name: TEXT,
+      price: INTEGER,
+      size: FLOAT,
+      description: TEXT,
       link: {
-        type: Sequelize.STRING,
+        type: STRING,
         primaryKey: true
       },
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
-      photo: Sequelize.STRING,
-      hidden: { type: Sequelize.BOOLEAN, defaultValue: false }
+      createdAt: DATE,
+      updatedAt: DATE,
+      photo: STRING,
+      hidden: { type: BOOLEAN, defaultValue: false }
     });
 
 
@@ -70,18 +75,21 @@ export class Storage {
     }
   }
 
-  async updateOrCreate(result: any) {
-    return this.result.findOrCreate({
-        where: { link: result.link },
-        defaults: result
-      })
+  updateOrCreate(result: any) {
+    return this.result.upsert(result)
   }
 
   cleanup() {
-    this.database.close()
+    return this.database.close()
   }
 
   findUpdatedSince(date: Date) {
-    return this.result.findAll()
+    return this.result.findAll({
+      where: {
+        updatedAt: {
+          [Op.gt]: date
+        }
+      }
+    })
   }
 }

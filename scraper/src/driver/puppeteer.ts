@@ -6,8 +6,10 @@ export default class Puppeteer {
     browser: puppeteer.Browser
 
     public async launch(): Promise<puppeteer.Browser> {
+        console.log('Launch puppeteer with chromium browser')
         return puppeteer.launch({
-          executablePath: '/usr/bin/chromium-browser',
+          executablePath:
+           '/usr/bin/chromium-browser',
           headless: true,
           args: ["--no-sandbox", "--disable-setuid-sandbox",'--disable-dev-shm-usage'],
           ignoreHTTPSErrors: true
