@@ -28,7 +28,7 @@ services:
     environment:
       MONGODB_URI: 'mongo'
       REDIS_URL: 'redis://cache:6379'
-      POSTGRES_URL: 'postgres'
+      POSTGRES_HOST: 'postgres'
     command: 'npm run serve'
 
   runner:
@@ -37,6 +37,7 @@ services:
     environment:
       MONGODB_URI: 'mongo'
       REDIS_URL: 'redis://cache:6379'
+      POSTGRES_HOST: 'postgres'
     depends_on:
       - scraper
 
@@ -49,6 +50,7 @@ services:
       NOTIFY: ${NOTIFY:-0}
       REDIS_URL: 'redis://cache:6379'
       MONGODB_URI: 'mongo'
+      POSTGRES_HOST: 'postgres'
     command: 'npm run checker'
     depends_on:
       - scraper

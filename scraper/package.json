@@ -21,6 +21,7 @@
   "author": "Tamara Robichet",
   "license": "MIT",
   "dependencies": {
+    "@types/sequelize": "^4.27.29",
     "body-parser": "^1.18.3",
     "bull": "^3.4.7",
     "cheerio": "^1.0.0-rc.2",

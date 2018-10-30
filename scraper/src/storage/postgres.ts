@@ -5,7 +5,7 @@ export class Storage {
   public result: any;
 
   constructor() {
-    this.database = new Sequelize('immo-feed', 'postgres', 'postgres', {
+    this.database = new Sequelize('postgres', 'postgres', 'postgres', {
       host: process.env.POSTGRES_HOST,
       dialect: 'postgres',
 
@@ -17,37 +17,45 @@ export class Storage {
       },
     });
 
-    this.result = Sequelize.define('result', {
-      date: Date,
-      name: String,
-      price: { type: Number },
-      size: Number,
-      description: String,
-      link: { type: String, unique: true },
-      photo: String,
-      hidden: { type: Boolean, default: false },
+    this.result = this.database.define('result', {
+      name: Sequelize.STRING,
+      price: Sequelize.INTEGER,
+      size: Sequelize.FLOAT,
+      description: Sequelize.TEXT,
+      link: {
+        type: Sequelize.STRING,
+        primaryKey: true
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
+      photo: Sequelize.STRING,
+      hidden: { type: Sequelize.BOOLEAN, defaultValue: false }
     });
 
-    console.log(this.database)
+
+    this.result.sync()
   }
 
   findById(id: string) {
-
+    return this.result.findById(id)
   }
 
-  findAll(page: string = '1', filter = '', sort = ['date', 'desc']) {
-
+  findAll(page: string = '1', filter = '', sort = ['date', 'DESC']) {
+    return this.result.findAll({ hidden: false })
   }
 
-  updateOrCreate(results: any) {
-
+  async updateOrCreate(result: any) {
+    return this.result.findOrCreate({
+        where: { link: result.link },
+        defaults: result
+      })
   }
 
   cleanup() {
-
+    this.database.close()
   }
 
   findUpdatedSince(date: Date) {
-
+    return this.result.findAll()
   }
 }

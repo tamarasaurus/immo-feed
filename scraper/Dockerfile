@@ -1,12 +1,15 @@
-FROM node:9-slim
+FROM mhart/alpine-node:11
 WORKDIR /usr/src/app
-ENV PATH=node_modules/.bin:$PATH
 
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update && apt-get install -yq --no-install-recommends libgconf-2-4 google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont
+RUN apk update && apk upgrade && \
+    echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
+    echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories && \
+    apk add --no-cache \
+      chromium@edge \
+      nss@edge
 
-COPY scraper/package*.json ./
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+COPY ./scraper .
+
 RUN npm install
-COPY scraper .
-RUN npm run build
