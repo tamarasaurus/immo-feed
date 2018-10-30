@@ -7,9 +7,10 @@ export default class Puppeteer {
 
     public async launch(): Promise<puppeteer.Browser> {
         return puppeteer.launch({
+          executablePath: '/usr/bin/chromium-browser',
           headless: true,
-          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-          pipe: true
+          args: ["--no-sandbox", "--disable-setuid-sandbox",'--disable-dev-shm-usage'],
+          ignoreHTTPSErrors: true
         })
     }
 
