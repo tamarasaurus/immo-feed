@@ -55,7 +55,7 @@ function renderList() {
 }
 
 getResults().then(response => {
-    data.results = response.results.map(result => {
+    data.results = response.map(result => {
         return result
     })
 
