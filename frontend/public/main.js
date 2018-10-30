@@ -55,10 +55,7 @@ function renderList() {
 }
 
 getResults().then(response => {
-    data.results = response.map(result => {
-        return result
-    })
-
+    data.results = response.results
     data.page = response.page
     data.pages = response.pages
 
