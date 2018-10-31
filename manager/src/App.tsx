@@ -10,11 +10,15 @@ class App extends Component {
           <div className="filter">
             <div className="filter-item">
               <span className="filter-name">price</span>
+              <span className="filter-info">minimum: 100</span>
               <input type="range" />
+              <div className="filter-info">maximum: 2000000</div>
             </div>
             <div className="filter-item">
               <span className="filter-name">size</span>
+              <span className="filter-info">minimum: 0</span>
               <input type="range" />
+              <span className="filter-info">maximum: 10000</span>
             </div>
           </div>
 
@@ -28,15 +32,15 @@ class App extends Component {
               <li className="sort-item">by price ^</li>
               <li className="sort-item">by size ^</li>
             </ul>
-            <div className="pagination">
-              <span>Prev</span>
-              <span>1 / 10</span>
-              <span>Next</span>
-            </div>
             <div className="export">
               <div className="export-option">Export current filters</div>
               <div className="export-option">Export JSON</div>
               <div className="export-option">Export CSV</div>
+            </div>
+            <div className="pagination">
+              <span>Prev</span>
+              <span>1 / 10</span>
+              <span>Next</span>
             </div>
           </nav>
         </section>
