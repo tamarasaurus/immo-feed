@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  scraper:
+  api:
     ports:
       - 3000:3000
     volumes:
@@ -21,8 +21,8 @@ services:
   test:
     image: scraper
     depends_on:
-      - runner
       - scraper
+      - api
     volumes:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules

@@ -15,12 +15,6 @@ const arena = Arena({
         "hostId": "store_results",
         "host": "cache",
         "port": 6379
-    },
-    {
-        "name": "scrape_detailed_attributes",
-        "hostId": "scrape_detailed_attributes",
-        "host": "cache",
-        "port": 6379
     }
   ]
 });

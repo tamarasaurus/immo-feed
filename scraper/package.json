@@ -14,7 +14,6 @@
     "build": "tsc",
     "start": "tsc && node ./build/index.js",
     "monitor": "node monitor.js",
-    "checker": "tsc && node ./build/check.js",
     "serve": "tsc && node ./build/api/server.js",
     "migrate": "./node_modules/.bin/migrate-mongo"
   },

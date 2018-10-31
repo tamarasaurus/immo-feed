@@ -1,14 +1,13 @@
 import * as Queue from 'bull'
 import * as glob from 'glob'
 import { resolve } from 'path'
-import { Result } from './sources/result'
 
 const scrapeAttributes = new Queue('scrape_attributes', process.env.REDIS_URL)
 const store = new Queue('store_results', process.env.REDIS_URL)
 const sources = glob.sync(resolve(__dirname, './sources/sites/**/*.js'))
 let sourceList: any = {}
 
-sources.forEach(source => {
+sources.forEach((source: string) => {
     const sourceModule = new (require(source).default)()
     sourceList[sourceModule.sourceName] = sourceModule
 })
