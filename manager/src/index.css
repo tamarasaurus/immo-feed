@@ -12,10 +12,205 @@ header {
   width: 100%;
   height: 60px;
   padding: 10px;
-  border-bottom: 1px black solid;
+  border-bottom: 1px #ddd solid;
   color: black;
   margin: 0;
   display: flex;
   align-items: center;
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  box-shadow: 0px 0px 15px #ddd;
+}
+
+section, nav, main {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+nav {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  flex-direction: row;
+}
+
+input:focus {
+  border-radius: 10px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-full {
+  flex: 1;
+}
+
+.column-middle {
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.search {
+  width: 100%;
+  height: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px #ddd solid;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 18px;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+.result {
+  display: flex;
+  min-height: 80px;
+  align-content: center;
+  flex-direction: column;
+  padding-bottom: 10px;
+  border: 1px #ddd solid;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.result-info {
+  margin-left: 10px;
+  margin-right: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.result:hover {
+  box-shadow: 0px 0px 15px #ddd;
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: transform 50ms
+}
+
+.result img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.result input {
+  padding: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.result-actions {
+  text-transform: uppercase;
+  font-size: 11px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+  align-self: flex-end;
+}
+
+.result-action {
+  flex: 50% 1;
+  display: flex;
+  width: 100%;
+  text-align: center;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px #eee solid;
+  font-size: 18px;
+}
+
+.result-action.bad:hover {
+  background: red;
+}
+
+.result-action.good:hover {
+  background: green;
+  font-weight: bold;
+}
+
+.result-action:hover {
+  color: white;
+}
+
+.result-action:first-child {
+  margin-right: 20px;
+}
+
+.result-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.result-description {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.result-date {
+  font-size: 14px;
+  color: #999;
+}
+
+.result-details {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  text-align: right;
+  align-self: center;
+  flex: 1;
+}
+
+.pagination-button {
+  border-radius: 10px;
+  padding: 10px;
+  text-transform: uppercase;
+  font-size: 14px;
+  text-align: center;
+  height: 40px;
+  border: 1px #ddd solid;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.pagination-button:hover {
+  background: #ddd;
+}
+
+.pagination-button:active,
+.pagination-button:focus {
+  background: black;
+  color: white;
+}
+
+.pagination-number {
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
 }

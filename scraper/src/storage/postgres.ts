@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+  const Sequelize = require('sequelize');
 const { Op, TEXT, INTEGER, FLOAT, STRING, DATE, BOOLEAN } = Sequelize
 
 export class Storage {
@@ -49,6 +49,7 @@ export class Storage {
     return this.result.findOne({ where: { id }})
   }
 
+  // @TODO - Always returned pinned ones first
   async findAll(page: string = '1', filter = '', sort = ['createdAt', 'DESC']) {
     const perPage = 18
     const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
@@ -67,7 +68,7 @@ export class Storage {
     const result = await this.result.findAndCountAll({
       offset: (perPage * parseInt(page)) - perPage,
       limit: perPage,
-      order: [sort],
+      order: [sort, ['pinned', 'DESC']],
       where,
     })
 
