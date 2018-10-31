@@ -78,4 +78,4 @@ app.get('/export/json', cors(), async (req: any, res: any) => {
     res.json(records)
 })
 
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || 8000)
