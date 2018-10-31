@@ -18,6 +18,10 @@ services:
       - postgres
       - redis
 
+  redis:
+    ports:
+      - 6379:6379
+
   test:
     image: scraper
     depends_on:
