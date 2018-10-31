@@ -1,12 +1,68 @@
 import React, { Component } from 'react';
+import SearchBox from './components/SearchBox';
+import Results from './services/Results'
 
-class App extends Component {
+
+interface  Result {
+  name: string
+  price: number
+  size: number
+  description: string
+  link: string
+  photo: string
+  createdAt: Date
+  updatedAt: Date
+  hidden: boolean
+  seen: boolean
+  pinned: boolean
+}
+
+interface AppState {
+  filterValue: string
+  results: Result[]
+  page: number
+  pages: number
+}
+
+class App extends Component<{}, AppState> {
+  constructor(props: {}) {
+    super(props)
+
+    this.state = {
+      filterValue: '',
+      results: [],
+      page: 1,
+      pages: 1
+    }
+  }
+
+  searchChanged() {
+    console.log('search changed', this.state.filterValue)
+    this.fetchResults(1)
+  }
+
+  async fetchResults(page?: number) {
+    console.log(this.state)
+    const results = await Results.fetchPaginated({ filter: this.state.filterValue, page: page || 1})
+    this.setState({
+      results: results.results,
+      page: results.page,
+      pages: results.pages
+    })
+
+    return results;
+  }
+
+  componentDidMount() {
+    this.fetchResults()
+  }
+
   render() {
     return (
       <div>
         <header>immo-feed</header>
         <section>
-          <input type="search" placeholder="Search by text" />
+          <SearchBox onChange={this.searchChanged.bind(this)} value={this.state.filterValue}></SearchBox>
           <div className="filter">
             <div className="filter-item">
               <span className="filter-name">price</span>
@@ -39,7 +95,7 @@ class App extends Component {
             </div>
             <div className="pagination">
               <span>Prev</span>
-              <span>1 / 10</span>
+              <span>{this.state.page} / {this.state.pages}</span>
               <span>Next</span>
             </div>
           </nav>
@@ -47,37 +103,25 @@ class App extends Component {
 
         <main>
           <h2>Pinned</h2>
-          <ul className="results">
-            <li className="result">
-              <input type="checkbox"/>
-              <div className="result-title">Name</div>
-              <div className="result-description">Description</div>
-              <div className="result-details">
-                <div className="result-detail">price</div>
-                <div className="result-detail">size</div>
-              </div>
-              <div className="result-actions">
-                <div className="result-action">unpin</div>
-                <div className="result-action">hide</div>
-              </div>
-            </li>
-          </ul>
-          <h2>All results</h2>
-          <ul className="results">
-            <li className="result">
-              <input type="checkbox"/>
-              <div className="result-title">Name</div>
-              <div className="result-description">Description</div>
-              <div className="result-details">
-                <div className="result-detail">price</div>
-                <div className="result-detail">size</div>
-              </div>
-              <div className="result-actions">
-                <div className="result-action">pin</div>
-                <div className="result-action">hide</div>
-              </div>
-            </li>
-          </ul>
+          <div className="results">
+          {this.state.results.map(result => {
+            return <a href={result.link} className="result">
+                <input type="checkbox"/>
+                <img src={result.photo} />
+                <div className="result-title">{result.name}</div>
+                <div className="result-description">{result.description}</div>
+                <div className="result-date">{result.createdAt}</div>
+                <div className="result-details">
+                  <div className="result-detail">{result.price}</div>
+                  <div className="result-detail">{result.size}</div>
+                </div>
+                <div className="result-actions">
+                  <div className="result-action">{ result.pinned ? 'unpin': 'pin'}</div>
+                  <div className="result-action">hide</div>
+                </div>
+              </a>
+             })}
+          </div>
         </main>
       </div>
     );
