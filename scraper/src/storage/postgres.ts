@@ -36,7 +36,9 @@ export class Storage {
       createdAt: DATE,
       updatedAt: DATE,
       photo: STRING,
-      hidden: { type: BOOLEAN, defaultValue: false }
+      hidden: { type: BOOLEAN, defaultValue: false },
+      pinned: { type: BOOLEAN, defaultValue: false },
+      seen: { type: BOOLEAN, defaultValue: false }
     });
 
 
@@ -44,7 +46,7 @@ export class Storage {
   }
 
   findById(id: string) {
-    return this.result.findById(id)
+    return this.result.findOne({ where: { id }})
   }
 
   async findAll(page: string = '1', filter = '', sort = ['createdAt', 'DESC']) {
