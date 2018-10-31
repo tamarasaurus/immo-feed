@@ -24,11 +24,12 @@ app.get('/results/:id', cors(), async (req: any, res: any) => {
     res.json(record)
 })
 
-app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
+app.post('/results/:id', cors(), async (req: any, res: any) => {
     const { id } = req.params
+    const { hidden, pinned, seen } = req.body;
 
     try {
-        await storage.update({ hidden: true }, id)
+        await storage.update({ hidden, pinned, seen }, id)
         res.sendStatus(200)
     } catch (e) {
         console.log('Error hiding result', e)

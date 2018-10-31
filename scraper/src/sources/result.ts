@@ -31,5 +31,4 @@ export class Result {
     link: string
     photo: string
     date: number
-    details: ResultDetails
 }
