@@ -63,7 +63,10 @@ app.get('/export/csv', cors(), async (req: any, res: any) => {
 })
 
 app.get('/export/json', cors(), async (req: any, res: any) => {
-    const { since, download } = req.query
+    let { since, download } = req.query
+
+    if (!since) since = new Date('1/1/1970')
+
     let records = await storage.findUpdatedSince(since)
 
     if (!!download) {

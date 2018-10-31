@@ -88,12 +88,6 @@ export class Storage {
   }
 
   findUpdatedSince(date: Date) {
-    return this.result.findAll({
-      where: {
-        updatedAt: {
-          [Op.gt]: date
-        }
-      }
-    })
+    return this.result.findAll({ where: { updatedAt: { [Op.gt]: date } } })
   }
 }
