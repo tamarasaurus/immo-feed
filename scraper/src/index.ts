@@ -12,7 +12,7 @@ sources.forEach((source: string) => {
     sourceList[sourceModule.sourceName] = sourceModule
 })
 
-scrapeAttributes.process(1, require('./processors/scrape-attributes').bind({ sourceList }))
+scrapeAttributes.process('scrape', 1, require('./processors/scrape-attributes').bind({ sourceList }))
 scrapeAttributes
     .on('error', error => console.error('Error scraping', error))
     .on('active', job => console.log('scrape', job.data.source))
@@ -20,18 +20,18 @@ scrapeAttributes
         const { source } = job.data
         const results = data.results
         console.log('finished', source, 'with', results.length, 'results')
-        store.add(results)
+        store.add('store', results)
     })
 
 store.on('active', (job: Queue.Job) => console.log('stored', job.data.length))
-store.process(500, require('./processors/store'))
+store.process('store', 500, require('./processors/store'))
 
 function scrape() {
     console.log('--> start scraping')
 
     for (let sourceName in sourceList) {
         const sourceModule = sourceList[sourceName]
-        scrapeAttributes.add({ source: sourceModule.sourceName })
+        scrapeAttributes.add('scrape', { source: sourceModule.sourceName })
         console.log('--> scrape', sourceName)
     }
 }
