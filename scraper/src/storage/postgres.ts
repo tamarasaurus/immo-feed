@@ -9,6 +9,7 @@ export class Storage {
     this.database = new Sequelize('postgres', 'postgres', 'postgres', {
       host: process.env.POSTGRES_HOST,
       dialect: 'postgres',
+      logging: false,
 
       pool: {
         max: 5,

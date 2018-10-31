@@ -13,35 +13,22 @@ services:
     build:
       context: .
       dockerfile: scraper/Dockerfile
-    depends_on:
-      - postgres
-      - redis
-    environment:
-      REDIS_URL: 'redis://cache:6379'
-      POSTGRES_HOST: 'postgres'
-    command: 'npm run serve'
-
-  runner:
-    image: scraper
     command: 'npm run start'
     environment:
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'
     depends_on:
-      - scraper
+      - postgres
+      - redis
 
-  checker:
+  api:
+    restart: always
     image: scraper
+    command: 'npm run serve'
     environment:
-      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
-      MAILGUN_API_BASE_URL: ${MAILGUN_API_BASE_URL}
-      MAILGUN_NOTIFY_EMAIL: ${MAILGUN_NOTIFY_EMAIL}
-      NOTIFY: ${NOTIFY:-0}
-      REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'
-    command: 'npm run checker'
     depends_on:
-      - scraper
+      - postgres
 
   frontend:
     restart: always
