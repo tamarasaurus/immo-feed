@@ -15,16 +15,14 @@ Check it out here - [CHANGELOG.md](https://github.com/tamarasaurus/immo-feed/blo
 immo-feed is made of:
 
 - a list of customisable sources (websites or json) to scrape for results
-- a `runner` that starts the scraper and runs every x minutes
-- a mongo database to store the results
+- a `scraper` that starts the scraper and runs every x minutes
+- a postgres database to store the results
 - a tiny api to access the results
 - a frontend app to view the results
-- a way to send notifications for new results (only email is available for now)
 
 ## Requirements
 
 - node.js (>= v8.1.0)
-- mongodb (>= v3.4)
 - docker (~v18.03), docker-compose (~v1.19.0) (optional)
 
 # Setup
@@ -44,13 +42,7 @@ SCRAPER_FREQUENCY_MINUTES=15 docker-compose run --rm runner
 The `SCRAPER_FREQUENCY_MINUTES` environment variable is passed to the runner script, which executes the scrapers every x minutes.
 
 ## Environment variables
-- `NOTIFY` - Turn notifications on
-- `SLACK_WEBHOOK_URL` - Your webhook url for Slack notifications
 - `SCRAPER_FREQUENCY_MINUTES` - How often the scrapers should be run
-- `MAILGUN_API_KEY` - Mailgun API key
-- `MAILGUN_API_BASE_URL` - Mailgun domain base url
-- `MAILGUN_NOTIFY_EMAIL` - The email address that will receive notifications
-- `NOTIFY` - Turn on email notifications (false by default)
 
 ## To start with docker
 
@@ -70,19 +62,19 @@ docker-compose logs -f --tail=10
 
 ```bash
 cd scraper && npm install
-cd frontend && npm install
+cd manager && npm install
 
 # in three separate processes for each command:
 cd scraper && npm start # starts the scraper
 cd scraper && npm run serve # starts the api
-cd frontend && npm start # serves the frontend
+cd manager && npm start # serves the manager
 ```
 
 ## Accessing the results
 
-### Frontend
+### Manager
 
-Visit `http://localhost:8080` to see and manage the results (sort, hide).
+Visit `http://localhost:3000` to see and manage the results
 
 ### API
 
@@ -92,18 +84,6 @@ Visit `http://localhost:8000` with these endpoints to acess the API:
 - `GET /results/:id` - get a single result
 - `POST /results/:id/hide` - hide a result
 - `GET /export?type=csv&download=true|false` - export all results (type is json by default)
-
-## Setting up notifications
-
-immo-feed supports email notifications for newly scraped results. Emails will be sent after each run of the scraper (defined by `SCRAPER_FREQUENCY_MINUTES`). To enable email notifications:
-
-1. Set the `NOTIFY` environment variable to true
-2. Sign up for a [Mailgun](https://www.mailgun.com/) account
-3. Set the following environment variables for immo-feed defined in your Mailgun domain page:
-    - `MAILGUN_API_KEY` - API key
-    - `MAILGUN_API_BASE_URL` - API Base URL
-    - `MAILGUN_NOTIFY_EMAIL` - Your email address
-4. Build and restart the runner
 
 ## Customising scraper sources
 
@@ -130,7 +110,7 @@ cd scraper && npm start
 
 ```
 
-If you visit `http://localhost:8080` you can view the results as they are scraped and stored.
+If you visit `http://localhost:3000` you can view the results as they are scraped and stored.
 
 ### The long explanation
 
