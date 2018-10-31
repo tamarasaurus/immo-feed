@@ -18,10 +18,103 @@ header {
   display: flex;
   align-items: center;
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+section, nav, main {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+nav {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-full {
+  flex: 1;
+}
+
+.column-middle {
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
 }
 
 .search {
   width: 100%;
   height: 60px;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px black solid;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 18px;
+}
+
+.result {
+  display: flex;
+  min-height: 80px;
+  align-content: center;
+  margin-bottom: 10px;
+}
+
+.result:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+.result a {
+  height: 80px;
+}
+
+.result img {
+  height: 80px;
+  width: auto;
+  display: block;
+  margin-right: 10px;
+}
+
+.result input {
+  padding: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.result-actions {
+  margin-left: 10px;
+  border-left: 1px black solid;
+  text-transform: uppercase;
+  font-size: 11px;
+  display: flex;
+  flex-direction: row;
+  width: 60px;
+  text-align: center;
+  padding-left: 10px;
+}
+
+.result-action {
+  flex: 50%;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.result-date {
+  font-size: 14px;
+}
+
+.result-detail {
+  font-size: 14px;
 }

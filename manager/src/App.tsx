@@ -82,23 +82,22 @@ class App extends Component<{}, AppState> {
       <div>
         <header>immo-feed</header>
         <section>
-          <input className="search" type="text" onChange={this.searchChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
-          <div className="filter">
-            <div className="filter-item">
-              <span className="filter-name">price</span>
-              <span className="filter-info">minimum: 100</span>
-              <input type="range" />
-              <div className="filter-info">maximum: 2000000</div>
-            </div>
-            <div className="filter-item">
-              <span className="filter-name">size</span>
-              <span className="filter-info">minimum: 0</span>
-              <input type="range" />
-              <span className="filter-info">maximum: 10000</span>
-            </div>
-          </div>
-
+          <input className="search" placeholder="Search results" type="text" onChange={this.searchChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
           <nav>
+            <div className="filter">
+              <div className="filter-item">
+                <span className="filter-name">price</span>
+                <span className="filter-info">minimum: 100</span>
+                <input type="range" />
+                <div className="filter-info">maximum: 2000000</div>
+              </div>
+              <div className="filter-item">
+                <span className="filter-name">size</span>
+                <span className="filter-info">minimum: 0</span>
+                <input type="range" />
+                <span className="filter-info">maximum: 10000</span>
+              </div>
+            </div>
             <ul className="actions">
               <li className="action-item">hide</li>
               <li className="action-item">pin</li>
@@ -122,24 +121,29 @@ class App extends Component<{}, AppState> {
         </section>
 
         <main>
-          <h2>Pinned</h2>
+          <h3>Results</h3>
           <div className="results">
           {this.state.results.map(result => {
-            return <a href={result.link} className="result">
-                <input type="checkbox"/>
-                <img src={result.photo} />
-                <div className="result-title">{result.name}</div>
-                <div className="result-description">{result.description}</div>
-                <div className="result-date">{result.createdAt}</div>
-                <div className="result-details">
-                  <div className="result-detail">{result.price}</div>
-                  <div className="result-detail">{result.size}</div>
-                </div>
+            return <div key={result.link} className="result">
+                <a href={result.link}>
+                  <img src={result.photo} />
+                </a>
+                <span className="column column-full column-middle">
+                  <div className="result-title">{result.name}</div>
+                  <div className="result-description">{result.description}</div>
+                </span>
+                <span className="column column-middle">
+                  <div className="result-date">{new Date(`${result.createdAt}`).toLocaleString()}</div>
+                  <div className="result-details">
+                    <div className="result-detail">{result.price}</div>
+                    <div className="result-detail">{result.size}</div>
+                  </div>
+                </span>
                 <div className="result-actions">
                   <div className="result-action">{ result.pinned ? 'unpin': 'pin'}</div>
                   <div className="result-action">hide</div>
                 </div>
-              </a>
+              </div>
              })}
           </div>
         </main>
