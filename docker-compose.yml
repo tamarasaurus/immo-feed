@@ -30,14 +30,14 @@ services:
     depends_on:
       - postgres
 
-  frontend:
+  manager:
     restart: always
     build:
       context: .
-      dockerfile: frontend/Dockerfile
-    command: 'npm run start'
+      dockerfile: manager/Dockerfile
+    command: 'npm start'
     depends_on:
-      - scraper
+      - api
 
   redis:
     image: redis

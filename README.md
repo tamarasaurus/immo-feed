@@ -86,7 +86,7 @@ Visit `http://localhost:8080` to see and manage the results (sort, hide).
 
 ### API
 
-Visit `http://localhost:3000` with these endpoints to acess the API:
+Visit `http://localhost:8000` with these endpoints to acess the API:
 
 - `GET /results` - list all the results (not yet paginated)
 - `GET /results/:id` - get a single result
