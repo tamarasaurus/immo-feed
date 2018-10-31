@@ -28,8 +28,7 @@ app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
     const { id } = req.params
 
     try {
-        // Todo change to fetch the object in the db driver
-        await storage.updateOrCreate({id,  hidden: true })
+        await storage.update({ hidden: true }, id)
         res.sendStatus(200)
     } catch (e) {
         console.log('Error hiding result', e)
