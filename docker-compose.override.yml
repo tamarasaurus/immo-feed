@@ -1,15 +1,9 @@
 version: '3.4'
 
 services:
-  mongo:
-    ports:
-      - 27017:27017
-
   scraper:
     ports:
       - 3000:3000
-    environment:
-      MONGODB_URI: 'mongo'
     volumes:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules
@@ -21,7 +15,7 @@ services:
     command: 'npm run monitor'
     depends_on:
       - scraper
-      - mongo
+      - postgres
       - redis
 
   test:

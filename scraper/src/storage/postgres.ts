@@ -79,17 +79,15 @@ export class Storage {
     return this.result.upsert(result)
   }
 
+  update(data: any, id: string) {
+    return this.result.update(data, { where: { id }})
+  }
+
   cleanup() {
     return this.database.close()
   }
 
   findUpdatedSince(date: Date) {
-    return this.result.findAll({
-      where: {
-        updatedAt: {
-          [Op.gt]: date
-        }
-      }
-    })
+    return this.result.findAll({ where: { updatedAt: { [Op.gt]: date } } })
   }
 }

@@ -1,14 +1,6 @@
 version: '3.4'
 
 services:
-  mongo:
-    restart: always
-    image: mongo
-    volumes:
-      - mongo:/data/db
-    ports:
-      - 27017:27017
-
   postgres:
     image: postgres
     restart: always
@@ -22,11 +14,9 @@ services:
       context: .
       dockerfile: scraper/Dockerfile
     depends_on:
-      - mongo
-      - redis
       - postgres
+      - redis
     environment:
-      MONGODB_URI: 'mongo'
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'
     command: 'npm run serve'
@@ -35,7 +25,6 @@ services:
     image: scraper
     command: 'npm run start'
     environment:
-      MONGODB_URI: 'mongo'
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'
     depends_on:
@@ -49,7 +38,6 @@ services:
       MAILGUN_NOTIFY_EMAIL: ${MAILGUN_NOTIFY_EMAIL}
       NOTIFY: ${NOTIFY:-0}
       REDIS_URL: 'redis://cache:6379'
-      MONGODB_URI: 'mongo'
       POSTGRES_HOST: 'postgres'
     command: 'npm run checker'
     depends_on:
@@ -62,7 +50,7 @@ services:
       dockerfile: frontend/Dockerfile
     command: 'npm run start'
     depends_on:
-      - mongo
+      - scraper
 
   redis:
       image: redis
@@ -71,4 +59,4 @@ services:
         - 6379:6379
 
 volumes:
-  mongo: ~
+  postgres: ~

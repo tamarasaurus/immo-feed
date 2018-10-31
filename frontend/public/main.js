@@ -21,7 +21,7 @@ function hideResult() {
         method: 'post'
     })
     .then(() => {
-        const matchingResult = data.results.filter(result => result._id === id)[0]
+        const matchingResult = data.results.filter(result => result.id == id)[0]
         matchingResult.hidden = true
         this.parentNode.parentNode.removeChild(this.parentNode)
     })
