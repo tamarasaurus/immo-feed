@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import SearchBox from './components/SearchBox';
+import React, { Component, ChangeEvent } from 'react';
 import Results from './services/Results'
 
 
@@ -36,25 +35,46 @@ class App extends Component<{}, AppState> {
     }
   }
 
-  searchChanged() {
-    console.log('search changed', this.state.filterValue)
+  searchChanged(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({ filterValue: event.target.value })
     this.fetchResults(1)
   }
 
-  async fetchResults(page?: number) {
-    console.log(this.state)
-    const results = await Results.fetchPaginated({ filter: this.state.filterValue, page: page || 1})
+  searchCleared(event: KeyboardEvent) {
+    if (event.keyCode === 8) {
+      this.setState({ filterValue: ''})
+    }
+  }
+
+  async fetchResults(page: number) {
+    const params = { filter: this.state.filterValue, page }
+    const response = await Results.fetchPaginated(params)
+
     this.setState({
-      results: results.results,
-      page: results.page,
-      pages: results.pages
+      results: response.results,
+      page: response.page,
+      pages: response.pages
     })
 
-    return results;
+    return response;
+  }
+
+  pageIncreased() {
+    const pages = this.state.pages
+
+    if (this.state.page < pages) {
+      this.fetchResults(Math.min(pages, this.state.page + 1))
+    }
+  }
+
+  pageDecreased() {
+    if (this.state.page > 1) {
+      this.fetchResults(Math.max(1, this.state.page - 1))
+    }
   }
 
   componentDidMount() {
-    this.fetchResults()
+    this.fetchResults(1)
   }
 
   render() {
@@ -62,7 +82,7 @@ class App extends Component<{}, AppState> {
       <div>
         <header>immo-feed</header>
         <section>
-          <SearchBox onChange={this.searchChanged.bind(this)} value={this.state.filterValue}></SearchBox>
+          <input className="search" type="text" onChange={this.searchChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
           <div className="filter">
             <div className="filter-item">
               <span className="filter-name">price</span>
@@ -94,9 +114,9 @@ class App extends Component<{}, AppState> {
               <div className="export-option">Export CSV</div>
             </div>
             <div className="pagination">
-              <span>Prev</span>
+              <span onClick={this.pageDecreased.bind(this)}>Prev</span>
               <span>{this.state.page} / {this.state.pages}</span>
-              <span>Next</span>
+              <span onClick={this.pageIncreased.bind(this)}>Next</span>
             </div>
           </nav>
         </section>
