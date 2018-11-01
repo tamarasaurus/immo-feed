@@ -87,35 +87,35 @@ class App extends Component<{}, AppState> {
             <div className="filter">
               <div className="filter-item">
                 <span className="filter-name">price</span>
-                <span className="filter-info">minimum: 100</span>
-                <input type="range" />
-                <div className="filter-info">maximum: 2000000</div>
+                <span className="filter-info">0</span>
+                <input min="0" max="3000000" type="range" />
+                <div className="filter-info">3000000</div>
               </div>
               <div className="filter-item">
                 <span className="filter-name">size</span>
-                <span className="filter-info">minimum: 0</span>
+                <span className="filter-info">0</span>
                 <input type="range" />
-                <span className="filter-info">maximum: 10000</span>
+                <span className="filter-info">10000</span>
               </div>
             </div>
-            <ul className="actions">
-              <li className="action-item">hide</li>
-              <li className="action-item">pin</li>
-            </ul>
-            <ul className="sort">
-              <li className="sort-item">by date ^</li>
-              <li className="sort-item">by price ^</li>
-              <li className="sort-item">by size ^</li>
-            </ul>
-            <div className="export">
-              <div className="export-option">Export current filters</div>
-              <div className="export-option">Export JSON</div>
-              <div className="export-option">Export CSV</div>
-            </div>
+            <select className="actions">
+              <option className="action-item">hide</option>
+              <option className="action-item">pin</option>
+            </select>
+            <select className="sort">
+              <option className="sort-item">by date ^</option>
+              <option className="sort-item">by price ^</option>
+              <option className="sort-item">by size ^</option>
+            </select>
+            <select className="export">
+              <option className="export-option">Export current filters</option>
+              <option className="export-option">Export JSON</option>
+              <option className="export-option">Export CSV</option>
+            </select>
             <div className="pagination">
-              <span onClick={this.pageDecreased.bind(this)}>Prev</span>
-              <span>{this.state.page} / {this.state.pages}</span>
-              <span onClick={this.pageIncreased.bind(this)}>Next</span>
+              <span className="pagination-button" onClick={this.pageDecreased.bind(this)}>Prev</span>
+              <span className="pagination-number">{this.state.page} / {this.state.pages}</span>
+              <span className="pagination-button" onClick={this.pageIncreased.bind(this)}>Next</span>
             </div>
           </nav>
         </section>
@@ -129,16 +129,11 @@ class App extends Component<{}, AppState> {
                   <img src={result.photo} />
                 </a>
                 <div className="result-info">
-                  <span className="column column-full column-middle">
+                  <span className="column column-full">
                     <div className="result-title">{result.name}</div>
-                    <div className="result-description">{result.description}</div>
-                  </span>
-                  <span className="column column-middle">
                     <div className="result-date">{new Date(`${result.createdAt}`).toLocaleString()}</div>
-                    <div className="result-details">
-                      <div className="result-detail">{result.price}</div>
-                      <div className="result-detail">{result.size}</div>
-                    </div>
+                    <div className="result-details">€{result.price.toLocaleString()} | {result.size}m²</div>
+                    <div className="result-description">{result.description}</div>
                   </span>
                   <span className="result-actions">
                     <div className="result-action good">⚪</div>

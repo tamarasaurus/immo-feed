@@ -32,6 +32,9 @@ section, nav, main {
 
 nav {
   display: flex;
+  padding: 0;
+  margin: 0;
+  flex-direction: row;
 }
 
 input:focus {
@@ -79,7 +82,6 @@ input:focus {
   display: flex;
   min-height: 80px;
   align-content: center;
-  margin-bottom: 40px;
   flex-direction: column;
   padding-bottom: 10px;
   border: 1px #ddd solid;
@@ -90,6 +92,9 @@ input:focus {
 .result-info {
   margin-left: 10px;
   margin-right: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .result:hover {
@@ -103,7 +108,7 @@ input:focus {
   width: 100%;
   height: auto;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .result input {
@@ -120,6 +125,7 @@ input:focus {
   width: 100%;
   text-align: center;
   margin-top: 40px;
+  align-self: flex-end;
 }
 
 .result-action {
@@ -152,14 +158,6 @@ input:focus {
   margin-right: 20px;
 }
 
-.result-date {
-  font-size: 14px;
-}
-
-.result-detail {
-  font-size: 14px;
-}
-
 .result-title {
   font-weight: bold;
   font-size: 14px;
@@ -169,4 +167,50 @@ input:focus {
 .result-description {
   font-size: 14px;
   line-height: 22px;
+}
+
+.result-date {
+  font-size: 14px;
+  color: #999;
+}
+
+.result-details {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  text-align: right;
+  align-self: center;
+  flex: 1;
+}
+
+.pagination-button {
+  border-radius: 10px;
+  padding: 10px;
+  text-transform: uppercase;
+  font-size: 14px;
+  text-align: center;
+  height: 40px;
+  border: 1px #ddd solid;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.pagination-button:hover {
+  background: #ddd;
+}
+
+.pagination-button:active,
+.pagination-button:focus {
+  background: black;
+  color: white;
+}
+
+.pagination-number {
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
