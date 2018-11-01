@@ -80,7 +80,7 @@ class App extends Component<{}, AppState> {
   render() {
     return (
       <div>
-        <header>immo-feed</header>
+        <header>🏠 immo-feed</header>
         <section>
           <input className="search" placeholder="Search results" type="text" onChange={this.searchChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
           <nav>
