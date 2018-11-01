@@ -1,30 +1,49 @@
 const url = 'http://localhost:8000/results'
 
+interface FilterParams {
+  filter?: string
+  page?: number
+  minPrice?: string
+  maxPrice?: string
+  minSize?: string
+  maxSize?: string
+}
+
 export default {
-    fetchPaginated({ filter = '', page = 1}) {
-        return fetch(new Request(`${url}?page=${page}&filter=${filter}`), {
-            mode: 'cors',
-            method: 'get'
-        }).then(response => response.json())
-    },
+  fetchPaginated(params: FilterParams) {
+    const urlParams = new URLSearchParams()
+    Object.entries(params).forEach(param => urlParams.append(...param))
+    const queryParams = urlParams.toString()
 
-    fetchOne(id: string) {
+    return fetch(new Request(`${url}?${queryParams}`), {
+      mode: 'cors',
+      method: 'get'
+    }).then(response => response.json())
+  },
 
-    },
+  fetchOne(id: string) {
 
-    updateOne(id: string) {
+  },
 
-    },
+  updateOne(id: string) {
 
-    hide(id: string) {
+  },
 
-    },
+  hide(id: string) {
 
-    see(id: string) {
+  },
 
-    },
+  see(id: string) {
 
-    pin(id: string) {
+  },
 
-    }
+  pin(id: string) {
+    return fetch(`${url}/${id}/pin`,
+      { method: 'POST', mode: 'no-cors', }).then(response => response.text())
+  },
+
+  unpin(id: string) {
+    return fetch(`${url}/${id}/unpin`,
+      { method: 'POST', mode: 'no-cors', }).then(response => response.text())
+  }
 }

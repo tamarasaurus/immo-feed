@@ -1,5 +1,17 @@
-  const Sequelize = require('sequelize');
+import { isEmpty, get } from 'lodash'
+import * as Sequelize from 'sequelize'
 const { Op, TEXT, INTEGER, FLOAT, STRING, DATE, BOOLEAN } = Sequelize
+
+
+interface Filters {
+  filter: string
+  page: string
+  minPrice: string
+  maxPrice: string
+  minSize: string
+  maxSize: string
+  sort: string
+}
 
 export class Storage {
   public database: any;
@@ -49,15 +61,27 @@ export class Storage {
     return this.result.findOne({ where: { id }})
   }
 
-  // @TODO - Always returned pinned ones first
-  async findAll(page: string = '1', filter = '', sort = ['createdAt', 'DESC']) {
+  async findAll(filters: Filters) {
     const perPage = 48
-    const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+    const filter = get(filters, 'filter')
+    const page = get(filters, 'page', '1')
+    const sort = get(filters, 'sort', ['createdAt', 'DESC'])
+    const minSize = get(filters, 'minSize', 0)
+    const maxSize = get(filters, 'maxSize', 99999999999)
+    const minPrice = get(filters, 'minPrice', 0)
+    const maxPrice = get(filters, 'maxPrice', 99999999999)
+
     const where: any = {
       hidden: false,
+      size: { [Op.gte]: minSize, [Op.lte]: maxSize },
+      price: { [Op.gte]: minPrice, [Op.lte]: maxPrice }
     }
 
-    if (filter.trim().length > 0) {
+    if (filter !== undefined && !isEmpty(filter)) {
+      const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+
+      filterWords.push(`%${filter}%`)
+
       where[Op.or] = [
         { description: { [Op.iLike]: { [Op.any]: filterWords } } },
         { name: { [Op.iLike]: { [Op.any]: filterWords } } },
@@ -84,6 +108,7 @@ export class Storage {
   }
 
   update(data: any, id: string) {
+    console.log('update with', data)
     return this.result.update(data, { where: { id }})
   }
 

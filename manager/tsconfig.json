@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
+    "lib": ["es2017", "dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,6 +16,6 @@
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src", "../scraper/src/sources/result.ts", "../result.ts", "../types.ts", "../global.d.ts", "../common/global.d.ts", "../common/types.d.ts", "../common/Result.ts", "../common/result.ts"
   ]
 }
