@@ -77,6 +77,11 @@ class App extends Component<{}, AppState> {
     this.fetchResults(1)
   }
 
+  // @TODO - If set as pinned, also set seen, same with hidden
+  // @TODO - Be able to view hidden results
+  // @TODO - Improve search
+  // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
+
   render() {
     return (
       <div>
