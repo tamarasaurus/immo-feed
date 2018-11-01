@@ -51,7 +51,7 @@ export class Storage {
 
   // @TODO - Always returned pinned ones first
   async findAll(page: string = '1', filter = '', sort = ['createdAt', 'DESC']) {
-    const perPage = 18
+    const perPage = 48
     const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
     const where: any = {
       hidden: false,
