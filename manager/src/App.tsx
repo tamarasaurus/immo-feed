@@ -128,20 +128,22 @@ class App extends Component<{}, AppState> {
                 <a href={result.link}>
                   <img src={result.photo} />
                 </a>
-                <span className="column column-full column-middle">
-                  <div className="result-title">{result.name}</div>
-                  <div className="result-description">{result.description}</div>
-                </span>
-                <span className="column column-middle">
-                  <div className="result-date">{new Date(`${result.createdAt}`).toLocaleString()}</div>
-                  <div className="result-details">
-                    <div className="result-detail">{result.price}</div>
-                    <div className="result-detail">{result.size}</div>
-                  </div>
-                </span>
-                <div className="result-actions">
-                  <div className="result-action">{ result.pinned ? 'unpin': 'pin'}</div>
-                  <div className="result-action">hide</div>
+                <div className="result-info">
+                  <span className="column column-full column-middle">
+                    <div className="result-title">{result.name}</div>
+                    <div className="result-description">{result.description}</div>
+                  </span>
+                  <span className="column column-middle">
+                    <div className="result-date">{new Date(`${result.createdAt}`).toLocaleString()}</div>
+                    <div className="result-details">
+                      <div className="result-detail">{result.price}</div>
+                      <div className="result-detail">{result.size}</div>
+                    </div>
+                  </span>
+                  <span className="result-actions">
+                    <div className="result-action good">⚪</div>
+                    <div className="result-action bad">❌</div>
+                  </span>
                 </div>
               </div>
              })}
