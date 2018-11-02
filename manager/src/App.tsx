@@ -99,6 +99,14 @@ class App extends Component<{}, AppState> {
     this.fetchResults(1)
   }
 
+  onPin(id: string) {
+    Results.pin(id).then(() => this.fetchResults(this.state.page))
+  }
+
+  onUnpin(id: string) {
+    Results.unpin(id).then(() => this.fetchResults(this.state.page))
+  }
+
   componentDidUpdate(prevProps: any, prevState: AppState) {
     if (prevState.filterValue !== this.state.filterValue ||
       prevState.minPrice !== this.state.minPrice ||
@@ -107,13 +115,6 @@ class App extends Component<{}, AppState> {
       prevState.maxSize !== this.state.maxSize) {
         this.fetchResults(1)
     }
-  }
-
-  onPin(id: string) {
-    Results.pin(id).then((response: string) => {
-      console.log('response', response)
-      this.fetchResults(this.state.page)
-    })
   }
 
   // @TODO - If set as pinned, also set seen, same with hidden
@@ -171,7 +172,15 @@ class App extends Component<{}, AppState> {
             Object.entries(this.state.results).map((group: any) => {
               return <div key={group[0]}>
                   <h3 className="result-group">{group[0]}</h3>
-                  <div className="results">{group[1].map((result: any) => <ResultItem onPin={this.onPin.bind(this)} key={result.link} data={result} /> )}</div>
+                  <div className="results">
+                    {group[1].map((result: any) =>
+                      <ResultItem
+                        onUnpin={this.onUnpin.bind(this)}
+                        onPin={this.onPin.bind(this)}
+                        key={result.link} data={result}
+                      />
+                    )}
+                  </div>
               </div>
             })
           }

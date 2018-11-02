@@ -54,6 +54,18 @@ app.post('/results/:id/pin', cors(), async (req: any, res: any) => {
     }
 })
 
+app.post('/results/:id/unpin', cors(), async (req: any, res: any) => {
+    const { id } = req.params
+
+    try {
+        await storage.update({ pinned: false }, id)
+        res.sendStatus(200)
+    } catch (e) {
+        console.log('Error pinning result', e)
+        res.sendStatus(500)
+    }
+})
+
 app.get('/export/csv', cors(), async (req: any, res: any) => {
     const { since, download } = req.query
     let records = await storage.findUpdatedSince(since)

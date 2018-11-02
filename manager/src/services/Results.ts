@@ -40,5 +40,10 @@ export default {
   pin(id: string) {
     return fetch(`${url}/${id}/pin`,
       { method: 'POST', mode: 'no-cors', }).then(response => response.text())
+  },
+
+  unpin(id: string) {
+    return fetch(`${url}/${id}/unpin`,
+      { method: 'POST', mode: 'no-cors', }).then(response => response.text())
   }
 }

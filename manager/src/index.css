@@ -157,14 +157,13 @@ input:focus {
 
 .result-action.bad:hover {
   background: red;
+  color: white;
 }
 
-.result-action.good:hover {
+.result-action.good:hover,
+.result-action.good.active {
   background: green;
   font-weight: bold;
-}
-
-.result-action:hover {
   color: white;
 }
 

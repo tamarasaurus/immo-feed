@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 interface ResultItemProps {
   data: any
   onPin: (id: string) => any
+  onUnpin: (id: string) => any
 }
 
 class ResultItem extends Component<ResultItemProps> {
@@ -10,8 +11,12 @@ class ResultItem extends Component<ResultItemProps> {
     this.props.onPin(this.props.data.id)
   }
 
+  onUnpin(event: any) {
+    this.props.onUnpin(this.props.data.id)
+  }
+
   render() {
-    const { link, photo, name, createdAt, price, size, description, id } = this.props.data
+    const { link, photo, name, createdAt, price, size, description, pinned } = this.props.data
     return (
       <div key={link} className="result">
         <a href={link}> <img src={photo} /> </a>
@@ -23,7 +28,7 @@ class ResultItem extends Component<ResultItemProps> {
             <div className="result-description">{description}</div>
           </span>
           <span className="result-actions">
-            <div onClick={this.onPin.bind(this)} className="result-action good">⚪</div>
+            <div onClick={pinned ? this.onUnpin.bind(this) : this.onPin.bind(this)} className={`result-action good ${pinned ? 'active' : ''}`}>⚪</div>
             <div className="result-action bad">❌</div>
           </span>
         </div>
