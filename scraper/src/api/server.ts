@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import { parse } from 'json2csv'
 import { Storage } from '../storage/postgres'
-import { groupBy, pickBy, identity } from 'lodash'
+import { pickBy, identity } from 'lodash'
 
 const app = express()
 const storage = new Storage()
@@ -16,7 +16,11 @@ app.options('*', cors())
 app.get('/results', cors(), async (req: any, res: any) => {
     const { page, filterValue, minPrice, maxPrice, minSize, maxSize, sort } = req.query
     const response = await storage.findAll({page, filter: filterValue, minPrice, maxPrice, minSize, maxSize, sort})
-    response.results = groupBy(response.results, (result: any) => result.pinned ? 'pinned' : 'all' )
+    res.json(response)
+})
+
+app.get('/pinned', cors(), async (req: any, res: any) => {
+    const response = await storage.findPinned()
     res.json(response)
 })
 

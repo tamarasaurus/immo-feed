@@ -19,7 +19,8 @@ interface Result {
 
 interface AppState {
   filterValue: string
-  results: {[groupName: string]: Result[]}
+  pinned: Result[]
+  results: Result[]
   page: number
   pages: number
   minPrice?: string
@@ -35,7 +36,8 @@ class App extends Component<{}, AppState> {
 
     this.state = {
       filterValue: '',
-      results: { all: [], pinned: []},
+      results: [],
+      pinned: [],
       page: 1,
       pages: 1
     }
@@ -59,10 +61,11 @@ class App extends Component<{}, AppState> {
       page
     }, identity)
 
-
-    const response = await Results.fetchPaginated(params)
+    const response = await Results.fetchAll(params)
+    const pinned = await Results.fetchPinned()
 
     this.setState({
+      pinned,
       results: response.results,
       page: response.page,
       pages: response.pages
@@ -118,8 +121,7 @@ class App extends Component<{}, AppState> {
   }
 
   // @TODO - If set as pinned, also set seen, same with hidden
-  // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
-  // @TODO - For hiding, make an animation that ends with transform: scale(0), 200ms transition then gets removed
+  // @TODO - Fetch pinned items first
   // @TODO - Add personal note to the listing, add icon on card for that
   render() {
     return (
@@ -168,28 +170,27 @@ class App extends Component<{}, AppState> {
             </select>
           </div>
 
-          {
-            Object.entries(this.state.results)
-              .sort((groupA: [string, Result[]], groupB: [string, Result[]]) => {
-                if (groupA[0] > groupB[0]) return -1
-                if (groupA[0] < groupB[0]) return 1
-                return 0
-              })
-              .map((group: any) => {
-              return <div key={group[0]}>
-                  <h3 className="result-group">{group[0]}</h3>
-                  <div className="results">
-                    {group[1].map((result: any) =>
-                      <ResultItem
-                        onUnpin={this.onUnpin.bind(this)}
-                        onPin={this.onPin.bind(this)}
-                        key={result.link} data={result}
-                      />
-                    )}
-                  </div>
-              </div>
-            })
-          }
+          <h3 className="result-group">Pinned</h3>
+          <div className="results">
+            {this.state.pinned.map((result: any) =>
+              <ResultItem
+                onUnpin={this.onUnpin.bind(this)}
+                onPin={this.onPin.bind(this)}
+                key={result.link} data={result}
+              />
+            )}
+          </div>
+
+          <h3 className="result-group">All</h3>
+          <div className="results">
+            {this.state.results.map((result: any) =>
+              <ResultItem
+                onUnpin={this.onUnpin.bind(this)}
+                onPin={this.onPin.bind(this)}
+                key={result.link} data={result}
+              />
+            )}
+          </div>
         </main>
       </div>
     );
