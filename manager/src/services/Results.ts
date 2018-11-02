@@ -1,15 +1,16 @@
 const url = 'http://localhost:8000/results'
 
 interface FilterParams {
-  filter?: string,
-  page?: number,
-  minPrice?: string,
+  filter?: string
+  page?: number
+  minPrice?: string
   maxPrice?: string
+  minSize?: string
+  maxSize?: string
 }
 
 export default {
     fetchPaginated(params: FilterParams) {
-      console.log(params)
       const urlParams = new URLSearchParams()
       Object.entries(params).forEach(param => urlParams.append(...param))
       const queryParams =  urlParams.toString()

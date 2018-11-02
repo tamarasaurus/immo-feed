@@ -1,7 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import Results from './services/Results'
 import ResultItem from './components/ResultItem'
-import RangeFilter from './components/RangeFilter'
+import { pickBy, identity } from 'lodash'
 
 interface Result {
   name: string
@@ -22,10 +22,11 @@ interface AppState {
   results: {[groupName: string]: Result[]}
   page: number
   pages: number
-  minPrice: string
-  maxPrice: string
-  minSize: string
-  maxSize: string
+  minPrice?: string | undefined
+  maxPrice?: string | undefined
+  minSize?: string | undefined
+  maxSize?: string | undefined
+  [name: string]: any
 }
 
 class App extends Component<{}, AppState> {
@@ -34,24 +35,9 @@ class App extends Component<{}, AppState> {
 
     this.state = {
       filterValue: '',
-      minPrice: '0',
-      maxPrice: '600000',
-      minSize: '20',
-      maxSize: '200',
       results: { all: [], pinned: []},
       page: 1,
       pages: 1
-    }
-  }
-
-  searchChanged(event: ChangeEvent<HTMLInputElement>) {
-    this.setState({ filterValue: event.target.value })
-    this.fetchResults(1)
-  }
-
-  searchCleared(event: KeyboardEvent) {
-    if (event.keyCode === 8) {
-      this.setState({ filterValue: ''})
     }
   }
 
@@ -64,14 +50,15 @@ class App extends Component<{}, AppState> {
       maxSize
     } = this.state
 
-    const params = {
+    const params = pickBy({
       filterValue,
       minPrice,
       maxPrice,
       minSize,
       maxSize,
       page
-    }
+    }, identity)
+
 
     const response = await Results.fetchPaginated(params)
 
@@ -84,7 +71,7 @@ class App extends Component<{}, AppState> {
     return response;
   }
 
-  pageIncreased() {
+  handlePageIncrease() {
     const pages = this.state.pages
 
     if (this.state.page < pages) {
@@ -92,28 +79,37 @@ class App extends Component<{}, AppState> {
     }
   }
 
-  pageDecreased() {
+  handlePageDecrease() {
     if (this.state.page > 1) {
       this.fetchResults(Math.max(1, this.state.page - 1))
     }
   }
 
-  priceChanged(minPrice: string, maxPrice: string) {
-    this.setState({ minPrice, maxPrice })
-    this.fetchResults(1)
+  searchCleared(event: KeyboardEvent) {
+    if (event.keyCode === 8) {
+      this.setState({ filterValue: ''})
+    }
   }
 
-  sizeChanged(minSize: string, maxSize: string) {
-    this.setState({ minSize, maxSize })
-    this.fetchResults(1)
+  filterChanged(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   componentDidMount() {
     this.fetchResults(1)
   }
 
+  componentDidUpdate(prevProps: any, prevState: AppState) {
+    if (prevState.filterValue !== this.state.filterValue ||
+      prevState.minPrice !== this.state.minPrice ||
+      prevState.maxPrice !== this.state.maxPrice ||
+      prevState.minSize !== this.state.minSize ||
+      prevState.maxSize !== this.state.maxSize) {
+        this.fetchResults(1)
+    }
+  }
+
   // @TODO - If set as pinned, also set seen, same with hidden
-  // @TODO - Improve search
   // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
   // @TODO - For hiding, make an animation that ends with transform: scale(0), 200ms transition then gets removed
   // @TODO - Add personal note to the listing, add icon on card for that
@@ -122,16 +118,26 @@ class App extends Component<{}, AppState> {
       <div>
         <header>🏠 immo-feed</header>
         <section>
-          <input className="search" placeholder="Search results" type="text" onChange={this.searchChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
+          <input name="filterValue" className="search" placeholder="Search results" type="text" onChange={this.filterChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
           <nav>
             <div className="filter">
-              <RangeFilter onChange={this.priceChanged.bind(this)} label="Price" min={this.state.minPrice} max={this.state.maxPrice} />
-              <RangeFilter onChange={this.sizeChanged.bind(this)} label="Size" min={this.state.minSize} max={this.state.maxSize} />
+            <div className="filter-item">
+              <span className="filter-name">Price</span>
+              <span className="filter-info">between
+                <input name="minPrice" onChange={this.filterChanged.bind(this)} defaultValue={this.state.minPrice} type="text"/> and
+                <input name="maxPrice" onChange={this.filterChanged.bind(this)} defaultValue={this.state.maxPrice} type="text"/></span>
+            </div>
+            <div className="filter-item">
+              <span className="filter-name">Size</span>
+              <span className="filter-info">between
+                <input name="minSize" onChange={this.filterChanged.bind(this)} defaultValue={this.state.minSize} type="text"/> and
+                <input name="maxSize" onChange={this.filterChanged.bind(this)} defaultValue={this.state.maxSize} type="text"/></span>
+            </div>
             </div>
             <div className="pagination">
-              <span className="pagination-button" onClick={this.pageDecreased.bind(this)}>Prev</span>
+              <span className="pagination-button" onClick={this.handlePageDecrease.bind(this)}>Prev</span>
               <span className="pagination-number">{this.state.page} / {this.state.pages}</span>
-              <span className="pagination-button" onClick={this.pageIncreased.bind(this)}>Next</span>
+              <span className="pagination-button" onClick={this.handlePageIncrease.bind(this)}>Next</span>
             </div>
           </nav>
         </section>

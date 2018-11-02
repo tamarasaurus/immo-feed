@@ -1,5 +1,7 @@
-const Sequelize = require('sequelize');
+import { isEmpty, get } from 'lodash'
+import * as Sequelize from 'sequelize'
 const { Op, TEXT, INTEGER, FLOAT, STRING, DATE, BOOLEAN } = Sequelize
+
 
 interface Filters {
   filter: string
@@ -60,15 +62,25 @@ export class Storage {
   }
 
   async findAll(filters: Filters) {
-    const { page, filter, sort, minPrice, maxPrice, minSize, maxSize } = filters
     const perPage = 48
+    const filter = get(filters, 'filter')
+    const page = get(filters, 'page', '1')
+    const sort = get(filters, 'sort', ['createdAt', 'DESC'])
+    const minSize = get(filters, 'minSize', 0)
+    const maxSize = get(filters, 'maxSize', 99999999999)
+    const minPrice = get(filters, 'minPrice', 0)
+    const maxPrice = get(filters, 'maxPrice', 99999999999)
 
     const where: any = {
       hidden: false,
+      size: { [Op.gte]: minSize, [Op.lte]: maxSize },
+      price: { [Op.gte]: minPrice, [Op.lte]: maxPrice }
     }
 
-    if (filter && filter.trim().length > 0) {
+    if (filter !== undefined && !isEmpty(filter)) {
       const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+
+      filterWords.push(`%${filter}%`)
 
       where[Op.or] = [
         { description: { [Op.iLike]: { [Op.any]: filterWords } } },
@@ -77,24 +89,10 @@ export class Storage {
       ]
     }
 
-    if (minPrice && maxPrice) {
-      where[Op.and] = [
-        { price: { [Op.gte]: minPrice, [Op.lte]: maxPrice } }
-      ]
-    }
-
-    if (minSize && maxSize) {
-      where[Op.and] = [
-        { size: { [Op.gte]: minSize, [Op.lte]: maxSize } }
-      ]
-    }
-
-    console.log('where', where)
-
     const result = await this.result.findAndCountAll({
       offset: (perPage * parseInt(page)) - perPage,
       limit: perPage,
-      order: [sort || ['createdAt', 'DESC'], ['pinned', 'DESC']],
+      order: [sort, ['pinned', 'DESC']],
       where,
     })
 
