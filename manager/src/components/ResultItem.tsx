@@ -4,6 +4,7 @@ interface ResultItemProps {
   data: any
   onPin: (id: string) => any
   onUnpin: (id: string) => any
+  onHide: (id: string) => any
 }
 
 interface ResultItemState {
@@ -24,6 +25,10 @@ class ResultItem extends Component<ResultItemProps, ResultItemState> {
 
   onUnpin(event: any) {
     this.props.onUnpin(this.props.data.id)
+  }
+
+  onHide() {
+    this.props.onHide(this.props.data.id)
   }
 
   toggleExpanded() {
@@ -57,7 +62,7 @@ class ResultItem extends Component<ResultItemProps, ResultItemState> {
           </span>
           <span className="result-actions">
             <div onClick={pinned ? this.onUnpin.bind(this) : this.onPin.bind(this)} className={`result-action good ${pinned ? 'active' : ''}`}>⚪</div>
-            <div className="result-action bad">❌</div>
+            <div onClick={this.onHide.bind(this)} className="result-action bad">❌</div>
           </span>
         </div>
       </div>

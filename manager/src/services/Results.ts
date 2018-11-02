@@ -29,20 +29,14 @@ const Results = {
     }).then(response => response.json())
   },
 
-  fetchOne(id: string) {
-
-  },
-
-  updateOne(id: string) {
-
-  },
-
   hide(id: string) {
-
+    return fetch(`${url}/results/${id}/hide`,
+      { method: 'POST', mode: 'no-cors', }).then(response => response.text())
   },
 
   see(id: string) {
-
+    return fetch(`${url}/results/${id}/see`,
+      { method: 'POST', mode: 'no-cors', }).then(response => response.text())
   },
 
   pin(id: string) {
