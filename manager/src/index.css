@@ -118,11 +118,27 @@ input:focus {
   transform: scale(1.01);
 }
 
-.result img {
+.result-link {
   width: 100%;
-  height: auto;
+  height: 180px;
+  background-size: cover;
+  background-position: 50%;
   display: block;
   margin-bottom: 20px;
+}
+
+.result-expand {
+  border: 0;
+  background: 0;
+  text-transform: uppercase;
+  color: black;
+  font-size: 18px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.result-expand:hover {
+  color: blue;
 }
 
 .result input {
@@ -138,7 +154,7 @@ input:focus {
   flex-direction: row;
   width: 100%;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
   align-self: flex-end;
 }
 
