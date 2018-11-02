@@ -3,12 +3,13 @@ import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import { parse } from 'json2csv'
 import { Storage } from '../storage/postgres'
-import { groupBy } from 'lodash'
+import { groupBy, pickBy, identity } from 'lodash'
 
 const app = express()
 const storage = new Storage()
 
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.options('*', cors())
 
@@ -29,11 +30,26 @@ app.post('/results/:id', cors(), async (req: any, res: any) => {
     const { id } = req.params
     const { hidden, pinned, seen } = req.body;
 
+    console.log('body', req.body, req.query)
+    const data = pickBy({ hidden, pinned, seen }, identity)
+
     try {
-        await storage.update({ hidden, pinned, seen }, id)
+        await storage.update(data, id)
         res.sendStatus(200)
     } catch (e) {
         console.log('Error hiding result', e)
+        res.sendStatus(500)
+    }
+})
+
+app.post('/results/:id/pin', cors(), async (req: any, res: any) => {
+    const { id } = req.params
+
+    try {
+        await storage.update({ pinned: true }, id)
+        res.sendStatus(200)
+    } catch (e) {
+        console.log('Error pinning result', e)
         res.sendStatus(500)
     }
 })

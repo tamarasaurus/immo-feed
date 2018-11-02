@@ -22,10 +22,10 @@ interface AppState {
   results: {[groupName: string]: Result[]}
   page: number
   pages: number
-  minPrice?: string | undefined
-  maxPrice?: string | undefined
-  minSize?: string | undefined
-  maxSize?: string | undefined
+  minPrice?: string
+  maxPrice?: string
+  minSize?: string
+  maxSize?: string
   [name: string]: any
 }
 
@@ -109,6 +109,13 @@ class App extends Component<{}, AppState> {
     }
   }
 
+  onPin(id: string) {
+    Results.pin(id).then((response: string) => {
+      console.log('response', response)
+      this.fetchResults(this.state.page)
+    })
+  }
+
   // @TODO - If set as pinned, also set seen, same with hidden
   // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
   // @TODO - For hiding, make an animation that ends with transform: scale(0), 200ms transition then gets removed
@@ -164,7 +171,7 @@ class App extends Component<{}, AppState> {
             Object.entries(this.state.results).map((group: any) => {
               return <div key={group[0]}>
                   <h3 className="result-group">{group[0]}</h3>
-                  <div className="results">{group[1].map((result: any) => <ResultItem key={result.link} data={result} /> )}</div>
+                  <div className="results">{group[1].map((result: any) => <ResultItem onPin={this.onPin.bind(this)} key={result.link} data={result} /> )}</div>
               </div>
             })
           }

@@ -108,6 +108,7 @@ export class Storage {
   }
 
   update(data: any, id: string) {
+    console.log('update with', data)
     return this.result.update(data, { where: { id }})
   }
 

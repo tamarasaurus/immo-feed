@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 
 interface ResultItemProps {
   data: any
+  onPin: (id: string) => any
 }
 
 class ResultItem extends Component<ResultItemProps> {
+  onPin(event: any) {
+    this.props.onPin(this.props.data.id)
+  }
+
   render() {
-    const { link, photo, name, createdAt, price, size, description } = this.props.data
+    const { link, photo, name, createdAt, price, size, description, id } = this.props.data
     return (
       <div key={link} className="result">
         <a href={link}> <img src={photo} /> </a>
@@ -18,7 +23,7 @@ class ResultItem extends Component<ResultItemProps> {
             <div className="result-description">{description}</div>
           </span>
           <span className="result-actions">
-            <div className="result-action good">⚪</div>
+            <div onClick={this.onPin.bind(this)} className="result-action good">⚪</div>
             <div className="result-action bad">❌</div>
           </span>
         </div>
