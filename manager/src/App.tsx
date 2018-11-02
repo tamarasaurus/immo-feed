@@ -1,9 +1,9 @@
 import React, { Component, ChangeEvent } from 'react';
 import Results from './services/Results'
 import ResultItem from './components/ResultItem'
-import { get } from 'lodash'
+import RangeFilter from './components/RangeFilter'
 
-interface  Result {
+interface Result {
   name: string
   price: number
   size: number
@@ -22,6 +22,10 @@ interface AppState {
   results: {[groupName: string]: Result[]}
   page: number
   pages: number
+  minPrice: number
+  maxPrice: number
+  minSize: number
+  maxSize: number
 }
 
 class App extends Component<{}, AppState> {
@@ -30,6 +34,10 @@ class App extends Component<{}, AppState> {
 
     this.state = {
       filterValue: '',
+      minPrice: 0,
+      maxPrice: 600000,
+      minSize: 20,
+      maxSize: 200,
       results: { all: [], pinned: []},
       page: 1,
       pages: 1
@@ -74,6 +82,14 @@ class App extends Component<{}, AppState> {
     }
   }
 
+  priceChanged(min: number, max: number) {
+    console.log('price changed', min, max)
+  }
+
+  sizeChanged(min: number, max: number) {
+    console.log('size changed', min, max)
+  }
+
   componentDidMount() {
     this.fetchResults(1)
   }
@@ -83,7 +99,7 @@ class App extends Component<{}, AppState> {
   // @TODO - Improve search
   // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
   // @TODO - For hiding, make an animation that ends with transform: scale(0), 200ms transition then gets removed
-
+  // @TODO - Add personal note to the listing, add icon on card for that
   render() {
     return (
       <div>
@@ -92,14 +108,8 @@ class App extends Component<{}, AppState> {
           <input className="search" placeholder="Search results" type="text" onChange={this.searchChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
           <nav>
             <div className="filter">
-              <div className="filter-item">
-                <span className="filter-name">price</span>
-                <span className="filter-info">between <input type="number"/> and <input type="number"/></span>
-              </div>
-              <div className="filter-item">
-                <span className="filter-name">size</span>
-                <span className="filter-info">between <input type="number"/> and <input type="number"/></span>
-              </div>
+              <RangeFilter onChange={this.priceChanged.bind(this)} label="Price" min={this.state.minPrice} max={this.state.maxPrice} />
+              <RangeFilter onChange={this.sizeChanged.bind(this)} label="Size" min={this.state.minSize} max={this.state.maxSize} />
             </div>
             <div className="pagination">
               <span className="pagination-button" onClick={this.pageDecreased.bind(this)}>Prev</span>
@@ -129,10 +139,10 @@ class App extends Component<{}, AppState> {
 
           {
             Object.entries(this.state.results).map((group: any) => {
-              return <>
-                  <h3>{group[0]}</h3>
+              return <div key={group[0]}>
+                  <h3 className="result-group">{group[0]}</h3>
                   <div className="results">{group[1].map((result: any) => <ResultItem key={result.link} data={result} /> )}</div>
-              </>
+              </div>
             })
           }
         </main>

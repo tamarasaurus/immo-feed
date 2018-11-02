@@ -88,6 +88,10 @@ input:focus {
   grid-column-gap: 20px;
 }
 
+.result-group {
+  text-transform: capitalize;
+}
+
 .result {
   display: flex;
   min-height: 80px;
