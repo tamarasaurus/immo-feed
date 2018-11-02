@@ -1,4 +1,4 @@
-const url = 'http://localhost:8000/results'
+const url = 'http://localhost:8000'
 
 interface FilterParams {
   filter?: string
@@ -7,15 +7,23 @@ interface FilterParams {
   maxPrice?: string
   minSize?: string
   maxSize?: string
+  pinned?: boolean
 }
 
-export default {
-  fetchPaginated(params: FilterParams) {
+const Results = {
+  fetchAll(params: FilterParams) {
     const urlParams = new URLSearchParams()
     Object.entries(params).forEach(param => urlParams.append(...param))
     const queryParams = urlParams.toString()
 
-    return fetch(new Request(`${url}?${queryParams}`), {
+    return fetch(new Request(`${url}/results?${queryParams}`), {
+      mode: 'cors',
+      method: 'get'
+    }).then(response => response.json())
+  },
+
+  fetchPinned() {
+    return fetch(new Request(`${url}/pinned`), {
       mode: 'cors',
       method: 'get'
     }).then(response => response.json())
@@ -38,12 +46,14 @@ export default {
   },
 
   pin(id: string) {
-    return fetch(`${url}/${id}/pin`,
+    return fetch(`${url}/results/${id}/pin`,
       { method: 'POST', mode: 'no-cors', }).then(response => response.text())
   },
 
   unpin(id: string) {
-    return fetch(`${url}/${id}/unpin`,
+    return fetch(`${url}/results/${id}/unpin`,
       { method: 'POST', mode: 'no-cors', }).then(response => response.text())
   }
 }
+
+export default Results

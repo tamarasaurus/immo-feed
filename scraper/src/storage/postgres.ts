@@ -2,7 +2,6 @@ import { isEmpty, get } from 'lodash'
 import * as Sequelize from 'sequelize'
 const { Op, TEXT, INTEGER, FLOAT, STRING, DATE, BOOLEAN } = Sequelize
 
-
 interface Filters {
   filter: string
   page: string
@@ -61,6 +60,10 @@ export class Storage {
     return this.result.findOne({ where: { id }})
   }
 
+  findPinned() {
+    return this.result.findAll({ where: { pinned: true }})
+  }
+
   async findAll(filters: Filters) {
     const perPage = 48
     const filter = get(filters, 'filter')
@@ -74,7 +77,8 @@ export class Storage {
     const where: any = {
       hidden: false,
       size: { [Op.gte]: minSize, [Op.lte]: maxSize },
-      price: { [Op.gte]: minPrice, [Op.lte]: maxPrice }
+      price: { [Op.gte]: minPrice, [Op.lte]: maxPrice },
+      pinned: false
     }
 
     if (filter !== undefined && !isEmpty(filter)) {
@@ -92,7 +96,7 @@ export class Storage {
     const result = await this.result.findAndCountAll({
       offset: (perPage * parseInt(page)) - perPage,
       limit: perPage,
-      order: [sort, ['pinned', 'DESC']],
+      order: [sort],
       where,
     })
 
