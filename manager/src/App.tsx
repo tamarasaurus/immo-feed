@@ -22,10 +22,10 @@ interface AppState {
   results: {[groupName: string]: Result[]}
   page: number
   pages: number
-  minPrice: number
-  maxPrice: number
-  minSize: number
-  maxSize: number
+  minPrice: string
+  maxPrice: string
+  minSize: string
+  maxSize: string
 }
 
 class App extends Component<{}, AppState> {
@@ -34,10 +34,10 @@ class App extends Component<{}, AppState> {
 
     this.state = {
       filterValue: '',
-      minPrice: 0,
-      maxPrice: 600000,
-      minSize: 20,
-      maxSize: 200,
+      minPrice: '0',
+      maxPrice: '600000',
+      minSize: '20',
+      maxSize: '200',
       results: { all: [], pinned: []},
       page: 1,
       pages: 1
@@ -98,12 +98,12 @@ class App extends Component<{}, AppState> {
     }
   }
 
-  priceChanged(minPrice: number, maxPrice: number) {
+  priceChanged(minPrice: string, maxPrice: string) {
     this.setState({ minPrice, maxPrice })
     this.fetchResults(1)
   }
 
-  sizeChanged(minSize: number, maxSize: number) {
+  sizeChanged(minSize: string, maxSize: string) {
     this.setState({ minSize, maxSize })
     this.fetchResults(1)
   }

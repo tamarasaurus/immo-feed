@@ -3,14 +3,14 @@ import { clone } from 'lodash'
 
 interface RangeFilterProps {
   label: string
-  min: number
-  max: number
-  onChange: (min: number, max: number) => any
+  min: string
+  max: string
+  onChange: (min: string, max: string) => any
 }
 
 interface RangeFilterState {
-  min: number
-  max: number
+  min: string
+  max: string
 }
 
 class RangeFilter extends Component<RangeFilterProps, RangeFilterState> {
@@ -24,13 +24,19 @@ class RangeFilter extends Component<RangeFilterProps, RangeFilterState> {
   }
 
   handleMinChange(event: any) {
-    this.setState({min: parseInt(event.target.value)})
-    this.triggerChange()
+    const value = event.target.value
+    if (value) {
+      this.setState({min: event.target.value })
+      this.triggerChange()
+    }
   }
 
   handleMaxChange(event: any) {
-    this.setState({max: parseInt(event.target.value) })
-    this.triggerChange()
+    const value = event.target.value
+    if (value) {
+      this.setState({ max: event.target.value })
+      this.triggerChange()
+    }
   }
 
   triggerChange() {
@@ -42,8 +48,8 @@ class RangeFilter extends Component<RangeFilterProps, RangeFilterState> {
     return <div className="filter-item">
       <span className="filter-name">{this.props.label}</span>
       <span className="filter-info">between
-        <input onChange={this.handleMinChange.bind(this)} min={1}  value={this.state.min} type="number"/> and
-        <input onChange={this.handleMaxChange.bind(this)} min={1} value={this.state.max} type="number"/></span>
+        <input onChange={this.handleMinChange.bind(this)} value={this.state.min} type="number"/> and
+        <input onChange={this.handleMaxChange.bind(this)} value={this.state.max} type="number"/></span>
     </div>
   }
 }
