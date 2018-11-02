@@ -42,8 +42,8 @@ class RangeFilter extends Component<RangeFilterProps, RangeFilterState> {
     return <div className="filter-item">
       <span className="filter-name">{this.props.label}</span>
       <span className="filter-info">between
-        <input onChange={this.handleMinChange.bind(this)} value={this.state.min} type="number"/> and
-        <input onChange={this.handleMaxChange.bind(this)} value={this.state.max} type="number"/></span>
+        <input onChange={this.handleMinChange.bind(this)} min={1}  value={this.state.min} type="number"/> and
+        <input onChange={this.handleMaxChange.bind(this)} min={1} value={this.state.max} type="number"/></span>
     </div>
   }
 }

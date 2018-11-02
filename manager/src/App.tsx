@@ -56,7 +56,23 @@ class App extends Component<{}, AppState> {
   }
 
   async fetchResults(page: number) {
-    const params = { filter: this.state.filterValue, page }
+    const {
+      filterValue,
+      minPrice,
+      maxPrice,
+      minSize,
+      maxSize
+    } = this.state
+
+    const params = {
+      filterValue,
+      minPrice,
+      maxPrice,
+      minSize,
+      maxSize,
+      page
+    }
+
     const response = await Results.fetchPaginated(params)
 
     this.setState({
@@ -82,12 +98,14 @@ class App extends Component<{}, AppState> {
     }
   }
 
-  priceChanged(min: number, max: number) {
-    console.log('price changed', min, max)
+  priceChanged(minPrice: number, maxPrice: number) {
+    this.setState({ minPrice, maxPrice })
+    this.fetchResults(1)
   }
 
-  sizeChanged(min: number, max: number) {
-    console.log('size changed', min, max)
+  sizeChanged(minSize: number, maxSize: number) {
+    this.setState({ minSize, maxSize })
+    this.fetchResults(1)
   }
 
   componentDidMount() {
@@ -95,7 +113,6 @@ class App extends Component<{}, AppState> {
   }
 
   // @TODO - If set as pinned, also set seen, same with hidden
-  // @TODO - Be able to view hidden results
   // @TODO - Improve search
   // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
   // @TODO - For hiding, make an animation that ends with transform: scale(0), 200ms transition then gets removed

@@ -1,5 +1,15 @@
-  const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 const { Op, TEXT, INTEGER, FLOAT, STRING, DATE, BOOLEAN } = Sequelize
+
+interface Filters {
+  filter: string
+  page: string
+  minPrice: string
+  maxPrice: string
+  minSize: string
+  maxSize: string
+  sort: string
+}
 
 export class Storage {
   public database: any;
@@ -49,15 +59,17 @@ export class Storage {
     return this.result.findOne({ where: { id }})
   }
 
-  // @TODO - Always returned pinned ones first
-  async findAll(page: string = '1', filter = '', sort = ['createdAt', 'DESC']) {
+  async findAll(filters: Filters) {
+    const { page, filter, sort, minPrice, maxPrice, minSize, maxSize } = filters
     const perPage = 48
-    const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+
     const where: any = {
       hidden: false,
     }
 
-    if (filter.trim().length > 0) {
+    if (filter && filter.trim().length > 0) {
+      const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+
       where[Op.or] = [
         { description: { [Op.iLike]: { [Op.any]: filterWords } } },
         { name: { [Op.iLike]: { [Op.any]: filterWords } } },
@@ -65,10 +77,24 @@ export class Storage {
       ]
     }
 
+    if (minPrice && maxPrice) {
+      where[Op.and] = [
+        { price: { [Op.gte]: minPrice, [Op.lte]: maxPrice } }
+      ]
+    }
+
+    if (minSize && maxSize) {
+      where[Op.and] = [
+        { size: { [Op.gte]: minSize, [Op.lte]: maxSize } }
+      ]
+    }
+
+    console.log('where', where)
+
     const result = await this.result.findAndCountAll({
       offset: (perPage * parseInt(page)) - perPage,
       limit: perPage,
-      order: [sort, ['pinned', 'DESC']],
+      order: [sort || ['createdAt', 'DESC'], ['pinned', 'DESC']],
       where,
     })
 

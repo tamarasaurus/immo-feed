@@ -1,11 +1,22 @@
 const url = 'http://localhost:8000/results'
 
+interface FilterParams {
+  filter?: string,
+  page?: number,
+  minPrice?: number,
+  maxPrice?: number
+}
+
 export default {
-    fetchPaginated({ filter = '', page = 1}) {
-        return fetch(new Request(`${url}?page=${page}&filter=${filter}`), {
-            mode: 'cors',
-            method: 'get'
-        }).then(response => response.json())
+    fetchPaginated(params: FilterParams) {
+      const urlParams = new URLSearchParams()
+      Object.entries(params).forEach(param => urlParams.append(...param))
+      const queryParams =  urlParams.toString()
+
+      return fetch(new Request(`${url}?${queryParams}`), {
+          mode: 'cors',
+          method: 'get'
+      }).then(response => response.json())
     },
 
     fetchOne(id: string) {

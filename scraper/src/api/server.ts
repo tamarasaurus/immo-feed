@@ -13,9 +13,8 @@ app.use(bodyParser.json())
 app.options('*', cors())
 
 app.get('/results', cors(), async (req: any, res: any) => {
-    const page = req.query.page
-    const filter = req.query.filter
-    const response = await storage.findAll(page, filter)
+    const { page, filterValue, minPrice, maxPrice, minSize, maxSize, sort } = req.query
+    const response = await storage.findAll({page, filter: filterValue, minPrice, maxPrice, minSize, maxSize, sort})
     response.results = groupBy(response.results, (result: any) => result.pinned ? 'pinned' : 'all' )
     res.json(response)
 })
