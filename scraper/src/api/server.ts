@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import { parse } from 'json2csv'
 import { Storage } from '../storage/postgres'
+import { groupBy } from 'lodash'
 
 const app = express()
 const storage = new Storage()
@@ -14,8 +15,9 @@ app.options('*', cors())
 app.get('/results', cors(), async (req: any, res: any) => {
     const page = req.query.page
     const filter = req.query.filter
-    const results = await storage.findAll(page, filter)
-    res.json(results)
+    const response = await storage.findAll(page, filter)
+    response.results = groupBy(response.results, (result: any) => result.pinned ? 'pinned' : 'all' )
+    res.json(response)
 })
 
 app.get('/results/:id', cors(), async (req: any, res: any) => {

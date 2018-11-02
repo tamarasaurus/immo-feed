@@ -97,6 +97,7 @@ input:focus {
   border: 1px #ddd solid;
   border-radius: 10px;
   overflow: hidden;
+  transition: transform 50ms
 }
 
 .result-info {
@@ -111,7 +112,6 @@ input:focus {
   box-shadow: 0px 0px 15px #ddd;
   cursor: pointer;
   transform: scale(1.01);
-  transition: transform 50ms
 }
 
 .result img {

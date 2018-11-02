@@ -1,6 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import Results from './services/Results'
-
+import ResultItem from './components/ResultItem'
+import { get } from 'lodash'
 
 interface  Result {
   name: string
@@ -18,7 +19,7 @@ interface  Result {
 
 interface AppState {
   filterValue: string
-  results: Result[]
+  results: {[groupName: string]: Result[]}
   page: number
   pages: number
 }
@@ -29,7 +30,7 @@ class App extends Component<{}, AppState> {
 
     this.state = {
       filterValue: '',
-      results: [],
+      results: { all: [], pinned: []},
       page: 1,
       pages: 1
     }
@@ -81,6 +82,7 @@ class App extends Component<{}, AppState> {
   // @TODO - Be able to view hidden results
   // @TODO - Improve search
   // @TODO - For displaying the results, sort them on the backend then group them by pinned (only pinned)
+  // @TODO - For hiding, make an animation that ends with transform: scale(0), 200ms transition then gets removed
 
   render() {
     return (
@@ -92,17 +94,23 @@ class App extends Component<{}, AppState> {
             <div className="filter">
               <div className="filter-item">
                 <span className="filter-name">price</span>
-                <span className="filter-info">0</span>
-                <input min="0" max="3000000" type="range" />
-                <div className="filter-info">3000000</div>
+                <span className="filter-info">between <input type="number"/> and <input type="number"/></span>
               </div>
               <div className="filter-item">
                 <span className="filter-name">size</span>
-                <span className="filter-info">0</span>
-                <input type="range" />
-                <span className="filter-info">10000</span>
+                <span className="filter-info">between <input type="number"/> and <input type="number"/></span>
               </div>
             </div>
+            <div className="pagination">
+              <span className="pagination-button" onClick={this.pageDecreased.bind(this)}>Prev</span>
+              <span className="pagination-number">{this.state.page} / {this.state.pages}</span>
+              <span className="pagination-button" onClick={this.pageIncreased.bind(this)}>Next</span>
+            </div>
+          </nav>
+        </section>
+
+        <main>
+          <div className="toolbar">
             <select className="actions">
               <option className="action-item">hide</option>
               <option className="action-item">pin</option>
@@ -117,37 +125,16 @@ class App extends Component<{}, AppState> {
               <option className="export-option">Export JSON</option>
               <option className="export-option">Export CSV</option>
             </select>
-            <div className="pagination">
-              <span className="pagination-button" onClick={this.pageDecreased.bind(this)}>Prev</span>
-              <span className="pagination-number">{this.state.page} / {this.state.pages}</span>
-              <span className="pagination-button" onClick={this.pageIncreased.bind(this)}>Next</span>
-            </div>
-          </nav>
-        </section>
-
-        <main>
-          <h3>Results</h3>
-          <div className="results">
-          {this.state.results.map(result => {
-            return <div key={result.link} className="result">
-                <a href={result.link}>
-                  <img src={result.photo} />
-                </a>
-                <div className="result-info">
-                  <span className="column column-full">
-                    <div className="result-title">{result.name}</div>
-                    <div className="result-date">{new Date(`${result.createdAt}`).toLocaleString()}</div>
-                    <div className="result-details">€{result.price.toLocaleString()} | {result.size}m²</div>
-                    <div className="result-description">{result.description}</div>
-                  </span>
-                  <span className="result-actions">
-                    <div className="result-action good">⚪</div>
-                    <div className="result-action bad">❌</div>
-                  </span>
-                </div>
-              </div>
-             })}
           </div>
+
+          {
+            Object.entries(this.state.results).map((group: any) => {
+              return <>
+                  <h3>{group[0]}</h3>
+                  <div className="results">{group[1].map((result: any) => <ResultItem key={result.link} data={result} /> )}</div>
+              </>
+            })
+          }
         </main>
       </div>
     );

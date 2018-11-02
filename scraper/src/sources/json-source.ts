@@ -32,4 +32,3 @@ export class JSONSource extends Source {
         return resultList
     }
 }
-
