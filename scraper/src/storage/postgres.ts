@@ -76,9 +76,9 @@ export class Storage {
 
     const where: any = {
       hidden: false,
+      pinned: false,
       size: { [Op.gte]: minSize, [Op.lte]: maxSize },
       price: { [Op.gte]: minPrice, [Op.lte]: maxPrice },
-      pinned: false
     }
 
     if (filter !== undefined && !isEmpty(filter)) {

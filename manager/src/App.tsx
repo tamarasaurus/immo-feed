@@ -110,6 +110,10 @@ class App extends Component<{}, AppState> {
     Results.unpin(id).then(() => this.fetchResults(this.state.page))
   }
 
+  onHide(id: string) {
+    Results.hide(id).then(() => this.fetchResults(this.state.page))
+  }
+
   componentDidUpdate(prevProps: any, prevState: AppState) {
     if (prevState.filterValue !== this.state.filterValue ||
       prevState.minPrice !== this.state.minPrice ||
@@ -174,6 +178,7 @@ class App extends Component<{}, AppState> {
           <div className="results">
             {this.state.pinned.map((result: any) =>
               <ResultItem
+                onHide={this.onHide.bind(this)}
                 onUnpin={this.onUnpin.bind(this)}
                 onPin={this.onPin.bind(this)}
                 key={result.link} data={result}
@@ -185,6 +190,7 @@ class App extends Component<{}, AppState> {
           <div className="results">
             {this.state.results.map((result: any) =>
               <ResultItem
+                onHide={this.onHide.bind(this)}
                 onUnpin={this.onUnpin.bind(this)}
                 onPin={this.onPin.bind(this)}
                 key={result.link} data={result}
