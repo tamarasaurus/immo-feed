@@ -169,7 +169,13 @@ class App extends Component<{}, AppState> {
           </div>
 
           {
-            Object.entries(this.state.results).map((group: any) => {
+            Object.entries(this.state.results)
+              .sort((groupA: [string, Result[]], groupB: [string, Result[]]) => {
+                if (groupA[0] > groupB[0]) return -1
+                if (groupA[0] < groupB[0]) return 1
+                return 0
+              })
+              .map((group: any) => {
               return <div key={group[0]}>
                   <h3 className="result-group">{group[0]}</h3>
                   <div className="results">
