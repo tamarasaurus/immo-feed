@@ -127,12 +127,11 @@ class App extends Component<{}, AppState> {
   // @TODO - If set as pinned, also set seen, same with hidden
   // @TODO - Fetch pinned items first
   // @TODO - Add personal note to the listing, add icon on card for that
+  // @TODO - Add a checkbox for 'Show hidden'
   render() {
     return (
       <div>
         <header>🏠 immo-feed</header>
-
-
         <main>
         <aside>
           { this.state.pinned.length > 0 ?
