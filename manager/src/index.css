@@ -126,10 +126,10 @@ input:focus {
 }
 
 .result:hover {
-  box-shadow: 0px 0px 15px #ddd;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
   cursor: pointer;
   transform: scale(1.01);
-  margin-bottom: 2px;
+  border-bottom: 1px #ddd solid;
 }
 
 .result-link {
@@ -161,7 +161,6 @@ input:focus {
 
 .result-actions {
   text-transform: uppercase;
-  font-size: 11px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -181,7 +180,7 @@ input:focus {
   height: 40px;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .result-action.bad:hover {

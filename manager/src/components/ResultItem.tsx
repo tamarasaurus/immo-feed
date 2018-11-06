@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark as bookmarkRegular } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as bookmarkRegular, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as bookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 
 interface ResultItemProps {
@@ -65,7 +65,7 @@ class ResultItem extends Component<ResultItemProps, ResultItemState> {
               <div onClick={pinned ? this.onUnpin.bind(this) : this.onPin.bind(this)} className={`result-action good ${pinned ? 'active' : ''}`}>
                 {pinned ? <FontAwesomeIcon icon={bookmarkSolid} /> : <FontAwesomeIcon icon={bookmarkRegular} />}
               </div>
-              <div onClick={this.onHide.bind(this)} className="result-action bad">❌</div>
+              <div onClick={this.onHide.bind(this)} className="result-action bad"> <FontAwesomeIcon icon={faEyeSlash} /> </div>
             </span>
         </div>
       </div>
