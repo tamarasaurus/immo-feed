@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBookmark as bookmarkRegular } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as bookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 
 interface ResultItemProps {
   data: any
@@ -45,25 +48,25 @@ class ResultItem extends Component<ResultItemProps, ResultItemState> {
       <div key={link} className="result">
         <a className="result-link" href={link} style={style}></a>
         <div className="result-info">
-          <span className="column column-full">
-            <div className="result-title">{name}</div>
-            <div className="result-date">{new Date(`${createdAt}`).toLocaleString()}</div>
-            <div className="result-details">€{price.toLocaleString()} | {size}m²</div>
+            <div className="result-title">
+              {name}
+              <div className="result-date">{new Date(`${createdAt}`).toLocaleString()}</div>
+              <div className="result-details">€{price.toLocaleString()} | {size}m²</div>
+            </div>
             <div className="result-description">
               {
                 this.state.expanded ?
-                <span>
-                  {description} <button title="Collapse" className="result-expand" onClick={this.toggleExpanded.bind(this)}>⇱</button>
+                <span>{description}<button title="Collapse" className="result-expand" onClick={this.toggleExpanded.bind(this)}>less</button>
                 </span> :
-                <span>
-                  {trimmedDescription}{ trimmed ? <>...<button title="Expand" className="result-expand" onClick={this.toggleExpanded.bind(this)}> ⇲</button></> : ''}
-                </span> }
+                <span>{trimmedDescription}{ trimmed ? <>...<button title="Expand" className="result-expand" onClick={this.toggleExpanded.bind(this)}>more</button></> : ''}
+                </span>}
             </div>
-          </span>
-          <span className="result-actions">
-            <div onClick={pinned ? this.onUnpin.bind(this) : this.onPin.bind(this)} className={`result-action good ${pinned ? 'active' : ''}`}>⚪</div>
-            <div onClick={this.onHide.bind(this)} className="result-action bad">❌</div>
-          </span>
+            <span className="result-actions">
+              <div onClick={pinned ? this.onUnpin.bind(this) : this.onPin.bind(this)} className={`result-action good ${pinned ? 'active' : ''}`}>
+                {pinned ? <FontAwesomeIcon icon={bookmarkSolid} /> : <FontAwesomeIcon icon={bookmarkRegular} />}
+              </div>
+              <div onClick={this.onHide.bind(this)} className="result-action bad">❌</div>
+            </span>
         </div>
       </div>
     );
