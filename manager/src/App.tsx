@@ -127,12 +127,11 @@ class App extends Component<{}, AppState> {
   // @TODO - If set as pinned, also set seen, same with hidden
   // @TODO - Fetch pinned items first
   // @TODO - Add personal note to the listing, add icon on card for that
+  // @TODO - Add a checkbox for 'Show hidden'
   render() {
     return (
       <div>
         <header>🏠 immo-feed</header>
-
-
         <main>
         <aside>
           { this.state.pinned.length > 0 ?
@@ -153,25 +152,24 @@ class App extends Component<{}, AppState> {
           }
 
           <h3 className="result-group">All results</h3>
-          <div className="toolbar">
-          <select className="actions">
-            <option className="action-item">hide</option>
-            <option className="action-item">pin</option>
-          </select>
-          <select className="sort">
-            <option className="sort-item">by date ^</option>
-            <option className="sort-item">by price ^</option>
-            <option className="sort-item">by size ^</option>
-          </select>
-          <select className="export">
-            <option className="export-option">Export current filters</option>
-            <option className="export-option">Export JSON</option>
-            <option className="export-option">Export CSV</option>
-          </select>
-
-          </div>
           <section>
           <input name="filterValue" className="search" placeholder="Search results" type="text" onChange={this.filterChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
+          <div className="toolbar">
+            <select className="actions">
+              <option className="action-item">hide</option>
+              <option className="action-item">pin</option>
+            </select>
+            <select className="sort">
+              <option className="sort-item">by date ^</option>
+              <option className="sort-item">by price ^</option>
+              <option className="sort-item">by size ^</option>
+            </select>
+            <select className="export">
+              <option className="export-option">Export current filters</option>
+              <option className="export-option">Export JSON</option>
+              <option className="export-option">Export CSV</option>
+            </select>
+          </div>
           <nav>
             <div className="filter">
             <div className="filter-item">

@@ -34,6 +34,12 @@ nav, main, section {
   padding-right: 20px;
 }
 
+section, main {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 aside section {
   padding: 0;
 }
@@ -212,14 +218,32 @@ input:focus {
 }
 
 .result-date {
-  margin-top: 10px;
+  margin-top: 3px;
 }
 
-.result-details,
 .result-date {
   font-size: 14px;
   color: #999;
   font-weight: normal;
+}
+
+.result-details {
+  position: absolute;
+  top: 15px;
+  right: 50px;
+}
+
+.result-details span {
+  border: 1px #ddd solid;
+  color: #aaa;
+  border-radius: 2px;
+  padding: 3px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.result-details span:first-child {
+  margin-right: 10px;
 }
 
 filter {
