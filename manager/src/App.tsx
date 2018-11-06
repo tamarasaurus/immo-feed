@@ -131,7 +131,46 @@ class App extends Component<{}, AppState> {
     return (
       <div>
         <header>🏠 immo-feed</header>
-        <section>
+
+
+        <main>
+        <aside>
+          { this.state.pinned.length > 0 ?
+              <section>
+              <h3 className="result-group">Pinned</h3>
+              <div className="results">
+                {this.state.pinned.map((result: any) =>
+                  <ResultItem
+                    onHide={this.onHide.bind(this)}
+                    onUnpin={this.onUnpin.bind(this)}
+                    onPin={this.onPin.bind(this)}
+                    key={result.link} data={result}
+                  />
+                )}
+              </div>
+            </section>
+            : ''
+          }
+
+          <h3 className="result-group">All results</h3>
+          <div className="toolbar">
+          <select className="actions">
+            <option className="action-item">hide</option>
+            <option className="action-item">pin</option>
+          </select>
+          <select className="sort">
+            <option className="sort-item">by date ^</option>
+            <option className="sort-item">by price ^</option>
+            <option className="sort-item">by size ^</option>
+          </select>
+          <select className="export">
+            <option className="export-option">Export current filters</option>
+            <option className="export-option">Export JSON</option>
+            <option className="export-option">Export CSV</option>
+          </select>
+
+          </div>
+          <section>
           <input name="filterValue" className="search" placeholder="Search results" type="text" onChange={this.filterChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
           <nav>
             <div className="filter">
@@ -154,49 +193,21 @@ class App extends Component<{}, AppState> {
               <span className="pagination-button" onClick={this.handlePageIncrease.bind(this)}>Next</span>
             </div>
           </nav>
+
         </section>
-
-        <main>
-          <div className="toolbar">
-            <select className="actions">
-              <option className="action-item">hide</option>
-              <option className="action-item">pin</option>
-            </select>
-            <select className="sort">
-              <option className="sort-item">by date ^</option>
-              <option className="sort-item">by price ^</option>
-              <option className="sort-item">by size ^</option>
-            </select>
-            <select className="export">
-              <option className="export-option">Export current filters</option>
-              <option className="export-option">Export JSON</option>
-              <option className="export-option">Export CSV</option>
-            </select>
-          </div>
-
-          <h3 className="result-group">Pinned</h3>
-          <div className="results">
-            {this.state.pinned.map((result: any) =>
-              <ResultItem
-                onHide={this.onHide.bind(this)}
-                onUnpin={this.onUnpin.bind(this)}
-                onPin={this.onPin.bind(this)}
-                key={result.link} data={result}
-              />
-            )}
-          </div>
-
-          <h3 className="result-group">All</h3>
-          <div className="results">
-            {this.state.results.map((result: any) =>
-              <ResultItem
-                onHide={this.onHide.bind(this)}
-                onUnpin={this.onUnpin.bind(this)}
-                onPin={this.onPin.bind(this)}
-                key={result.link} data={result}
-              />
-            )}
-          </div>
+          <section>
+            <div className="results">
+              {this.state.results.map((result: any) =>
+                <ResultItem
+                  onHide={this.onHide.bind(this)}
+                  onUnpin={this.onUnpin.bind(this)}
+                  onPin={this.onPin.bind(this)}
+                  key={result.link} data={result}
+                />
+              )}
+            </div>
+          </section>
+          </aside>
         </main>
       </div>
     );
