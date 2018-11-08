@@ -17,12 +17,18 @@ interface Result {
   pinned: boolean
 }
 
+interface ResultFilter {
+  min: number
+  max: number
+}
+
 interface AppState {
   filterValue: string
   pinned: Result[]
   results: Result[]
   page: number
   pages: number
+  filters: {[name: string]: ResultFilter}
   minPrice?: string
   maxPrice?: string
   minSize?: string
@@ -36,6 +42,10 @@ class App extends Component<{}, AppState> {
 
     this.state = {
       filterValue: '',
+      filters: {
+        price: { min: 0, max: 2000000},
+        size: { min: 0, max: 100000}
+      },
       results: [],
       pinned: [],
       page: 1,
@@ -68,7 +78,8 @@ class App extends Component<{}, AppState> {
       pinned,
       results: response.results,
       page: response.page,
-      pages: response.pages
+      pages: response.pages,
+      filters: response.filters
     })
 
     return response;
@@ -154,7 +165,7 @@ class App extends Component<{}, AppState> {
           <h3 className="result-group">All results</h3>
           <section>
           <input name="filterValue" className="search" placeholder="Search results" type="text" onChange={this.filterChanged.bind(this)} onKeyDown={this.searchCleared.bind(this)} />
-          <div className="toolbar">
+          {/* <div className="toolbar">
             <select className="actions">
               <option className="action-item">hide</option>
               <option className="action-item">pin</option>
@@ -169,14 +180,12 @@ class App extends Component<{}, AppState> {
               <option className="export-option">Export JSON</option>
               <option className="export-option">Export CSV</option>
             </select>
-          </div>
+          </div> */}
           <nav>
             <div className="filter">
             <div className="filter-item">
               <span className="filter-name">Price</span>
-              <span className="filter-info">between
-                <input name="minPrice" onChange={this.filterChanged.bind(this)} defaultValue={this.state.minPrice} type="text"/> and
-                <input name="maxPrice" onChange={this.filterChanged.bind(this)} defaultValue={this.state.maxPrice} type="text"/></span>
+              <input name="price" onChange={this.filterChanged.bind(this)} min="0" max={this.state.filters.price.max} defaultValue={this.state.minPrice} type="range"/>
             </div>
             <div className="filter-item">
               <span className="filter-name">Size</span>

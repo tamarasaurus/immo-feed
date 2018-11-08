@@ -82,7 +82,7 @@ export class Storage {
     }
 
     if (filter !== undefined && !isEmpty(filter)) {
-      const filterWords = filter.trim().split(' ').map(word => `%${word}%`)
+      const filterWords = filter.trim().split(' ').map((word: string) => `%${word}%`)
 
       filterWords.push(`%${filter}%`)
 
@@ -100,10 +100,17 @@ export class Storage {
       where,
     })
 
+    const storedMaxPrice = await this.result.max('price')
+    const storedMaxSize = await this.result.max('size')
+
     return {
       results: result.rows,
       page: parseInt(page),
-      pages: Math.ceil(result.count / perPage)
+      pages: Math.ceil(result.count / perPage),
+      filters: {
+        price: { min: 0, max: storedMaxPrice },
+        size: { min: 0, max: storedMaxSize}
+      }
     }
   }
 
