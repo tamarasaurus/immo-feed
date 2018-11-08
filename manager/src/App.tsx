@@ -3,6 +3,7 @@ import Results from "./services/Results";
 import ResultItem from "./components/ResultItem";
 import { pickBy, identity } from "lodash";
 import { Slider, Icon, Form, Row, Col, Button, Pagination } from "antd";
+import Search from "antd/lib/input/Search";
 
 
 interface Result {
@@ -105,8 +106,8 @@ class App extends Component<{}, AppState> {
     Results.pin(id).then(() => this.fetchResults(this.state.page));
   }
 
-  searchChanged(event: ChangeEvent<HTMLInputElement>) {
-    this.setState({ filterValue: event.target.value });
+  searchChanged(filterValue: string) {
+    this.setState({ filterValue });
   }
 
   onUnpin(id: string) {
@@ -171,8 +172,7 @@ class App extends Component<{}, AppState> {
         {this.state.pinned.length > 0 ? (
           <Row type="flex" justify="center">
             <Col span={18}>
-              <h3 className="result-group">Pinned</h3>
-              <div className="results">
+              <h3>Pinned</h3>
                 {this.state.pinned.map((result: any) => (
                   <ResultItem
                     onHide={this.onHide.bind(this)}
@@ -182,7 +182,6 @@ class App extends Component<{}, AppState> {
                     data={result}
                   />
                 ))}
-              </div>
             </Col>
           </Row>
         ) : (
@@ -193,13 +192,10 @@ class App extends Component<{}, AppState> {
           <Col span={18}>
             <h3 className="result-group">All results</h3>
 
-            <input
-              name="filterValue"
-              className="search"
-              placeholder="Search results"
-              type="text"
-              onChange={this.searchChanged.bind(this)}
-              onKeyDown={this.searchCleared.bind(this)}
+            <Search
+              size="large"
+              placeholder="Search by name, description, place"
+              onSearch={this.searchChanged.bind(this)}
             />
 
             {/* <div className="toolbar">
@@ -244,9 +240,7 @@ class App extends Component<{}, AppState> {
                   ]}
                 />
               </Col>
-            </Row>
-            <Row>
-              <Col span={6} offset={12}>
+              <Col span={6} offset={6}>
                 <Pagination
                   simple
                   onChange={this.paginationChanged.bind(this)}
@@ -256,17 +250,15 @@ class App extends Component<{}, AppState> {
               </Col>
             </Row>
 
-            <div className="results">
-              {this.state.results.map((result: any) => (
-                <ResultItem
-                  onHide={this.onHide.bind(this)}
-                  onUnpin={this.onUnpin.bind(this)}
-                  onPin={this.onPin.bind(this)}
-                  key={result.link}
-                  data={result}
-                />
-              ))}
-            </div>
+            {this.state.results.map((result: any) => (
+              <ResultItem
+                onHide={this.onHide.bind(this)}
+                onUnpin={this.onUnpin.bind(this)}
+                onPin={this.onPin.bind(this)}
+                key={result.link}
+                data={result}
+              />
+            ))}
           </Col>
         </Row>
       </Row>
