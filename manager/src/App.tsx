@@ -192,6 +192,7 @@ class App extends Component<{}, AppState> {
             <h3 className="result-group">All results</h3>
 
             <Search
+              style={{ marginBottom: '20px' }}
               size="large"
               placeholder="Search by name, description, place"
               onSearch={this.searchChanged.bind(this)}
