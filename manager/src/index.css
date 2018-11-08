@@ -22,31 +22,7 @@ header {
   display: flex;
   align-items: center;
   font-weight: bold;
-  position: sticky;
-  top: 0;
   background: white;
-  z-index: 1;
-  box-shadow: 0px 0px 15px #ddd;
-}
-
-nav, main, section {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-section, main {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-aside section {
-  padding: 0;
-}
-
-aside {
-  display: flex;
-  flex-direction: column;
 }
 
 nav {
@@ -81,9 +57,7 @@ input:focus {
 .search {
   width: 100%;
   height: 60px;
-  margin-top: 20px;
   margin-bottom: 20px;
-  border-radius: 6px;
   border: 1px #ddd solid;
   padding-left: 10px;
   padding-right: 10px;
@@ -249,40 +223,3 @@ input:focus {
 filter {
   margin-bottom: 20px;
 }
-
-.pagination {
-  text-align: right;
-  align-self: center;
-  flex: 1;
-  margin-bottom: 20px;
-}
-
-.pagination-button {
-  border-radius: 6px;
-  padding: 10px;
-  text-transform: uppercase;
-  font-size: 14px;
-  text-align: center;
-  height: 40px;
-  border: 1px #ddd solid;
-  padding-left: 20px;
-  padding-right: 20px;
-  cursor: pointer;
-}
-
-.pagination-button:hover {
-  background: #ddd;
-}
-
-.pagination-button:active,
-.pagination-button:focus {
-  background: black;
-  color: white;
-}
-
-.pagination-number {
-  font-size: 14px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
