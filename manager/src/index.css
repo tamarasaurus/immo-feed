@@ -12,6 +12,13 @@ body {
   padding-bottom: 40px;
 }
 
+h3 {
+  color: black;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 header {
   width: 100%;
   height: 60px;
