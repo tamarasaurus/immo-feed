@@ -100,8 +100,8 @@ export class Storage {
       where,
     })
 
-    const storedMaxPrice = await this.result.max('price')
-    const storedMaxSize = await this.result.max('size')
+    const storedMaxPrice = await this.result.max('price', { where: { hidden: false }})
+    const storedMaxSize = await this.result.max('size', { where: { hidden: false }})
 
     return {
       results: result.rows,
