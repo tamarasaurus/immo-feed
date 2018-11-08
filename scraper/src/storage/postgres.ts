@@ -107,6 +107,7 @@ export class Storage {
       results: result.rows,
       page: parseInt(page),
       pages: Math.ceil(result.count / perPage),
+      total: result.count,
       filters: {
         price: { min: 0, max: storedMaxPrice },
         size: { min: 0, max: storedMaxSize}

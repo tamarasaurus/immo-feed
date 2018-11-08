@@ -2,12 +2,8 @@ import React, { Component, ChangeEvent } from "react";
 import Results from "./services/Results";
 import ResultItem from "./components/ResultItem";
 import { pickBy, identity } from "lodash";
-import { Slider, Icon, Form, Row, Col, Button } from "antd";
+import { Slider, Icon, Form, Row, Col, Button, Pagination } from "antd";
 
-import "antd/lib/slider/style/css";
-import "antd/lib/grid/style/css";
-import "antd/lib/form/style/css";
-import "antd/lib/button/style/css";
 
 interface Result {
   name: string;
@@ -34,6 +30,7 @@ interface AppState {
   results: Result[];
   page: number;
   pages: number;
+  total: number;
   filters: { [name: string]: ResultFilter };
   minPrice?: number;
   maxPrice?: number;
@@ -54,7 +51,8 @@ class App extends Component<{}, AppState> {
       results: [],
       pinned: [],
       page: 1,
-      pages: 1
+      pages: 1000,
+      total: 1
     };
   }
 
@@ -81,24 +79,16 @@ class App extends Component<{}, AppState> {
       results: response.results,
       page: response.page,
       pages: response.pages,
-      filters: response.filters
+      filters: response.filters,
+      total: response.total
     });
 
     return response;
   }
 
-  handlePageIncrease() {
-    const pages = this.state.pages;
-
-    if (this.state.page < pages) {
-      this.fetchResults(Math.min(pages, this.state.page + 1));
-    }
-  }
-
-  handlePageDecrease() {
-    if (this.state.page > 1) {
-      this.fetchResults(Math.max(1, this.state.page - 1));
-    }
+  paginationChanged(page: number) {
+    console.log("paginationChanged", page);
+    this.setState({ page });
   }
 
   searchCleared(event: KeyboardEvent) {
@@ -137,6 +127,10 @@ class App extends Component<{}, AppState> {
     ) {
       this.fetchResults(1);
     }
+
+    if (prevState.page !== this.state.page) {
+      this.fetchResults(this.state.page);
+    }
   }
 
   priceFilterChanged(values: [number, number]) {
@@ -171,40 +165,44 @@ class App extends Component<{}, AppState> {
     };
 
     return (
-      <div>
+      <Row>
         <header>🏠 immo-feed</header>
-        <main>
-          <aside>
-            {this.state.pinned.length > 0 ? (
-              <section>
-                <h3 className="result-group">Pinned</h3>
-                <div className="results">
-                  {this.state.pinned.map((result: any) => (
-                    <ResultItem
-                      onHide={this.onHide.bind(this)}
-                      onUnpin={this.onUnpin.bind(this)}
-                      onPin={this.onPin.bind(this)}
-                      key={result.link}
-                      data={result}
-                    />
-                  ))}
-                </div>
-              </section>
-            ) : (
-              ""
-            )}
 
+        {this.state.pinned.length > 0 ? (
+          <Row type="flex" justify="center">
+            <Col span={18}>
+              <h3 className="result-group">Pinned</h3>
+              <div className="results">
+                {this.state.pinned.map((result: any) => (
+                  <ResultItem
+                    onHide={this.onHide.bind(this)}
+                    onUnpin={this.onUnpin.bind(this)}
+                    onPin={this.onPin.bind(this)}
+                    key={result.link}
+                    data={result}
+                  />
+                ))}
+              </div>
+            </Col>
+          </Row>
+        ) : (
+          ""
+        )}
+
+        <Row type="flex" justify="center">
+          <Col span={18}>
             <h3 className="result-group">All results</h3>
-            <section>
-              <input
-                name="filterValue"
-                className="search"
-                placeholder="Search results"
-                type="text"
-                onChange={this.searchChanged.bind(this)}
-                onKeyDown={this.searchCleared.bind(this)}
-              />
-              {/* <div className="toolbar">
+
+            <input
+              name="filterValue"
+              className="search"
+              placeholder="Search results"
+              type="text"
+              onChange={this.searchChanged.bind(this)}
+              onKeyDown={this.searchCleared.bind(this)}
+            />
+
+            {/* <div className="toolbar">
             <select className="actions">
               <option className="action-item">hide</option>
               <option className="action-item">pin</option>
@@ -221,54 +219,57 @@ class App extends Component<{}, AppState> {
             </select>
           </div> */}
 
-              <Row gutter={12}>
-                <Col span={12}>
-                  <Slider
-                    onAfterChange={this.priceFilterChanged.bind(this)}
-                    range={true}
-                    min={this.state.filters.price.min}
-                    max={this.state.filters.price.max}
-                    marks={priceMarks}
-                    defaultValue={[
-                      this.state.filters.price.min,
-                      this.state.filters.price.max
-                    ]}
-                  />
-                  <Slider
-                    onAfterChange={this.sizeFilterChanged.bind(this)}
-                    range={true}
-                    min={this.state.filters.size.min}
-                    max={this.state.filters.size.max}
-                    marks={sizeMarks}
-                    defaultValue={[
-                      this.state.filters.size.min,
-                      this.state.filters.size.max
-                    ]}
-                  />
-                </Col>
-              </Row>
-              <div className="pagination">
-                <Button onClick={this.handlePageDecrease.bind(this)}>Prev</Button>
-                <span className="pagination-number">{this.state.page} / {this.state.pages}</span>
-                <Button onClick={this.handlePageIncrease.bind(this)}>Next</Button>
-              </div>
-            </section>
-            <section>
-              <div className="results">
-                {this.state.results.map((result: any) => (
-                  <ResultItem
-                    onHide={this.onHide.bind(this)}
-                    onUnpin={this.onUnpin.bind(this)}
-                    onPin={this.onPin.bind(this)}
-                    key={result.link}
-                    data={result}
-                  />
-                ))}
-              </div>
-            </section>
-          </aside>
-        </main>
-      </div>
+            <Row gutter={12}>
+              <Col span={12}>
+                <Slider
+                  onAfterChange={this.priceFilterChanged.bind(this)}
+                  range={true}
+                  min={this.state.filters.price.min}
+                  max={this.state.filters.price.max}
+                  marks={priceMarks}
+                  defaultValue={[
+                    this.state.filters.price.min,
+                    this.state.filters.price.max
+                  ]}
+                />
+                <Slider
+                  onAfterChange={this.sizeFilterChanged.bind(this)}
+                  range={true}
+                  min={this.state.filters.size.min}
+                  max={this.state.filters.size.max}
+                  marks={sizeMarks}
+                  defaultValue={[
+                    this.state.filters.size.min,
+                    this.state.filters.size.max
+                  ]}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6} offset={12}>
+                <Pagination
+                  simple
+                  onChange={this.paginationChanged.bind(this)}
+                  current={this.state.page}
+                  total={this.state.total}
+                />
+              </Col>
+            </Row>
+
+            <div className="results">
+              {this.state.results.map((result: any) => (
+                <ResultItem
+                  onHide={this.onHide.bind(this)}
+                  onUnpin={this.onUnpin.bind(this)}
+                  onPin={this.onPin.bind(this)}
+                  key={result.link}
+                  data={result}
+                />
+              ))}
+            </div>
+          </Col>
+        </Row>
+      </Row>
     );
   }
 }
