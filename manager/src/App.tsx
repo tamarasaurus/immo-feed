@@ -5,7 +5,6 @@ import { pickBy, identity } from "lodash";
 import { Slider, Icon, Form, Row, Col, Button, Pagination } from "antd";
 import Search from "antd/lib/input/Search";
 
-
 interface Result {
   name: string;
   price: number;
@@ -173,15 +172,15 @@ class App extends Component<{}, AppState> {
           <Row type="flex" justify="center">
             <Col span={18}>
               <h3>Pinned</h3>
-                {this.state.pinned.map((result: any) => (
-                  <ResultItem
-                    onHide={this.onHide.bind(this)}
-                    onUnpin={this.onUnpin.bind(this)}
-                    onPin={this.onPin.bind(this)}
-                    key={result.link}
-                    data={result}
-                  />
-                ))}
+              {this.state.pinned.map((result: any) => (
+                <ResultItem
+                  onHide={this.onHide.bind(this)}
+                  onUnpin={this.onUnpin.bind(this)}
+                  onPin={this.onPin.bind(this)}
+                  key={result.link}
+                  data={result}
+                />
+              ))}
             </Col>
           </Row>
         ) : (
@@ -259,6 +258,15 @@ class App extends Component<{}, AppState> {
                 data={result}
               />
             ))}
+          </Col>
+
+          <Col span={6} offset={16}>
+            <Pagination
+              simple
+              onChange={this.paginationChanged.bind(this)}
+              current={this.state.page}
+              total={this.state.total}
+            />
           </Col>
         </Row>
       </Row>
