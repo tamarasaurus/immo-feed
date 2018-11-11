@@ -2,7 +2,7 @@ import React, { Component, ChangeEvent } from "react";
 import Results from "./services/Results";
 import ResultItem from "./components/ResultItem";
 import { pickBy, identity } from "lodash";
-import { Slider, Icon, Form, Row, Col, Button, Pagination } from "antd";
+import { Slider, Icon, Form, Row, Col, Button, Pagination, Menu, Dropdown } from "antd";
 import Search from "antd/lib/input/Search";
 
 interface Result {
@@ -139,6 +139,8 @@ class App extends Component<{}, AppState> {
       minPrice: values[0],
       maxPrice: values[1]
     });
+
+    return false
   }
 
   sizeFilterChanged(values: [number, number]) {
@@ -156,13 +158,52 @@ class App extends Component<{}, AppState> {
   render() {
     const priceMarks = {
       0: "0€",
-      [this.state.filters.price.max]: `${this.state.filters.price.max}€`
+      [this.state.filters.price.max]: {
+        label: `${this.state.filters.price.max}€`,
+        style: { marginLeft: '-55%' }
+      }
     };
 
     const sizeMarks = {
       0: "0m²",
-      [this.state.filters.size.max]: `${this.state.filters.size.max}m²`
+      [this.state.filters.size.max]: {
+        label: `${this.state.filters.size.max}m²`,
+        style: { marginLeft: '-55%' }
+      }
     };
+
+    const filters = (
+      <Menu style={{ width: '320px' }}>
+        <Menu.Item key="price">
+            <Icon type="euro" />Price
+            <Slider
+              onAfterChange={this.priceFilterChanged.bind(this)}
+              range={true}
+              min={this.state.filters.price.min}
+              max={this.state.filters.price.max}
+              marks={priceMarks}
+              defaultValue={[
+                this.state.filters.price.min,
+                this.state.filters.price.max
+              ]}
+            />
+        </Menu.Item>
+        <Menu.Item key="size">
+          <Icon type="radius-setting" />Size
+          <Slider
+            onAfterChange={this.sizeFilterChanged.bind(this)}
+            range={true}
+            min={this.state.filters.size.min}
+            max={this.state.filters.size.max}
+            marks={sizeMarks}
+            defaultValue={[
+              this.state.filters.size.min,
+              this.state.filters.size.max
+            ]}
+          />
+        </Menu.Item>
+      </Menu>
+    );
 
     return (
       <Row>
@@ -217,35 +258,18 @@ class App extends Component<{}, AppState> {
 
             <Row gutter={12}>
               <Col span={12}>
-                <Slider
-                  onAfterChange={this.priceFilterChanged.bind(this)}
-                  range={true}
-                  min={this.state.filters.price.min}
-                  max={this.state.filters.price.max}
-                  marks={priceMarks}
-                  defaultValue={[
-                    this.state.filters.price.min,
-                    this.state.filters.price.max
-                  ]}
-                />
-                <Slider
-                  onAfterChange={this.sizeFilterChanged.bind(this)}
-                  range={true}
-                  min={this.state.filters.size.min}
-                  max={this.state.filters.size.max}
-                  marks={sizeMarks}
-                  defaultValue={[
-                    this.state.filters.size.min,
-                    this.state.filters.size.max
-                  ]}
-                />
+              <Dropdown overlay={filters} trigger={["click"]}>
+                <Button style={{ marginBottom: '20px' }}> Filters <Icon type="down" /></Button>
+              </Dropdown>
               </Col>
-              <Col span={6} offset={6}>
+              <Col span={12}>
                 <Pagination
                   simple
                   onChange={this.paginationChanged.bind(this)}
                   current={this.state.page}
                   total={this.state.total}
+                  pageSize={48}
+                  style={{ float: 'right', marginBottom: 20, marginRight: '-10px' }}
                 />
               </Col>
             </Row>
@@ -261,12 +285,14 @@ class App extends Component<{}, AppState> {
             ))}
           </Col>
 
-          <Col span={6} offset={16}>
+          <Col span={18}>
             <Pagination
               simple
               onChange={this.paginationChanged.bind(this)}
               current={this.state.page}
               total={this.state.total}
+              pageSize={48}
+              style={{ float: 'right', marginTop: 20, marginRight: '-10px' }}
             />
           </Col>
         </Row>
