@@ -17,7 +17,8 @@
     },
     "include": [
         "src/**/*",
-        "tests/**/*", "../result.ts", "../types.ts", "../global.d.ts", "../common/global.d.ts", "../common/types.d.ts", "../common/Result.ts", "../common/result.ts", "../manager/src/components/ResultItem.tsx", "../api/postgres.ts", "../api/server.js", "../api/postgres.js", "../api/server.mjs", "../api/postgres", "../api/postgres.ts", "../api/postgres.js", "../api/monitor.js"
+        "tests/**/*",
+        "declarations.d.ts"
     ],
     "exclude": [
         "node_modules"

@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 const scrapeAttributes = new Queue('scrape_attributes', process.env.REDIS_URL)
 const store = new Queue('store_results', process.env.REDIS_URL)
-const sources = glob.sync(resolve(__dirname, './sources/sites/**/*.js'))
+const sources = glob.sync(resolve(__dirname, './sources/sites/**/*.ts'))
 let sourceList: any = {}
 
 sources.forEach((source: string) => {

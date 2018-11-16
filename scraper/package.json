@@ -10,9 +10,8 @@
     "notification"
   ],
   "scripts": {
-    "test": "tsc && mocha ./build/test/helper ./build/test/source",
-    "build": "tsc",
-    "start": "./node_modules/.bin/ts-node ./src/index.ts",
+    "test": "./node_modules/mocha/bin/mocha --require ts-node/register ./build/test/helper ./build/test/source",
+    "start": "./node_modules/.bin/ts-node --files ./src/index",
     "monitor": "./node_modules/.bin/ts-node monitor.js"
   },
   "author": "Tamara Robichet",
