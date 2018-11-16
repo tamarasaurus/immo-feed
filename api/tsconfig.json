@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "outDir": "./build",
         "allowJs": false,
         "target": "es6",
         "lib": [
@@ -16,9 +15,8 @@
         "strictPropertyInitialization": false
     },
     "include": [
-        "src/**/*",
-        "tests/**/*",
-        "declarations.d.ts"
+       "server.ts",
+       "postgres.ts"
     ],
     "exclude": [
         "node_modules"

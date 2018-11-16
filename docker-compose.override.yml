@@ -5,7 +5,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./scraper:/usr/src/app
+      - ./api:/usr/src/app
       - /usr/src/app/node_modules
 
   monitor:

@@ -10,12 +10,9 @@
     "notification"
   ],
   "scripts": {
-    "test": "tsc && mocha ./build/test/helper ./build/test/source",
-    "build": "tsc",
-    "start": "tsc && node ./build/index.js",
-    "monitor": "node monitor.js",
-    "serve": "tsc && node ./build/api/server.js",
-    "migrate": "./node_modules/.bin/migrate-mongo"
+    "test": "./node_modules/mocha/bin/mocha --require ts-node/register ./build/test/helper ./build/test/source",
+    "start": "./node_modules/.bin/ts-node --files ./src/index",
+    "monitor": "./node_modules/.bin/ts-node monitor.js"
   },
   "author": "Tamara Robichet",
   "license": "MIT",
@@ -54,6 +51,7 @@
     "express": "^4.16.3",
     "mocha": "^5.2.0",
     "random-useragent": "^0.3.1",
-    "sinon": "^6.1.3"
+    "sinon": "^6.1.3",
+    "ts-node": "^7.0.1"
   }
 }

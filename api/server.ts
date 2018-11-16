@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import { parse } from 'json2csv'
-import { Storage } from '../storage/postgres'
+import { Storage } from './postgres'
 import { pickBy, identity } from 'lodash'
 
 const app = express()
