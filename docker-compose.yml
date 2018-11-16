@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: scraper/Dockerfile
-    command: 'npm run start'
+    command: 'npm start'
     environment:
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'

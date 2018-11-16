@@ -1,4 +1,4 @@
-import { Storage } from '../../../api/postgres'
+import { Storage } from '../storage/postgres'
 import { Job, DoneCallback } from 'bull';
 
 module.exports = async function(job: Job, done: DoneCallback) {
