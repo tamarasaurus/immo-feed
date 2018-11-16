@@ -23,8 +23,10 @@ services:
 
   api:
     restart: always
-    image: scraper
-    command: 'npm run serve'
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    command: 'npm start'
     environment:
       POSTGRES_HOST: 'postgres'
     depends_on:
