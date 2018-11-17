@@ -17,6 +17,7 @@ services:
     environment:
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'
+      HTTP_PROXY: 'http://proxy:8118'
     depends_on:
       - postgres
       - redis
@@ -44,6 +45,16 @@ services:
   redis:
     image: redis
     container_name: cache
+
+  proxy:
+    image: zeta0/alpine-tor:latest
+    environment:
+      privoxy: 1
+      tors: 25
+      new_circuit_period: 10
+    ports:
+      - 8118:8118
+      - 2090:2090
 
 volumes:
   postgres: ~
