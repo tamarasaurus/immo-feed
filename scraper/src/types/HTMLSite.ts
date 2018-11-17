@@ -3,22 +3,28 @@ import AttributeType from './AttributeType'
 import ScrapedItem from './ScrapedItem'
 import * as request from 'request-promise'
 import * as randomUserAgent from 'random-useragent';
+import * as puppeteer from 'puppeteer'
 
 export default class HTMLSite {
   public attributes: {[name: string]: AttributeType}
   public itemSelector: string
 
-  async scrape(url: string): Promise<ScrapedItem[]> {
-    const response = await request.get({
-      url,
-      gzip: true,
-      headers: {
-        'Accept': 'text/html',
-        'Accept-Language': 'fr-FR',
-        'User-Agent': randomUserAgent.getRandom()
-      }
-    })
+  getPageContents(url: string): request.RequestPromise {
+    const userAgent = randomUserAgent.getRandom()
 
+    return request.get({
+        url,
+        gzip: true,
+        headers: {
+          'Accept': 'text/html',
+          'Accept-Language': 'fr-FR',
+          'User-Agent': userAgent
+        }
+    })
+  }
+
+  async scrape(url: string): Promise<ScrapedItem[]> {
+    const response = await this.getPageContents(url)
     const $: CheerioStatic = cheerio.load(response)
     const scrapedItems: ScrapedItem[] = []
     const items = $(this.itemSelector).toArray()
