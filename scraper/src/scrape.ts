@@ -7,7 +7,8 @@ const store = new Queue('store_results', process.env.REDIS_URL)
 // @TODO should be an array
 const urls = {
   Leboncoin: 'https://www.leboncoin.fr/ventes_immobilieres/offres/',
-  Francois: 'https://www.francois-et-francois-immobilier.com/achat/'
+  Francois: 'https://www.francois-et-francois-immobilier.com/achat/',
+  Ouestfrance: 'https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement'
 }
 
 scrapeAttributes.process('scrape', 1, require('./jobs/scrape.ts'))

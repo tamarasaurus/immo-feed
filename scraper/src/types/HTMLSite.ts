@@ -34,7 +34,12 @@ export default class HTMLSite {
 
       Object.entries(this.attributes).forEach(([ name, options ]) => {
         const Type: any = options.type
-        const element = $(options.selector, item)
+        let element = $(item)
+
+        if (options.hasOwnProperty('selector')) {
+          element = $(options.selector, item)
+        }
+
         let value = element.text().trim()
 
         if (options.attribute) {
