@@ -1,5 +1,5 @@
 import Price from "../attributes/Price";
 
-export default class Item {
+export default class ScrapedItem {
   price: Price | null
 }
