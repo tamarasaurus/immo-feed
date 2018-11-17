@@ -4,7 +4,7 @@ import HTMLSite from '../types/HTMLSite'
 import Size from '../attributes/Size';
 import Link from '../attributes/Link';
 
-export default class Leboncoin extends HTMLSite {
+export default class Francois extends HTMLSite {
   public itemSelector = '#biens-ls > .row.panel.panel-default'
 
   public attributes = {

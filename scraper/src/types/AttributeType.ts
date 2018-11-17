@@ -1,5 +1,5 @@
 export default interface AttributeType {
   type: any
-  selector: string
+  selector?: string
   attribute?: string
 }
