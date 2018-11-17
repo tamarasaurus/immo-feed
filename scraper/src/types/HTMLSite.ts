@@ -1,14 +1,14 @@
 import * as cheerio from 'cheerio'
 import Attribute from './Attribute'
+import Item from './Item'
 
 export default class HTMLSite {
   public attributes: {[name: string]: Attribute}
   public itemSelector: string
-  public url: string
 
-  scrape(response: string) {
+  scrape(response: string): Item[] {
     const $: CheerioStatic = cheerio.load(response)
-    const scrapedItems: any = []
+    const scrapedItems: Item[] = []
     const items = $(this.itemSelector).toArray()
 
     // fs.writeFileSync('./debug/leboncoin.html', $('body').html(), { encoding: 'utf-8'})
@@ -22,7 +22,7 @@ export default class HTMLSite {
         scrapedAttributes[name] = new Type(element.text().trim())
       })
 
-      scrapedItems.push(scrapedAttributes)
+      scrapedItems.push(Object.assign(new Item(), scrapedAttributes))
     })
 
     return scrapedItems
