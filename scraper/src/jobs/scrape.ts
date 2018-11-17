@@ -11,7 +11,6 @@ module.exports = function(job: Job, done: DoneCallback) {
         .then((results: ScrapedItem[]) => done(null, results))
         .catch((e: Error) => done(e))
     } catch (e) {
-      console.log('Error scraping 2')
       done(e)
     }
 }
