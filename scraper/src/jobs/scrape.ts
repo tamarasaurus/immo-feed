@@ -12,7 +12,7 @@ module.exports = function(job: Job, done: DoneCallback) {
       request.get({
           url,
           gzip: true,
-          proxy: process.env.HTTP_PROXY,
+          proxy: null,
           headers: {
             'Accept': 'text/html',
             'Accept-Language': 'fr-FR',

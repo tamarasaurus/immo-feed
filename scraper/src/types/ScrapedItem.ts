@@ -1,5 +1,8 @@
-import Price from "../attributes/Price";
-
 export default class ScrapedItem {
-  price: Price | null
+  price: number | null
+  name: string | null
+  description: string | null
+  size: number | null
+  photo: string | null
+  link: string | null
 }
