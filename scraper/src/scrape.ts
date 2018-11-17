@@ -4,8 +4,10 @@ import ScrapedItem from './types/ScrapedItem';
 const scrapeAttributes = new Queue('scrape_attributes', process.env.REDIS_URL)
 const store = new Queue('store_results', process.env.REDIS_URL)
 
+// @TODO should be an array
 const urls = {
-  Leboncoin: 'https://www.leboncoin.fr/ventes_immobilieres/offres/'
+  Leboncoin: 'https://www.leboncoin.fr/ventes_immobilieres/offres/',
+  Francois: 'https://www.francois-et-francois-immobilier.com/achat/'
 }
 
 scrapeAttributes.process('scrape', 1, require('./jobs/scrape.ts'))
