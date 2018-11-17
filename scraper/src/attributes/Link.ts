@@ -1,15 +1,14 @@
-import * as $ from 'cheerio'
 import * as path from 'path'
 
 export default class Link {
-  private link: string
+  private value: string = null
 
   public constructor(link: string, root: string) {
-    if (link === undefined || link === null) {
+    if (link === undefined || link === null || link.trim().length === 0) {
       return null
     }
 
-    this.link = this.normalize(link, root)
+    this.value = this.normalize(link, root)
   }
 
   private normalize(link: string, root: string): string {
@@ -23,6 +22,6 @@ export default class Link {
   }
 
   public getValue(): string {
-    return this.link
+    return this.value
   }
 }

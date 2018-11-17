@@ -1,19 +1,19 @@
-export default class Plaintext {
-  private text: string
+export default class Plainvalue {
+  private value: string = null
 
-  public constructor(text: string) {
-    if (text === undefined || text === null) {
+  public constructor(value: string) {
+    if (value === undefined || value === null || value.trim().length === 0) {
       return null
     }
 
-    this.text = this.normalize(text)
+    this.value = this.normalize(value)
   }
 
-  private normalize(text: string): string {
-    return text.trim()
+  private normalize(value: string): string {
+    return value.trim()
   }
 
   public getValue(): string {
-    return this.text
+    return this.value
   }
 }

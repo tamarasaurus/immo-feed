@@ -1,57 +1,22 @@
-type NormalizedPrice = {
-  number: number
-  currency: string
-}
-
 export default class Price {
-  private number: number
-  private currency: string
+  private value: number = null
 
   public constructor(price: string) {
     if (price === undefined || price === null) {
       return null
     }
 
-    const normalizedPrice = this.normalize(price)
-
-    if (normalizedPrice === null) {
-      return null
-    }
-
-    this.number = normalizedPrice.number
-    this.currency = normalizedPrice.currency
+    this.value = this.normalize(price)
   }
 
-  private normalize(price: string): NormalizedPrice {
+  private normalize(price: string): number {
     const strippedString = price.replace(/\s+/g, '');
-    const getnumber = /(\d+)|(\D+)/gm
-    const parsedString = strippedString.match(getnumber)
-
-    if (parsedString === null) {
-      return null
-    }
-
-    const number = parseInt(parsedString[0])
-    const currency = parsedString[1] || '€'
-
-    return {
-      number,
-      currency
-    }
+    const getValue = /(\d+)|(\D+)/gm
+    const parsedString = strippedString.match(getValue)
+    return parseInt(parsedString[0]) || 0
   }
 
-  public getValue(): NormalizedPrice {
-    return {
-      number: this.getNumber(),
-      currency: this.getCurrency()
-    }
-  }
-
-  public getNumber(): number {
-    return this.number
-  }
-
-  public getCurrency(): string {
-    return this.currency
+  public getValue(): number {
+    return this.value
   }
 }

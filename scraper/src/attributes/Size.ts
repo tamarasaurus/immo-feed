@@ -1,23 +1,15 @@
-type NormalizedSize = {
-  number: number
-  measurement: string
-}
-
 export default class Size {
-  private number: number
-  private measurement: string
+  private value: number = null
 
   public constructor(size: string) {
     if (size === undefined || size === null) {
       return null
     }
 
-    const normalizedSize = this.normalize(size)
-    this.number = normalizedSize.number
-    this.measurement = normalizedSize.measurement
+    this.value = this.normalize(size)
   }
 
-  private normalize(size: string): NormalizedSize {
+  private normalize(size: string): number {
     const sizeNumber = parseInt(size)
     let parsedSize: number = sizeNumber
 
@@ -27,27 +19,10 @@ export default class Size {
         parsedSize = match && match[0] ? parseInt(match[0].replace(/\D/gm, '')) : 0
     }
 
-    const number = parsedSize
-    const measurement = 'm²'
-
-    return {
-      number,
-      measurement
-    }
+    return parsedSize
   }
 
-  public getValue(): NormalizedSize {
-    return {
-      number: this.getNumber(),
-      measurement: this.getMeasurement()
-    }
-  }
-
-  public getNumber(): number {
-    return this.number
-  }
-
-  public getMeasurement(): string {
-    return this.measurement
+  public getValue(): number {
+    return this.value
   }
 }
