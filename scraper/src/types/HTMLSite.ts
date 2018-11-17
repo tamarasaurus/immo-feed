@@ -6,12 +6,10 @@ export default class HTMLSite {
   public attributes: {[name: string]: AttributeType}
   public itemSelector: string
   public url: string
-  public rawContents: string
   public $: CheerioStatic
 
   constructor(url: string, contents: string) {
     this.url = url
-    this.rawContents = contents
     this.$ = cheerio.load(contents)
   }
 
@@ -23,7 +21,7 @@ export default class HTMLSite {
     return this.$(item)
   }
 
-  getElementValue(item: Cheerio, attribute: string) {
+  getElementValue(item: Cheerio, attribute: string): string {
     if (attribute !== undefined) {
       return this.$(item).attr(attribute).trim()
     }
@@ -31,7 +29,7 @@ export default class HTMLSite {
     return this.$(item).text().trim()
   }
 
-  mapItem(item: CheerioElement, name: string, options: any): ScrapedItem {
+  mapAttribute(item: CheerioElement, options: any): any {
     const { type, selector, attribute } = options
     const element = this.getItemOrParentElement(item, selector)
     const value = this.getElementValue(element, attribute)
@@ -47,7 +45,7 @@ export default class HTMLSite {
       const scrapedAttributes: any = {}
 
       Object.entries(this.attributes).forEach(([ name, options ]) => {
-        scrapedAttributes[name] = this.mapItem(item, name, options)
+        scrapedAttributes[name] = this.mapAttribute(item, options)
       })
 
       scrapedItems.push(Object.assign(new ScrapedItem(), scrapedAttributes))
