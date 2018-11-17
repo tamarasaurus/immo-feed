@@ -12,6 +12,7 @@ export default class Leboncoin extends HTMLSite {
     price: { type: Price, selector: '[itemprop="price"]'},
     description: { type: Plaintext, selector: '[itemprop="availableAtOrFrom"]'},
     size: { type: Size, selector: '[itemprop="name"]'},
-    link: { type: Link, selector: '> a', attribute: 'href'}
+    link: { type: Link, selector: '> a', attribute: 'href'},
+    photo: { type: Link, selector: 'img', attribute: 'src'}
   }
 }

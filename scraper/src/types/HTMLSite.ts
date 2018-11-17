@@ -3,7 +3,6 @@ import AttributeType from './AttributeType'
 import ScrapedItem from './ScrapedItem'
 import * as request from 'request-promise'
 import * as randomUserAgent from 'random-useragent';
-import * as puppeteer from 'puppeteer'
 
 export default class HTMLSite {
   public attributes: {[name: string]: AttributeType}
@@ -15,6 +14,7 @@ export default class HTMLSite {
     return request.get({
         url,
         gzip: true,
+        proxy: process.env.HTTP_PROXY,
         headers: {
           'Accept': 'text/html',
           'Accept-Language': 'fr-FR',
@@ -38,10 +38,22 @@ export default class HTMLSite {
         let value = element.text().trim()
 
         if (options.attribute) {
-          value = element.attr(options.attribute).trim()
+          try {
+            value = element.attr(options.attribute).trim()
+          } catch (e) {
+            console.error(e)
+          }
         }
 
-        scrapedAttributes[name] = new Type(value, url).getValue()
+        const typeValue = new Type(value, url)
+
+        console.log(options.type, typeValue, typeValue.getValue())
+
+        if (typeValue === null) {
+          scrapedAttributes[name] = null
+        } else {
+          scrapedAttributes[name] = typeValue.getValue()
+        }
       })
 
       scrapedItems.push(Object.assign(new ScrapedItem(), scrapedAttributes))
