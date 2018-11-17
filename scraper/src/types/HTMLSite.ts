@@ -1,62 +1,53 @@
 import * as cheerio from 'cheerio'
 import AttributeType from './AttributeType'
 import ScrapedItem from './ScrapedItem'
-import * as request from 'request-promise'
-import * as randomUserAgent from 'random-useragent';
 
 export default class HTMLSite {
   public attributes: {[name: string]: AttributeType}
   public itemSelector: string
+  public url: string
+  public rawContents: string
+  public $: CheerioStatic
 
-  getPageContents(url: string): request.RequestPromise {
-    const userAgent = randomUserAgent.getRandom()
-
-    return request.get({
-        url,
-        gzip: true,
-        proxy: process.env.HTTP_PROXY,
-        headers: {
-          'Accept': 'text/html',
-          'Accept-Language': 'fr-FR',
-          'User-Agent': userAgent
-        }
-    })
+  constructor(url: string, contents: string) {
+    this.url = url
+    this.rawContents = contents
+    this.$ = cheerio.load(contents)
   }
 
-  async scrape(url: string): Promise<ScrapedItem[]> {
-    const response = await this.getPageContents(url)
-    const $: CheerioStatic = cheerio.load(response)
+  getItemOrParentElement(item: CheerioElement, selector: string): Cheerio {
+    if (selector !== undefined) {
+      return this.$(selector, item)
+    }
+
+    return this.$(item)
+  }
+
+  getElementValue(item: Cheerio, attribute: string) {
+    if (attribute !== undefined) {
+      return this.$(item).attr(attribute).trim()
+    }
+
+    return this.$(item).text().trim()
+  }
+
+  mapItem(item: CheerioElement, name: string, options: any): ScrapedItem {
+    const { type, selector, attribute } = options
+    const element = this.getItemOrParentElement(item, selector)
+    const value = this.getElementValue(element, attribute)
+    const typeValue = new type(value, this.url)
+    return typeValue.getValue()
+  }
+
+  getMappedItems(): ScrapedItem[] {
     const scrapedItems: ScrapedItem[] = []
-    const items = $(this.itemSelector).toArray()
+    const items = this.$(this.itemSelector).toArray()
 
     items.forEach(item => {
       const scrapedAttributes: any = {}
 
       Object.entries(this.attributes).forEach(([ name, options ]) => {
-        const Type: any = options.type
-        let element = $(item)
-
-        if (options.hasOwnProperty('selector')) {
-          element = $(options.selector, item)
-        }
-
-        let value = element.text().trim()
-
-        if (options.attribute) {
-          try {
-            value = element.attr(options.attribute).trim()
-          } catch (e) {
-            console.error('Error scraping', options.selector)
-          }
-        }
-
-        const typeValue = new Type(value, url)
-
-        if (typeValue === null) {
-          scrapedAttributes[name] = null
-        } else {
-          scrapedAttributes[name] = typeValue.getValue()
-        }
+        scrapedAttributes[name] = this.mapItem(item, name, options)
       })
 
       scrapedItems.push(Object.assign(new ScrapedItem(), scrapedAttributes))
