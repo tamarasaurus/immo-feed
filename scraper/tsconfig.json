@@ -13,7 +13,8 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
-        "strictPropertyInitialization": false
+        "strictPropertyInitialization": false,
+        "resolveJsonModule": true
     },
     "include": [
         "src/**/*",
