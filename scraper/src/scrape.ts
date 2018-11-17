@@ -8,7 +8,8 @@ const store = new Queue('store_results', process.env.REDIS_URL)
 const urls = {
   Leboncoin: 'https://www.leboncoin.fr/ventes_immobilieres/offres/',
   Francois: 'https://www.francois-et-francois-immobilier.com/achat/',
-  Ouestfrance: 'https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement'
+  Ouestfrance: 'https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement',
+  Seloger: 'https://www.seloger.com/list.htm?types=1,2&projects=2,5&natures=1,2,4&qsVersion=1.0'
 }
 
 scrapeAttributes.process('scrape', 1, require('./jobs/scrape.ts'))
