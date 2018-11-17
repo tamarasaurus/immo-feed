@@ -36,9 +36,9 @@ services:
       - ./scraper:/usr/src/app
       - /usr/src/app/node_modules
 
-  manager:
+  app:
     ports:
       - 3000:3000
     volumes:
-      - ./manager:/usr/src/app
+      - ./app:/usr/src/app
       - /usr/src/app/node_modules

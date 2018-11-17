@@ -62,17 +62,17 @@ docker-compose logs -f --tail=10
 
 ```bash
 cd scraper && npm install
-cd manager && npm install
+cd app && npm install
 
 # in three separate processes for each command:
 cd scraper && npm start # starts the scraper
 cd scraper && npm run serve # starts the api
-cd manager && npm start # serves the manager
+cd app && npm start # serves the app
 ```
 
 ## Accessing the results
 
-### Manager
+### app
 
 Visit `http://localhost:3000` to see and manage the results
 

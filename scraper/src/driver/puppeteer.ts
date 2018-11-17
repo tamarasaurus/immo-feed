@@ -64,8 +64,18 @@ export default class Puppeteer {
         return this.page.$(selector)
     }
 
+    public async takeScreenshot() {
+        return await this.page.screenshot({path: './debug/screenshot.png',
+            clip: {x: 0, y:0, width: 1280, height: 1000}
+        })
+    }
+
     public async click(selector: string) {
-        return this.page.click(selector)
+        try {
+            return await this.page.click(selector)
+        } catch (e) {
+            throw Error(`Cannot click on ${selector}`)
+        }
     }
 
     public async waitForSelector(selector: string, options?: any) {

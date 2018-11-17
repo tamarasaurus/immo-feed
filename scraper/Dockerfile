@@ -11,5 +11,4 @@ RUN apk update && apk upgrade && \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 COPY ./scraper .
-
 RUN npm install
