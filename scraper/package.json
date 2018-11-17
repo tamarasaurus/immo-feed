@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --require ts-node/register ./build/test/helper ./build/test/source",
-    "start": "./node_modules/.bin/ts-node --files ./src/index",
+    "start": "./node_modules/.bin/ts-node --files ./src/scrape",
     "monitor": "./node_modules/.bin/ts-node monitor.js"
   },
   "author": "Tamara Robichet",
