@@ -32,11 +32,11 @@ services:
     depends_on:
       - postgres
 
-  manager:
+  app:
     restart: always
     build:
       context: .
-      dockerfile: manager/Dockerfile
+      dockerfile: app/Dockerfile
     command: 'npm start'
     depends_on:
       - api

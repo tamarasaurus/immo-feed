@@ -1,6 +1,6 @@
 FROM mhart/alpine-node:11
 WORKDIR /usr/src/app
 
-COPY ./manager .
+COPY ./app .
 
 RUN npm install
