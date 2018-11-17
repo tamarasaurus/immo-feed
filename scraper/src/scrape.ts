@@ -1,17 +1,11 @@
-import * as request from 'request-promise'
-import * as randomUserAgent from 'random-useragent';
 import Leboncoin  from './sites/Leboncoin'
+import ScrapedItem from './types/ScrapedItem';
 
 const site = new Leboncoin()
+const url = 'https://www.leboncoin.fr/ventes_immobilieres/offres/'
 
-request.get({
-  url: 'https://www.leboncoin.fr/ventes_immobilieres/offres/',
-  gzip: true,
-  headers: {
-    'Accept': 'text/html',
-    'Accept-Language': 'fr-FR',
-    'User-Agent': randomUserAgent.getRandom()
-  }
+site.scrape(url).then((scrapedItems: ScrapedItem[]) => {
+  console.log(scrapedItems)
 })
-.then((response: string) => site.scrape(response))
-.then((scrapedItems: any) => console.log(scrapedItems))
+
+// .then((scrapedItems: any)=> console.log(scrapedItems))
