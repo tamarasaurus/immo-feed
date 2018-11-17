@@ -41,13 +41,11 @@ export default class HTMLSite {
           try {
             value = element.attr(options.attribute).trim()
           } catch (e) {
-            console.error(e)
+            console.error('Error scraping', options.selector)
           }
         }
 
         const typeValue = new Type(value, url)
-
-        console.log(options.type, typeValue, typeValue.getValue())
 
         if (typeValue === null) {
           scrapedAttributes[name] = null
