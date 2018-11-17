@@ -2,8 +2,9 @@ import * as cheerio from 'cheerio'
 import Attribute from './Attribute'
 
 export default class HTMLSite {
-  public itemSelector: string
   public attributes: {[name: string]: Attribute}
+  public itemSelector: string
+  public url: string
 
   scrape(response: string) {
     const $: CheerioStatic = cheerio.load(response)
