@@ -12,6 +12,7 @@ export default class Seloger extends HTMLSite {
     description: { type: Text, selector: '.c-pa-city'},
     price: { type: Price, selector: '.c-pa-price'},
     size: { type: Size, selector: '.c-pa-criterion em:nth-child(3)'},
-    link: { type: Link, selector: '.c-pa-link', attribute: 'href'}
+    link: { type: Link, selector: '.c-pa-link', attribute: 'href'},
+    photo: { type: Link, selector: '[data-lazy]', data: { name: 'lazy', key: 'url'}}
   }
 }
