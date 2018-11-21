@@ -1,5 +1,5 @@
 import Price from '../attributes/Price'
-import Plaintext from '../attributes/Plaintext'
+import Text from '../attributes/Text'
 import HTMLSite from '../types/HTMLSite'
 import Size from '../attributes/Size';
 import Link from '../attributes/Link';
@@ -9,8 +9,8 @@ export default class Stephane extends HTMLSite {
   public itemSelector = '[data-product-id]'
 
   public attributes = {
-    name: { type: Plaintext, selector: '.item-products_pieces'},
-    description: { type: Plaintext, selector: '.item-products_address'},
+    name: { type: Text, selector: '.item-products_pieces'},
+    description: { type: Text, selector: '.item-products_address'},
     price: { type: Price, selector: '.item-products_price'},
     size: { type: Size, selector: '.item-products_pieces'},
     link: { type: Link, attribute: 'data-url'},

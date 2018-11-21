@@ -22,16 +22,29 @@ services:
       - postgres
       - redis
 
+  # api:
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: api/Dockerfile
+  #   command: 'npm start'
+  #   environment:
+  #     POSTGRES_HOST: 'postgres'
+  #   depends_on:
+  #     - postgres
+
   api:
     restart: always
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    command: 'npm start'
+    image: postgrest/postgrest
+    ports:
+      - '8000:8000'
+    links:
+      - postgres:postgres
     environment:
-      POSTGRES_HOST: 'postgres'
-    depends_on:
-      - postgres
+      PGRST_SERVER_PORT: 8000
+      PGRST_DB_URI: postgres://postgres:postgres@postgres:5432/postgres
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: postgres
 
   app:
     restart: always

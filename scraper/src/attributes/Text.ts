@@ -1,4 +1,4 @@
-export default class Plainvalue {
+export default class Text {
   private value: string = null
 
   public constructor(value: string) {
