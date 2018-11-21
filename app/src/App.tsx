@@ -58,6 +58,7 @@ class App extends Component<{}, AppState> {
 
   async fetchResults(page: number) {
     const { filterValue, minPrice, maxPrice, minSize, maxSize } = this.state;
+    let offset = page === 1 ? 0 : page * 10
 
     const params = pickBy(
       {
@@ -66,12 +67,13 @@ class App extends Component<{}, AppState> {
         maxPrice,
         minSize,
         maxSize,
-        page
+        limit: 10,
+        offset
       },
       identity
     );
 
-    const response = await Results.fetchAll(params);
+    const response = await Results.fetchAll(params, page);
     const pinned = await Results.fetchPinned();
 
     this.setState({

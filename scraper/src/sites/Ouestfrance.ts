@@ -1,5 +1,5 @@
 import Price from '../attributes/Price'
-import Plaintext from '../attributes/Plaintext'
+import Text from '../attributes/Text'
 import HTMLSite from '../types/HTMLSite'
 import Size from '../attributes/Size';
 import Link from '../attributes/Link';
@@ -8,8 +8,8 @@ export default class Ouestfrance extends HTMLSite {
   public itemSelector = '#listAnnonces .annLink'
 
   public attributes = {
-    name: { type: Plaintext, selector: '.annVille' },
-    description: { type: Plaintext, selector: '.annTitre' },
+    name: { type: Text, selector: '.annVille' },
+    description: { type: Text, selector: '.annTitre' },
     price: { type: Price, selector: '.annPrix' },
     size: { type: Size, selector:  '.annCriteres em.firstCritere:nth-child(1)'},
     link: { type: Link, attribute: 'href' },

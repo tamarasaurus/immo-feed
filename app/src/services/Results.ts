@@ -11,19 +11,37 @@ interface FilterParams {
 }
 
 const Results = {
-  fetchAll(params: FilterParams) {
+  fetchAll(params: FilterParams, page: number) {
     const urlParams = new URLSearchParams()
     Object.entries(params).forEach(param => urlParams.append(...param))
     const queryParams = urlParams.toString()
 
     return fetch(new Request(`${url}/results?${queryParams}`), {
       mode: 'cors',
-      method: 'get'
-    }).then(response => response.json())
+      method: 'get',
+      headers: {
+        'Prefer': 'count=exact'
+      }
+    }).then(async (response) => {
+      return [await response.json(), response.headers.get('Content-Range')]
+    }).then(([json, contentRange]) => {
+      const total = parseInt(contentRange.split('/')[1])
+      const data = {
+        results: json,
+        page: page,
+        pages: Math.ceil(total / 10),
+        total: total,
+        filters: {
+          price: { min: 0, max: 123 },
+          size: { min: 0, max: 456}
+        }
+      }
+      return data
+    })
   },
 
   fetchPinned() {
-    return fetch(new Request(`${url}/pinned`), {
+    return fetch(new Request(`${url}/results?pinned=is.true`), {
       mode: 'cors',
       method: 'get'
     }).then(response => response.json())
