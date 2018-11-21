@@ -1,9 +1,9 @@
 import * as cheerio from 'cheerio'
-import AttributeType from './AttributeType'
+import Attribute from './Attribute'
 import ScrapedItem from './ScrapedItem'
 
 export default class HTMLSite {
-  public attributes: {[name: string]: AttributeType}
+  public attributes: {[name: string]: Attribute}
   public itemSelector: string
   public url: string
   public $: CheerioStatic

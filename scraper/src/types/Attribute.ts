@@ -1,4 +1,4 @@
-export default interface AttributeType {
+export default interface Attribute {
   type: any
   selector?: string
   attribute?: string
