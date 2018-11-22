@@ -13,7 +13,7 @@ db.query(
     name TEXT NOT NULL,
     description TEXT,
     size FLOAT,
-    price NUMERIC(2),
+    price DECIMAL(9,2),
     link TEXT PRIMARY KEY,
     created timestamp NOT NULL DEFAULT current_timestamp,
     updated timestamp NOT NULL DEFAULT current_timestamp,
