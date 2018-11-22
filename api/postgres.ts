@@ -44,8 +44,8 @@ export class Storage {
         type: STRING,
         primaryKey: true
       },
-      createdAt: DATE,
-      updatedAt: DATE,
+      created: DATE,
+      updated: DATE,
       photo: STRING,
       hidden: { type: BOOLEAN, defaultValue: false },
       pinned: { type: BOOLEAN, defaultValue: false },
@@ -68,7 +68,7 @@ export class Storage {
     const perPage = 48
     const filter = get(filters, 'filter')
     const page = get(filters, 'page', '1')
-    const sort = get(filters, 'sort', ['createdAt', 'DESC'])
+    const sort = get(filters, 'sort', ['created', 'DESC'])
     const minSize = get(filters, 'minSize', 0)
     const maxSize = get(filters, 'maxSize', 99999999999)
     const minPrice = get(filters, 'minPrice', 0)
@@ -129,6 +129,6 @@ export class Storage {
   }
 
   findUpdatedSince(date: Date) {
-    return this.result.findAll({ where: { updatedAt: { [Op.gt]: date } } })
+    return this.result.findAll({ where: { updated: { [Op.gt]: date } } })
   }
 }

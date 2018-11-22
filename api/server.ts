@@ -104,8 +104,8 @@ app.post("/results", cors(), async (request, response) => {
 
 //     const parsedRecords = parse(records, {
 //         fields: [
-//             'createdAt',
-//             'updatedAt',
+//             'created',
+//             'updated',
 //             'name',
 //             'description',
 //             'price',
