@@ -12,8 +12,8 @@ interface Result {
   description: string;
   link: string;
   photo: string;
-  createdAt: Date;
-  updatedAt: Date;
+  created: Date;
+  updated: Date;
   hidden: boolean;
   seen: boolean;
   pinned: boolean;

@@ -41,7 +41,7 @@ class ResultItem extends Component<ResultItemProps, ResultItemState> {
   }
 
   render() {
-    const { link, photo, name, createdAt, price, size, description, pinned } = this.props.data
+    const { link, photo, name, created, price, size, description, pinned } = this.props.data
     const style = { 'backgroundImage': `url(${photo})`}
     const cleanedDescription = description.replace('...', '').trim()
     const trimmedDescription = cleanedDescription.slice(0, 150)
@@ -53,7 +53,7 @@ class ResultItem extends Component<ResultItemProps, ResultItemState> {
         <div className="result-info">
             <div className="result-title">
               {name}
-              <div className="result-date">{new Date(`${createdAt}`).toLocaleString()}</div>
+              <div className="result-date">{new Date(`${created}`).toLocaleString()}</div>
               <div className="result-details">
                 <span>€{price.toLocaleString()}</span>
                 { (size && size > 0) ? <span>{size} m²</span> : ''}
