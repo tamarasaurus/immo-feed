@@ -1,139 +1,143 @@
-import * as express from 'express'
-import * as bodyParser from 'body-parser'
-import * as cors from 'cors'
-import { parse } from 'json2csv'
-import { Storage } from './postgres'
-import { pickBy, identity } from 'lodash'
+import * as express from "express";
+import * as bodyParser from "body-parser";
+import * as cors from "cors";
+import { parse } from "json2csv";
+import { Storage } from "./postgres";
+import { pickBy, identity } from "lodash";
 
-const app = express()
-const storage = new Storage()
+const app = express();
+// const storage = new Storage()
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.options('*', cors())
+app.options("*", cors());
 
-app.get('/results', cors(), async (req: any, res: any) => {
-    const { page, filterValue, minPrice, maxPrice, minSize, maxSize, sort } = req.query
-    const response = await storage.findAll({page, filter: filterValue, minPrice, maxPrice, minSize, maxSize, sort})
-    res.json(response)
-})
+app.post("/results", cors(), async (request, response) => {
+  response.json({});
+});
 
-app.get('/pinned', cors(), async (req: any, res: any) => {
-    const response = await storage.findPinned()
-    res.json(response)
-})
+// app.get('/results', cors(), async (req: any, res: any) => {
+//     const { page, filterValue, minPrice, maxPrice, minSize, maxSize, sort } = req.query
+//     const response = await storage.findAll({page, filter: filterValue, minPrice, maxPrice, minSize, maxSize, sort})
+//     res.json(response)
+// })
 
-app.get('/results/:id', cors(), async (req: any, res: any) => {
-    const { id } = req.params
-    const record = await storage.findById(id)
-    res.json(record)
-})
+// app.get('/pinned', cors(), async (req: any, res: any) => {
+//     const response = await storage.findPinned()
+//     res.json(response)
+// })
 
-app.post('/results/:id', cors(), async (req: any, res: any) => {
-    const { id } = req.params
-    const { hidden, pinned, seen } = req.body;
+// app.get('/results/:id', cors(), async (req: any, res: any) => {
+//     const { id } = req.params
+//     const record = await storage.findById(id)
+//     res.json(record)
+// })
 
-    console.log('body', req.body, req.query)
-    const data = pickBy({ hidden, pinned, seen }, identity)
+// app.post('/results/:id', cors(), async (req: any, res: any) => {
+//     const { id } = req.params
+//     const { hidden, pinned, seen } = req.body;
 
-    try {
-        await storage.update(data, id)
-        res.sendStatus(200)
-    } catch (e) {
-        console.log('Error hiding result', e)
-        res.sendStatus(500)
-    }
-})
+//     console.log('body', req.body, req.query)
+//     const data = pickBy({ hidden, pinned, seen }, identity)
 
-app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
-    const { id } = req.params
+//     try {
+//         await storage.update(data, id)
+//         res.sendStatus(200)
+//     } catch (e) {
+//         console.log('Error hiding result', e)
+//         res.sendStatus(500)
+//     }
+// })
 
-    try {
-        await storage.update({ hidden: true }, id)
-        res.sendStatus(200)
-    } catch (e) {
-        console.log('Error hiding result', e)
-        res.sendStatus(500)
-    }
-})
+// app.post('/results/:id/hide', cors(), async (req: any, res: any) => {
+//     const { id } = req.params
 
-app.post('/results/:id/see', cors(), async (req: any, res: any) => {
-    const { id } = req.params
+//     try {
+//         await storage.update({ hidden: true }, id)
+//         res.sendStatus(200)
+//     } catch (e) {
+//         console.log('Error hiding result', e)
+//         res.sendStatus(500)
+//     }
+// })
 
-    try {
-        await storage.update({ seen: true }, id)
-        res.sendStatus(200)
-    } catch (e) {
-        console.log('Error pinning result', e)
-        res.sendStatus(500)
-    }
-})
+// app.post('/results/:id/see', cors(), async (req: any, res: any) => {
+//     const { id } = req.params
 
-app.post('/results/:id/pin', cors(), async (req: any, res: any) => {
-    const { id } = req.params
+//     try {
+//         await storage.update({ seen: true }, id)
+//         res.sendStatus(200)
+//     } catch (e) {
+//         console.log('Error pinning result', e)
+//         res.sendStatus(500)
+//     }
+// })
 
-    try {
-        await storage.update({ pinned: true }, id)
-        res.sendStatus(200)
-    } catch (e) {
-        console.log('Error pinning result', e)
-        res.sendStatus(500)
-    }
-})
+// app.post('/results/:id/pin', cors(), async (req: any, res: any) => {
+//     const { id } = req.params
 
-app.post('/results/:id/unpin', cors(), async (req: any, res: any) => {
-    const { id } = req.params
+//     try {
+//         await storage.update({ pinned: true }, id)
+//         res.sendStatus(200)
+//     } catch (e) {
+//         console.log('Error pinning result', e)
+//         res.sendStatus(500)
+//     }
+// })
 
-    try {
-        await storage.update({ pinned: false }, id)
-        res.sendStatus(200)
-    } catch (e) {
-        console.log('Error pinning result', e)
-        res.sendStatus(500)
-    }
-})
+// app.post('/results/:id/unpin', cors(), async (req: any, res: any) => {
+//     const { id } = req.params
 
-app.get('/export/csv', cors(), async (req: any, res: any) => {
-    const { since, download } = req.query
-    let records = await storage.findUpdatedSince(since)
+//     try {
+//         await storage.update({ pinned: false }, id)
+//         res.sendStatus(200)
+//     } catch (e) {
+//         console.log('Error pinning result', e)
+//         res.sendStatus(500)
+//     }
+// })
 
-    const parsedRecords = parse(records, {
-        fields: [
-            'createdAt',
-            'updatedAt',
-            'name',
-            'description',
-            'price',
-            'size',
-            'link',
-            'photos'
-        ]
-    })
+// app.get('/export/csv', cors(), async (req: any, res: any) => {
+//     const { since, download } = req.query
+//     let records = await storage.findUpdatedSince(since)
 
-    if (!!download) {
-        const fileName = `attachment; filename=immo-feed-${new Date().getTime()}.csv`
-        res.setHeader('Content-disposition', fileName);
-        res.set('Content-Type', 'text/csv');
-    }
+//     const parsedRecords = parse(records, {
+//         fields: [
+//             'createdAt',
+//             'updatedAt',
+//             'name',
+//             'description',
+//             'price',
+//             'size',
+//             'link',
+//             'photos'
+//         ]
+//     })
 
-    return res.status(200).send(parsedRecords);
-})
+//     if (!!download) {
+//         const fileName = `attachment; filename=immo-feed-${new Date().getTime()}.csv`
+//         res.setHeader('Content-disposition', fileName);
+//         res.set('Content-Type', 'text/csv');
+//     }
 
-app.get('/export/json', cors(), async (req: any, res: any) => {
-    let { since, download } = req.query
+//     return res.status(200).send(parsedRecords);
+// })
 
-    if (!since) since = new Date('1/1/1970')
+// app.get('/export/json', cors(), async (req: any, res: any) => {
+//     let { since, download } = req.query
 
-    let records = await storage.findUpdatedSince(since)
+//     if (!since) since = new Date('1/1/1970')
 
-    if (!!download) {
-        const fileName = `attachment; filename=immo-feed-${new Date().getTime()}.json`
-        res.setHeader('Content-disposition', fileName);
-        res.set('Content-Type', 'application/json');
-    }
+//     let records = await storage.findUpdatedSince(since)
 
-    res.json(records)
-})
+//     if (!!download) {
+//         const fileName = `attachment; filename=immo-feed-${new Date().getTime()}.json`
+//         res.setHeader('Content-disposition', fileName);
+//         res.set('Content-Type', 'application/json');
+//     }
 
-app.listen(process.env.PORT || 8000)
+//     res.json(records)
+// })
+
+app.listen(process.env.PORT || 8000);

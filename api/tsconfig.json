@@ -16,6 +16,8 @@
     },
     "include": [
        "server.ts",
+       "routes/**/*.ts",
+       "index.ts",
        "postgres.ts"
     ],
     "exclude": [

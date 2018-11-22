@@ -29,7 +29,7 @@ services:
       dockerfile: api/Dockerfile
     command: 'npm start'
     environment:
-      POSTGRES_HOST: 'postgres'
+      POSTGRES_HOST: 'postgres://postgres:postgres@postgres:5432/postgres'
     depends_on:
       - postgres
 
