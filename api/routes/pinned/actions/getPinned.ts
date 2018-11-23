@@ -4,13 +4,10 @@ import { Response, Request } from 'express'
 
 export default function(request: Request, response: Response, next: any) {
   db.query(`
-    SELECT
-      MIN(size) as min_size,
-      MAX(size) as max_size,
-      ROUND(MIN(price)) as min_price,
-      ROUND(MAX(price)) as max_price,
-      COUNT(id) as total
+    SELECT *
     FROM results
+    WHERE pinned = true
+    ORDER BY created ASC
   `, [])
     .then((result: QueryResult) => {
       response.send(result.rows)
