@@ -5,6 +5,7 @@ import ScrapedItem from './ScrapedItem'
 interface Site {
   attributes: {[name: string]: Attribute}
   itemSelector: 'string'
+  load: boolean
 }
 
 export default class HTMLSite {
@@ -30,7 +31,8 @@ export default class HTMLSite {
 
   public getElementValue(element: Cheerio, attribute: string): string {
     if (attribute !== undefined) {
-      return this.$(element).attr(attribute).trim()
+      const value = this.$(element).attr(attribute)
+      return (value ? value.trim() : null)
     }
 
     return this.$(element).text().trim()

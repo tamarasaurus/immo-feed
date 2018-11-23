@@ -15,7 +15,7 @@ db.query(
     name TEXT NOT NULL,
     description TEXT,
     size FLOAT,
-    price DECIMAL(9,2),
+    price INTEGER,
     link TEXT PRIMARY KEY,
     created timestamp NOT NULL DEFAULT current_timestamp,
     updated timestamp NOT NULL DEFAULT current_timestamp,
