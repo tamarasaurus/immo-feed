@@ -25,7 +25,7 @@
         "no-console": false,
         "variable-name": false,
         "no-var-requires": false,
-        "only-arrow-functions": false,
+        "only-arrow-functions": false
     },
     "rulesDirectory": []
 }
