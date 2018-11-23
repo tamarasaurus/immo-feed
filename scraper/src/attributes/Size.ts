@@ -9,20 +9,20 @@ export default class Size {
     this.value = this.normalize(size)
   }
 
+  public getValue(): number {
+    return this.value
+  }
+
   private normalize(size: string): number {
-    const sizeNumber = parseInt(size)
+    const sizeNumber = parseInt(size, 10)
     let parsedSize: number = sizeNumber
 
     if (Number.isNaN(parsedSize)) {
-        const regex = /^\d+|(\b\d+\s+|\d)+\s?(?=m2|M²|m²|m\s)/gm;
+        const regex = /^\d+|(\b\d+\s+|\d)+\s?(?=m2|M²|m²|m\s)/gm
         const match = regex.exec(size)
-        parsedSize = match && match[0] ? parseInt(match[0].replace(/\D/gm, '')) : 0
+        parsedSize = match && match[0] ? parseInt(match[0].replace(/\D/gm, ''), 10) : 0
     }
 
     return parsedSize
-  }
-
-  public getValue(): number {
-    return this.value
   }
 }

@@ -1,8 +1,8 @@
 export default class ScrapedItem {
-  price: number | null
-  name: string | null
-  description: string | null
-  size: number | null
-  photo: string | null
-  link: string | null
+  public price: number | null
+  public name: string | null
+  public description: string | null
+  public size: number | null
+  public photo: string | null
+  public link: string | null
 }

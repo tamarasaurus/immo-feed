@@ -11,9 +11,13 @@ export default class BackgroundImage {
     this.value = this.normalize(style, root)
   }
 
+  public getValue(): string {
+    return this.value
+  }
+
   private normalize(style: string, root: string): string {
     const url = new URL(root)
-    let image = /(background-image:url\("|')(.*)("|'\))/.exec(style)
+    const image = /(background-image:url\("|')(.*)("|'\))/.exec(style)
     if (image === null) return null
 
     const match = image[2].split('../')[1]
@@ -23,9 +27,5 @@ export default class BackgroundImage {
     }
 
     return match
-  }
-
-  public getValue(): string {
-    return this.value
   }
 }
