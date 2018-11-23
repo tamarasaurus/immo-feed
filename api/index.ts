@@ -1,11 +1,11 @@
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
-import { QueryResult } from 'pg';
-import createResult from './routes/result';
-import db from './db';
+import * as express from 'express'
+import * as bodyParser from 'body-parser'
+import * as cors from 'cors'
+import { QueryResult } from 'pg'
+import createResult from './routes/result'
+import db from './db'
 
-const app = express();
+const app = express()
 
 db.query(
   `CREATE TABLE IF NOT EXISTS results(
@@ -23,14 +23,14 @@ db.query(
     seen BOOLEAN NOT NULL DEFAULT false
    )`, [])
   .then((results: QueryResult) => {
-    console.log(results);
+    console.log(results)
   })
   .catch((error: Error) => {
       console.error('Error creating table', error)
-  });
+  })
 
-app.options('*', cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use('/results', cors(), createResult);
-app.listen(process.env.PORT || 8000);
+app.options('*', cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use('/results', cors(), createResult)
+app.listen(process.env.PORT || 8000)
