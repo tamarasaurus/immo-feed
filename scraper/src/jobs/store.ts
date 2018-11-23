@@ -3,24 +3,15 @@ import * as request from 'request-promise'
 
 console.log(process.env.API_URL)
 
-module.exports = async function(job: Job, done: DoneCallback) {
-    try {
-        const results = job.data
-        const storedResults = []
+module.exports = function(job: Job, done: DoneCallback) {
+    const result = job.data
 
-        for (const result of results) {
-            storedResults.push(
-                await request({
-                    method: 'post',
-                    url: `${process.env.API_URL}/results`,
-                    body: result,
-                    json: true
-                })
-            )
-        }
-
-        done(null, storedResults)
-    } catch (e) {
-        done(e)
-    }
+    request({
+        method: 'post',
+        url: `${process.env.API_URL}/results`,
+        body: result,
+        json: true,
+    })
+    .then((savedResult) => done(null, savedResult))
+    .catch((error: Error) => done(error))
 }
