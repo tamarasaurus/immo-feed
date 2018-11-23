@@ -3,9 +3,14 @@ import { QueryResult } from 'pg'
 import { Response, Request } from 'express'
 
 export default function(request: Request, response: Response, next: any) {
-  const id = request.params.id
-
-  db.query('DELETE FROM results WHERE id = $1', [id])
+  db.query(`
+    SELECT
+      MIN(size) as min_size,
+      MAX(size) as max_size,
+      ROUND(MIN(price)) as min_price,
+      ROUND(MAX(price)) as max_price
+    FROM results
+  `, [])
     .then((result: QueryResult) => {
       response.send(result.rows)
     })

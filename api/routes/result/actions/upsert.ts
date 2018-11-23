@@ -1,6 +1,6 @@
-import { QueryResult } from 'pg';
-import db from "../../../db";
-import { Response, Request } from "express";
+import { QueryResult } from 'pg'
+import db from '../../../db'
+import { Response, Request } from 'express'
 
 export default function(request: Request, response: Response, next: any) {
   const {
@@ -12,10 +12,8 @@ export default function(request: Request, response: Response, next: any) {
     photo,
     hidden,
     pinned,
-    seen
-  } = request.body;
-
-  console.log('undefined', hidden, pinned, seen)
+    seen,
+  } = request.body
 
   // @TODO - Make request data into a validated object
   db.query(`
@@ -43,12 +41,12 @@ export default function(request: Request, response: Response, next: any) {
       photo,
       hidden,
       pinned,
-      seen
+      seen,
     ])
   .then((result: QueryResult) => {
     response.json(result.rows)
   })
   .catch((error: Error) => {
-    return next(error);
-  });
+    return next(error)
+  })
 }

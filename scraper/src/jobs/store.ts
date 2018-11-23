@@ -1,17 +1,23 @@
-import { Storage } from '../storage/postgres'
-import { Job, DoneCallback } from 'bull';
+import { Job, DoneCallback } from 'bull'
+import * as request from 'request-promise'
+
+console.log(process.env.API_URL)
 
 module.exports = async function(job: Job, done: DoneCallback) {
     try {
-        const storage = new Storage()
         const results = job.data
         const storedResults = []
 
-        for (let result of results) {
-            storedResults.push(await storage.updateOrCreate(result))
+        for (const result of results) {
+            storedResults.push(
+                await request({
+                    method: 'post',
+                    url: `${process.env.API_URL}/results`,
+                    body: result,
+                    json: true
+                })
+            )
         }
-
-        storage.cleanup()
 
         done(null, storedResults)
     } catch (e) {
