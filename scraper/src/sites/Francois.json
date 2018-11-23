@@ -1,5 +1,6 @@
 {
   "itemSelector": "#biens-ls > .row.panel.panel-default",
+  "load": true,
   "attributes": {
     "name": { "type": "Text", "selector": ".panel-body h2" },
     "description": { "type": "Text", "selector": ".panel-body .text-justify" },

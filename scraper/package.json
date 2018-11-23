@@ -16,12 +16,15 @@
   "author": "Tamara Robichet",
   "license": "MIT",
   "dependencies": {
+    "@types/puppeteer": "^1.10.0",
     "body-parser": "^1.18.3",
     "bull": "^3.4.7",
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.4",
     "glob": "^7.1.2",
+    "puppeteer": "^1.10.0",
     "redis": "^2.8.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "typescript": "^2.9.1"
   },
@@ -35,6 +38,7 @@
     "@types/node": "^9.6.39",
     "@types/request-promise": "^4.1.41",
     "@types/sinon": "^5.0.1",
+    "@types/puppeteer": "^5.0.1",
     "bull-arena": "^2.4.5",
     "chalk": "^2.4.1",
     "express": "^4.16.3",

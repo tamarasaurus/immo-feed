@@ -1,5 +1,6 @@
 {
   "itemSelector": "li[itemtype=\"http://schema.org/Offer\"]",
+  "load": true,
   "attributes": {
     "name": { "type": "Text", "selector": "[itemprop=\"name\"]"},
     "price": { "type": "Price", "selector": "[itemprop=\"price\"]"},
