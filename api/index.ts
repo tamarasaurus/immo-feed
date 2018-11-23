@@ -4,7 +4,6 @@ import * as cors from 'cors'
 import { QueryResult } from 'pg'
 import result from './routes/result'
 import filters from './routes/filters'
-import search from './routes/search'
 
 import db from './db'
 
@@ -37,5 +36,4 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/results', cors(), result)
 app.use('/filters', cors(), filters)
-app.use('/search', cors(), search)
 app.listen(process.env.PORT || 8000)
