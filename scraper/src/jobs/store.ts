@@ -1,8 +1,6 @@
 import { Job, DoneCallback } from 'bull'
 import * as request from 'request-promise'
 
-console.log(process.env.API_URL)
-
 module.exports = function(job: Job, done: DoneCallback) {
     const result = job.data
 

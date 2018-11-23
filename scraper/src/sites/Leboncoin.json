@@ -1,0 +1,11 @@
+{
+  "itemSelector": "li[itemtype=\"http://schema.org/Offer\"]",
+  "attributes": {
+    "name": { "type": "Text", "selector": "[itemprop=\"name\"]"},
+    "price": { "type": "Price", "selector": "[itemprop=\"price\"]"},
+    "description": { "type": "Text", "selector": "[itemprop=\"availableAtOrFrom\"]"},
+    "size": { "type": "Size", "selector": "[itemprop=\"name\"]"},
+    "link": { "type": "Link", "selector": "> a", "attribute": "href"},
+    "photo": { "type": "Link", "selector": "img", "attribute": "src"}
+  }
+}
