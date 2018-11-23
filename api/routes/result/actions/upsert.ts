@@ -1,3 +1,4 @@
+import { QueryResult } from 'pg';
 import db from "../../../db";
 import { Response, Request } from "express";
 
@@ -17,7 +18,6 @@ export default function(request: Request, response: Response, next: any) {
   console.log('undefined', hidden, pinned, seen)
 
   // @TODO - Make request data into a validated object
-  // @TODO - Dynamically structure the query to only insert not null values in the update
   db.query(`
     INSERT INTO results(name, price, size, description, link, photo)
     VALUES ($1, $2, $3, $4, $5, $6 )
@@ -33,6 +33,7 @@ export default function(request: Request, response: Response, next: any) {
             hidden = COALESCE($7, results.hidden),
             pinned = COALESCE($8, results.pinned),
             seen = COALESCE($9, results.seen)
+    RETURNING *
   `,
     [ name,
       price,
@@ -44,8 +45,8 @@ export default function(request: Request, response: Response, next: any) {
       pinned,
       seen
     ])
-  .then(() => {
-    response.status(200).send('OK')
+  .then((result: QueryResult) => {
+    response.json(result.rows)
   })
   .catch((error: Error) => {
     return next(error);
