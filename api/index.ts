@@ -28,7 +28,7 @@ db.query(
     console.log(results)
   })
   .catch((error: Error) => {
-      console.error('Error creating table', error)
+    console.error('Error creating table', error)
   })
 
 app.options('*', cors())

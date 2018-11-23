@@ -10,7 +10,6 @@ const pool = new pg.Pool({
 })
 
 const query = (text: string, values: any[]) => {
-  console.log('query:', text, values)
   return pool.query(text, values)
 }
 
