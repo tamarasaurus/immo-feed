@@ -9,11 +9,11 @@ export default class Text {
     this.value = this.normalize(value)
   }
 
-  private normalize(value: string): string {
-    return value.trim()
-  }
-
   public getValue(): string {
     return this.value
+  }
+
+  private normalize(value: string): string {
+    return value.trim()
   }
 }

@@ -11,6 +11,10 @@ export default class Link {
     this.value = this.normalize(link, root)
   }
 
+  public getValue(): string {
+    return this.value
+  }
+
   private normalize(link: string, root: string): string {
     const url = new URL(root)
 
@@ -19,9 +23,5 @@ export default class Link {
     }
 
     return link.trim()
-  }
-
-  public getValue(): string {
-    return this.value
   }
 }

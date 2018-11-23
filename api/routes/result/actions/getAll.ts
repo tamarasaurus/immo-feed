@@ -53,7 +53,7 @@ export default function(request: Request, response: Response, next: any) {
       SELECT MAX(size) from results
     ))
     ${searchQuery}
-    ORDER BY created DESC
+    ORDER BY created ASC
     LIMIT COALESCE($6, 10)
     OFFSET COALESCE($5, 0)
   `, queryData)
