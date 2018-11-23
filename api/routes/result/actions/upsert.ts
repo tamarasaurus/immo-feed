@@ -24,15 +24,15 @@ export default function(request: Request, response: Response, next: any) {
     ON CONFLICT (link)
     DO
       UPDATE
-        SET name = $1,
-            price = $2,
-            size = $3,
-            description = $4,
-            photo = $6,
-            updated = now()
-            ,hidden = $7,
-            pinned = $8,
-            seen = $9
+        SET name = COALESCE($1, results.name),
+            price = COALESCE($2, results.price),
+            size = COALESCE($3, results.size),
+            description = COALESCE($4, results.description),
+            photo = COALESCE($6, results.photo),
+            updated = now(),
+            hidden = COALESCE($7, results.hidden),
+            pinned = COALESCE($8, results.pinned),
+            seen = COALESCE($9, results.seen)
   `,
     [ name,
       price,
