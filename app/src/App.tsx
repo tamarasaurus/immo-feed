@@ -23,9 +23,9 @@ class App extends Component<{}, AppState> {
       this.setState({
         results,
         filters: {
-          price: [parseInt(min_price), parseInt(max_price)],
-          size: [parseInt(min_size), parseInt(max_size)]
-        }
+          price: [parseInt(min_price, 10), parseInt(max_price, 10)],
+          size: [parseInt(min_size, 10), parseInt(max_size, 10)],
+        },
        })
     })
   }
@@ -39,7 +39,7 @@ class App extends Component<{}, AppState> {
       fetch(new Request('http://localhost:8000/filters'), {
         mode: 'cors',
         method: 'get',
-      }).then(response => response.json())
+      }).then(response => response.json()),
     ])
   }
 

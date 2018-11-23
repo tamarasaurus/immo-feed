@@ -2,15 +2,42 @@ import db from '../../../db'
 import { QueryResult } from 'pg'
 import { Response, Request } from 'express'
 
-export default function (request: Request, response: Response, next: any) {
+export default function(request: Request, response: Response, next: any) {
   const {
     min_price,
     max_price,
     min_size,
     max_size,
     offset,
-    limit
+    limit,
+    search,
   } = request.query
+
+  let searchQuery = ''
+
+  const queryData = [
+      min_price,
+      max_price,
+      min_size,
+      max_size,
+      offset,
+      limit,
+  ]
+
+  if (search !== undefined && search.length > 0) {
+    const searchTerms = search.split(' ').map((term: string) => `${term}:*`).join('|')
+
+    searchQuery = `
+      AND (
+        to_tsvector('english', COALESCE(name, ''))      ||
+        to_tsvector('english', COALESCE(description, ''))         ||
+        to_tsvector('english', COALESCE(price::text, ''))         ||
+        to_tsvector('english', COALESCE(size::text, ''))
+      ) @@ to_tsquery('english', $7)
+    `
+
+    queryData.push(searchTerms)
+  }
 
   db.query(`
     SELECT *
@@ -25,17 +52,11 @@ export default function (request: Request, response: Response, next: any) {
     )) AND COALESCE($4, (
       SELECT MAX(size) from results
     ))
+    ${searchQuery}
     ORDER BY created DESC
     LIMIT COALESCE($6, 10)
     OFFSET COALESCE($5, 0)
-  `, [
-      min_price,
-      max_price,
-      min_size,
-      max_size,
-      offset,
-      limit
-    ])
+  `, queryData)
     .then((result: QueryResult) => {
       response.send(result.rows)
     })
