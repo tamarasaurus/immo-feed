@@ -2,7 +2,9 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import { QueryResult } from 'pg'
-import createResult from './routes/result'
+import result from './routes/result'
+import filters from './routes/filters'
+
 import db from './db'
 
 const app = express()
@@ -32,5 +34,6 @@ db.query(
 app.options('*', cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use('/results', cors(), createResult)
+app.use('/results', cors(), result)
+app.use('/filters', cors(), filters)
 app.listen(process.env.PORT || 8000)
