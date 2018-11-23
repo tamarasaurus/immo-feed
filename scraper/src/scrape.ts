@@ -3,7 +3,7 @@ import ScrapedItem from './types/ScrapedItem'
 
 const scrapeAttributes = new Queue('scrape_attributes', process.env.REDIS_URL)
 const store = new Queue('store_results', process.env.REDIS_URL)
-const sites = require('./sites.json').sites
+const sites = require('./sites.json')
 
 scrapeAttributes.process('scrape', 1, require('./jobs/scrape.ts'))
 scrapeAttributes

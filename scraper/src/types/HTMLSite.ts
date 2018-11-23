@@ -2,18 +2,25 @@ import * as cheerio from 'cheerio'
 import Attribute, { DataAttribute } from './Attribute'
 import ScrapedItem from './ScrapedItem'
 
+interface Site {
+  attributes: {[name: string]: Attribute}
+  itemSelector: 'string'
+}
+
 export default class HTMLSite {
   public attributes: {[name: string]: Attribute}
   public itemSelector: string
   public url: string
   public $: CheerioStatic
 
-  constructor(url: string, contents: string) {
+  constructor(site: Site, url: string, contents: string) {
     this.url = url
+    this.attributes = site.attributes
+    this.itemSelector = site.itemSelector
     this.$ = cheerio.load(contents)
   }
 
-  getItemOrParentElement(item: CheerioElement, selector: string): Cheerio {
+  public getItemOrParentElement(item: CheerioElement, selector: string): Cheerio {
     if (selector !== undefined) {
       return this.$(selector, item)
     }
@@ -21,7 +28,7 @@ export default class HTMLSite {
     return this.$(item)
   }
 
-  getElementValue(element: Cheerio, attribute: string): string {
+  public getElementValue(element: Cheerio, attribute: string): string {
     if (attribute !== undefined) {
       return this.$(element).attr(attribute).trim()
     }
@@ -29,7 +36,7 @@ export default class HTMLSite {
     return this.$(element).text().trim()
   }
 
-  getElementDataAttributeKeyValue(element: Cheerio, { name, key }: DataAttribute): string | null {
+  public getElementDataAttributeKeyValue(element: Cheerio, { name, key }: DataAttribute): string | null {
     const value = this.$(element).data(name)
 
     if (name !== undefined && key !== undefined ) {
@@ -43,21 +50,22 @@ export default class HTMLSite {
     return value
   }
 
-  mapAttribute(item: CheerioElement, options: any): any {
+  public mapAttribute(item: CheerioElement, options: any): any {
     const { type, selector, attribute, data } = options
 
     const element = this.getItemOrParentElement(item, selector)
-    let value = this.getElementValue(element, attribute)
+    const value = this.getElementValue(element, attribute)
 
     if (data !== undefined) {
       return this.getElementDataAttributeKeyValue(element, data)
     }
 
-    const typeValue = new type(value, this.url)
+    const Type = require(`../attributes/${type}.ts`).default
+    const typeValue = new Type(value, this.url)
     return typeValue.getValue()
   }
 
-  getMappedItems(): ScrapedItem[] {
+  public getMappedItems(): ScrapedItem[] {
     const scrapedItems: ScrapedItem[] = []
     const items = this.$(this.itemSelector).toArray()
 

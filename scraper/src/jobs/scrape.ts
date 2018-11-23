@@ -1,12 +1,13 @@
-import { Job, DoneCallback } from "bull";
-import ScrapedItem from "../types/ScrapedItem";
+import { Job, DoneCallback } from 'bull'
+import ScrapedItem from '../types/ScrapedItem'
 import * as request from 'request-promise'
-import * as randomUserAgent from 'random-useragent';
+import * as randomUserAgent from 'random-useragent'
+import HTMLSite from '../types/HTMLSite'
 
 module.exports = function(job: Job, done: DoneCallback) {
     try {
       const { name, url } = job.data
-      const siteModule: any = require(`../sites/${name}.ts`)
+      const site: any = require(`../sites/${name}.json`)
       const userAgent = randomUserAgent.getRandom()
 
       request.get({
@@ -16,12 +17,12 @@ module.exports = function(job: Job, done: DoneCallback) {
           headers: {
             'Accept': 'text/html',
             'Accept-Language': 'fr-FR',
-            'User-Agent': userAgent
-          }
+            'User-Agent': userAgent,
+          },
       })
       .then((contents) => {
-        const site = new siteModule.default(url, contents)
-        return site.getMappedItems()
+        const page = new HTMLSite(site, url, contents)
+        return page.getMappedItems()
       })
       .then((results: ScrapedItem[]) => done(null, results))
       .catch((e: Error) => done(e))
