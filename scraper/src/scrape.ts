@@ -30,7 +30,7 @@ store.process('store', 500, require('./jobs/store'))
 
 function scrape() {
   sites.forEach((site: any) => {
-    const [ name, url ] = site
+    const [name, url] = site
     scrapeAttributes.add('scrape', { name, url })
   })
 }
@@ -41,7 +41,7 @@ function run() {
   scrape()
 
   setInterval(function() {
-      scrape()
+    scrape()
   }, parseInt(process.env.SCRAPER_FREQUENCY_MINUTES || '10', 10) * 60 * 1000)
 }
 

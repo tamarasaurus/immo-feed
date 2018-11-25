@@ -54,7 +54,7 @@ export default function(request: Request, response: Response, next: any) {
     ))
     ${searchQuery}
     ORDER BY created ASC
-    LIMIT COALESCE($6, 10)
+    LIMIT COALESCE($6, 100)
     OFFSET COALESCE($5, 0)
   `, queryData)
     .then((result: QueryResult) => {

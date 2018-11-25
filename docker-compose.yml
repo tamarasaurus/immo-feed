@@ -34,11 +34,9 @@ services:
       - postgres
 
   app:
-    restart: always
     build:
       context: .
       dockerfile: app/Dockerfile
-    command: 'npm start'
     depends_on:
       - api
 
