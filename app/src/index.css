@@ -194,6 +194,7 @@ h2 {
   height: 22px;
 }
 
+.action.hover svg path,
 .action:hover svg path {
   fill: white;
 }
@@ -202,11 +203,20 @@ h2 {
   border-bottom: 1px #eee solid;
 }
 
+.action.hover,
 .action:hover {
   background-color: green;
-  color: white;
 }
 
+.action.hover:hover {
+  background-color: white;
+}
+
+.action.hover:hover svg path {
+  fill: #ccc;
+}
+
+.action:nth-child(2).hover,
 .action:nth-child(2):hover {
   background-color: red;
 }

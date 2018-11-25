@@ -7,7 +7,7 @@ export default function(request: Request, response: Response, next: any) {
     SELECT *
     FROM results
     WHERE pinned = true
-    ORDER BY created ASC
+    ORDER BY updated ASC
   `, [])
     .then((result: QueryResult) => {
       response.send(result.rows)

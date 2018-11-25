@@ -15,7 +15,6 @@ export default function(request: Request, response: Response, next: any) {
     seen,
   } = request.body
 
-  // @TODO - Make request data into a validated object
   db.query(`
     INSERT INTO results(name, price, size, description, link, photo)
     VALUES ($1, $2, $3, $4, $5, $6 )
