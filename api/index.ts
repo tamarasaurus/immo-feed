@@ -4,6 +4,7 @@ import * as cors from 'cors'
 import { QueryResult } from 'pg'
 import result from './routes/result'
 import filters from './routes/filters'
+import pinned from './routes/pinned'
 
 import db from './db'
 
@@ -36,4 +37,5 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/results', cors(), result)
 app.use('/filters', cors(), filters)
+app.use('/pinned', cors(), pinned)
 app.listen(process.env.PORT || 8000)
