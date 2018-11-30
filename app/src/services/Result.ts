@@ -1,5 +1,5 @@
-export function getAll(offset: number) {
-  return fetch(new Request(`http://localhost:8000/results?offset=${offset}`), {
+export function getAll(offset: number, search: string) {
+  return fetch(new Request(`http://localhost:8000/results?offset=${offset}&search=${search}`), {
     mode: 'cors',
     method: 'get',
   }).then(response => response.json())

@@ -12,7 +12,7 @@ interface PaginationState {
   offset: number
 }
 
-class App extends Component<PaginationProps, PaginationState> {
+class Pagination extends Component<PaginationProps, PaginationState> {
   constructor(props: PaginationProps) {
     super(props)
 
@@ -55,4 +55,4 @@ class App extends Component<PaginationProps, PaginationState> {
   }
 }
 
-export default App
+export default Pagination

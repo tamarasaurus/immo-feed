@@ -1,6 +1,8 @@
-import React, { Component, MouseEvent } from 'react'
+import React, { Component, MouseEvent, ChangeEvent } from 'react'
 import Pagination from './components/Pagination'
 import { getAll, getPinned, getFilters, saveResult } from './services/Result'
+import Search from './components/Search';
+import { DebounceInput } from 'react-debounce-input';
 
 interface AppState {
   results: any[]
@@ -8,6 +10,7 @@ interface AppState {
   filters: any
   offset: number
   total: number
+  search: string
 }
 
 class App extends Component<{}, AppState> {
@@ -20,10 +23,12 @@ class App extends Component<{}, AppState> {
       pinned: [],
       filters: {},
       total: 100000,
+      search: ''
     }
 
     this.offsetUpdated = this.offsetUpdated.bind(this)
     this.pinResult = this.pinResult.bind(this)
+    this.searchUpdated = this.searchUpdated.bind(this)
   }
 
   public componentDidMount() {
@@ -48,6 +53,14 @@ class App extends Component<{}, AppState> {
     }
   }
 
+  public searchUpdated(event: ChangeEvent<HTMLInputElement>) {
+    const search = event.target.value
+
+    if (this.state.search !== search) {
+      this.setState({ search }, () => this.renderResults())
+    }
+  }
+
   public renderResults() {
     this.fetchResults().then(([results, pinned, filters ]) => {
       const { min_price, max_price, min_size, max_size, total } = filters[0]
@@ -65,7 +78,7 @@ class App extends Component<{}, AppState> {
 
   public fetchResults() {
     return Promise.all([
-      getAll(this.state.offset),
+      getAll(this.state.offset, this.state.search),
       getPinned(),
       getFilters(),
     ])
@@ -75,6 +88,7 @@ class App extends Component<{}, AppState> {
     return (<>
       <div className="header">
         <h1>🏠 immo-feed</h1>
+        <DebounceInput className="search" debounceTimeout={400} onChange={this.searchUpdated}/>
         <Pagination total={this.state.total} offsetUpdated={this.offsetUpdated} offset={this.state.offset}/>
       </div>
       { this.state.pinned.length > 0 ?
@@ -83,23 +97,23 @@ class App extends Component<{}, AppState> {
           <ul className="list">
             {this.state.pinned.map((result) => {
                 return <li
-                          className="list-item"
-                          key={result.id} id={result.id}>
-                          <a href={result.link} target="_blank" className="list-item-photo" style={{backgroundImage: `url('${result.photo}')`}}></a>
-                          <div className="list-item-details">
-                            <div className="list-item-name">{result.name}</div>
-                            <div className="list-item-date">{new Date(result.created).toLocaleDateString()} {new Date(result.created).toLocaleTimeString()}</div>
-                            <div className="list-item-description">{result.description}</div>
-                          </div>
-                          <div className="list-item-data">
-                            {result.size > 0 ? <span className="pill">{result.size}m²</span> : ''}
-                            {result.price > 0 ? <span className="pill">€{result.price.toLocaleString()}</span> : ''}
-                          </div>
-                          <div className="list-item-actions">
-                            <button onClick={this.unpinResult.bind(this, result)} className="action hover"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z"/></svg></button>
-                            <button className="action"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 5C9.935 5 5 9.934 5 16c0 6.067 4.935 11 11 11s11-4.933 11-11c0-6.066-4.935-11-11-11zm0 2.75c1.777 0 3.427.569 4.775 1.53L9.279 20.778A8.214 8.214 0 0 1 7.75 16c0-4.549 3.701-8.25 8.25-8.25zm0 16.5a8.2 8.2 0 0 1-4.775-1.53l11.494-11.497A8.205 8.205 0 0 1 24.25 16c0 4.547-3.701 8.25-8.25 8.25z"/></svg></button>
-                          </div>
-                      </li>
+                    className="list-item"
+                    key={result.id} id={result.id}>
+                    <a href={result.link} target="_blank" className="list-item-photo" style={{backgroundImage: `url('${result.photo}')`}}></a>
+                    <div className="list-item-details">
+                      <div className="list-item-name">{result.name}</div>
+                      <div className="list-item-date">{new Date(result.created).toLocaleDateString()} {new Date(result.created).toLocaleTimeString()}</div>
+                      <div className="list-item-description">{result.description}</div>
+                    </div>
+                    <div className="list-item-data">
+                      {result.size > 0 ? <span className="pill">{result.size}m²</span> : ''}
+                      {result.price > 0 ? <span className="pill">€{result.price.toLocaleString()}</span> : ''}
+                    </div>
+                    <div className="list-item-actions">
+                      <button onClick={this.unpinResult.bind(this, result)} className="action hover"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z"/></svg></button>
+                      <button className="action"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 5C9.935 5 5 9.934 5 16c0 6.067 4.935 11 11 11s11-4.933 11-11c0-6.066-4.935-11-11-11zm0 2.75c1.777 0 3.427.569 4.775 1.53L9.279 20.778A8.214 8.214 0 0 1 7.75 16c0-4.549 3.701-8.25 8.25-8.25zm0 16.5a8.2 8.2 0 0 1-4.775-1.53l11.494-11.497A8.205 8.205 0 0 1 24.25 16c0 4.547-3.701 8.25-8.25 8.25z"/></svg></button>
+                    </div>
+                </li>
                 })}
             </ul>
         </>
@@ -111,23 +125,23 @@ class App extends Component<{}, AppState> {
           <ul className="list">
             {this.state.results.map((result) => {
                 return <li
-                          className="list-item"
-                          key={result.id} id={result.id}>
-                          <a href={result.link} target="_blank" className="list-item-photo" style={{backgroundImage: `url('${result.photo}')`}}></a>
-                          <div className="list-item-details">
-                            <div className="list-item-name">{result.name}</div>
-                            <div className="list-item-date">{new Date(result.created).toLocaleDateString()} {new Date(result.created).toLocaleTimeString()}</div>
-                            <div className="list-item-description">{result.description}</div>
-                          </div>
-                          <div className="list-item-data">
-                            {result.size > 0 ? <span className="pill">{result.size}m²</span> : ''}
-                            {result.price > 0 ? <span className="pill">€{result.price.toLocaleString()}</span> : ''}
-                          </div>
-                          <div className="list-item-actions">
-                            <button onClick={this.pinResult.bind(this, result)}className="action"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z"/></svg></button>
-                            <button className="action"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 5C9.935 5 5 9.934 5 16c0 6.067 4.935 11 11 11s11-4.933 11-11c0-6.066-4.935-11-11-11zm0 2.75c1.777 0 3.427.569 4.775 1.53L9.279 20.778A8.214 8.214 0 0 1 7.75 16c0-4.549 3.701-8.25 8.25-8.25zm0 16.5a8.2 8.2 0 0 1-4.775-1.53l11.494-11.497A8.205 8.205 0 0 1 24.25 16c0 4.547-3.701 8.25-8.25 8.25z"/></svg></button>
-                          </div>
-                      </li>
+                    className="list-item"
+                    key={result.id} id={result.id}>
+                    <a href={result.link} target="_blank" className="list-item-photo" style={{backgroundImage: `url('${result.photo}')`}}></a>
+                    <div className="list-item-details">
+                      <div className="list-item-name">{result.name}</div>
+                      <div className="list-item-date">{new Date(result.created).toLocaleDateString()} {new Date(result.created).toLocaleTimeString()}</div>
+                      <div className="list-item-description">{result.description}</div>
+                    </div>
+                    <div className="list-item-data">
+                      {result.size > 0 ? <span className="pill">{result.size}m²</span> : ''}
+                      {result.price > 0 ? <span className="pill">€{result.price.toLocaleString()}</span> : ''}
+                    </div>
+                    <div className="list-item-actions">
+                      <button onClick={this.pinResult.bind(this, result)}className="action"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 4.588l2.833 8.719H28l-7.416 5.387 2.832 8.719L16 22.023l-7.417 5.389 2.833-8.719L4 13.307h9.167L16 4.588z"/></svg></button>
+                      <button className="action"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#ccc" d="M16 5C9.935 5 5 9.934 5 16c0 6.067 4.935 11 11 11s11-4.933 11-11c0-6.066-4.935-11-11-11zm0 2.75c1.777 0 3.427.569 4.775 1.53L9.279 20.778A8.214 8.214 0 0 1 7.75 16c0-4.549 3.701-8.25 8.25-8.25zm0 16.5a8.2 8.2 0 0 1-4.775-1.53l11.494-11.497A8.205 8.205 0 0 1 24.25 16c0 4.547-3.701 8.25-8.25 8.25z"/></svg></button>
+                    </div>
+                </li>
             })}
           </ul>
         </>
