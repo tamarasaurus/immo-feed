@@ -29,11 +29,11 @@ export default function(request: Request, response: Response, next: any) {
 
     searchQuery = `
       AND (
-        to_tsvector('english', COALESCE(name, ''))      ||
-        to_tsvector('english', COALESCE(description, ''))         ||
-        to_tsvector('english', COALESCE(price::text, ''))         ||
-        to_tsvector('english', COALESCE(size::text, ''))
-      ) @@ to_tsquery('english', $7)
+        to_tsvector('french', COALESCE(name, ''))      ||
+        to_tsvector('french', COALESCE(description, ''))         ||
+        to_tsvector('french', COALESCE(price::text, ''))         ||
+        to_tsvector('french', COALESCE(size::text, ''))
+      ) @@ to_tsquery('french', $7)
     `
 
     queryData.push(searchTerms)

@@ -1,7 +1,6 @@
 import React, { Component, MouseEvent, ChangeEvent } from 'react'
 import Pagination from './components/Pagination'
 import { getAll, getPinned, getFilters, saveResult } from './services/Result'
-import Search from './components/Search';
 import { DebounceInput } from 'react-debounce-input';
 
 interface AppState {
@@ -88,7 +87,7 @@ class App extends Component<{}, AppState> {
     return (<>
       <div className="header">
         <h1>🏠 immo-feed</h1>
-        <DebounceInput className="search" debounceTimeout={400} onChange={this.searchUpdated}/>
+        <DebounceInput className="search" placeholder="Examples: Nantes | 44300 | T2 | Maison" debounceTimeout={400} onChange={this.searchUpdated}/>
         <Pagination total={this.state.total} offsetUpdated={this.offsetUpdated} offset={this.state.offset}/>
       </div>
       { this.state.pinned.length > 0 ?
@@ -145,7 +144,7 @@ class App extends Component<{}, AppState> {
             })}
           </ul>
         </>
-      : ''}
+      : <div className="empty">No results</div> }
     </>
     )
   }

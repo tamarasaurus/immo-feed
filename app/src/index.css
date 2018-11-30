@@ -75,7 +75,6 @@ h2 {
 }
 
 .pagination strong {
-  width: 115px;
   display: inline-block;
   text-align: center;
   margin-left: 10px;
@@ -238,4 +237,19 @@ h2 {
 
 .search {
   flex: 1;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background: white;
+  border: 1px white solid;
+  border-radius: 4px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.empty {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
 }
