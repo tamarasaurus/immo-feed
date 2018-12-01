@@ -21,7 +21,7 @@ h2 {
   width: 100%;
   top: 0;
   display: block;
-  background: black;
+  background: #2C9C91;
   color: white;
   display: flex;
   align-items: center;
@@ -40,8 +40,8 @@ h2 {
   align-items: center;
   margin: 0;
   padding: 0;
-  margin-top: 20px;
-  font-size: 18px;
+  margin-top: 22px;
+  font-size: 16px;
 }
 
 .pagination {
@@ -50,7 +50,7 @@ h2 {
   width: auto;
 }
 
-.pagination button {
+.pagination button, {
   cursor: pointer;
   background: white;
   width: auto;
@@ -231,10 +231,6 @@ h2 {
   margin-left: 10px;
 }
 
-.list-item-price {
-
-}
-
 .search {
   flex: 1;
   padding-left: 12px;
@@ -244,12 +240,48 @@ h2 {
   background: white;
   border: 1px white solid;
   border-radius: 4px;
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.search:focus,
+.pagination button:focus {
+  box-shadow: 1px 1px 9px 2px rgba(0,0,0,0.3)
 }
 
 .empty {
   text-align: center;
   display: inline-block;
   width: 100%;
+}
+
+.dropdown button {
+  border: 0;
+  color: white;
+  background: none;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-right: 20px;
+  position: relative;
+}
+
+.dropdown-children {
+  position: absolute;
+  top: 60px;
+  background: #2C9C91;
+  display: block;
+  width: 100%;
+  height: 0;
+  left: 0;
+  transition: padding 0.2s, height 0.2s;
+  display: flex;
+  padding: 0;
+  border-top: 1px #40a79c solid;
+}
+
+.dropdown-children.open {
+  height: 60px;
+  padding: 10px;
 }

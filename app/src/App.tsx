@@ -1,9 +1,10 @@
 import React, { Component, MouseEvent, ChangeEvent } from 'react'
 import Pagination from './components/Pagination'
 import { getAll, getPinned, getFilters, saveResult } from './services/Result'
-import { DebounceInput } from 'react-debounce-input';
-import PinnedResult from './components/PinnedResult';
-import Result from './components/Result';
+import { DebounceInput } from 'react-debounce-input'
+import PinnedResult from './components/PinnedResult'
+import Result from './components/Result'
+import Dropdown from './components/Dropdown';
 
 interface AppState {
   results: any[]
@@ -24,7 +25,7 @@ class App extends Component<{}, AppState> {
       pinned: [],
       filters: {},
       total: 100000,
-      search: ''
+      search: '',
     }
 
     this.offsetUpdated = this.offsetUpdated.bind(this)
@@ -91,13 +92,17 @@ class App extends Component<{}, AppState> {
       <div className="header">
         <h1>🏠 immo-feed</h1>
         <DebounceInput className="search" placeholder="Examples: Nantes | 44300 | T2 | Maison" debounceTimeout={400} onChange={this.searchUpdated}/>
+        <Dropdown label="Price">
+          <input type="range" />
+        </Dropdown>
+        <Dropdown label="Size"></Dropdown>
         <Pagination total={this.state.total} offsetUpdated={this.offsetUpdated} offset={this.state.offset}/>
       </div>
       { this.state.pinned.length > 0 ?
         <>
           <h2>Favourites</h2>
           <ul className="list">
-            {this.state.pinned.map((result) =><PinnedResult key={result.id} result={result} unpinResult={this.unpinResult}/>)}
+            {this.state.pinned.map((result) => <PinnedResult key={result.id} result={result} unpinResult={this.unpinResult}/>)}
           </ul>
         </>
         : ''
