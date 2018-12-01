@@ -44,6 +44,12 @@ class Pagination extends Component<PaginationProps, PaginationState> {
     return this.state.offset >= this.props.total
   }
 
+  public componentDidUpdate(props: PaginationProps) {
+    if (props.offset !== this.state.offset) {
+      this.setState({ offset: props.offset})
+    }
+  }
+
   public render() {
     return (
       <div className="pagination">
