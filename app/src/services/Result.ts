@@ -1,5 +1,7 @@
-export function getAll(offset: number, search: string) {
-  return fetch(new Request(`http://localhost:8000/results?offset=${offset}&search=${search}`), {
+export function getAll(offset: number, search: string, { min, max }: { min: number, max: number }) {
+  const priceDefined = (min !== undefined && max !== undefined )
+  const priceFilter = priceDefined ? `&min_price=${min}&max_price=${max}` : ''
+  return fetch(new Request(`http://localhost:8000/results?offset=${offset}&search=${search}${priceFilter}`), {
     mode: 'cors',
     method: 'get',
   }).then(response => response.json())

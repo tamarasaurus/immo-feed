@@ -25,8 +25,8 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
 
   public render() {
     return (
-      <div className="dropdown" onClick={this.toggleOpen.bind(this)}>
-        <button>{this.props.label}</button>
+      <div className="dropdown">
+        <button onClick={this.toggleOpen.bind(this)}>{this.props.label}</button>
 
         <div className={this.state.open ? 'dropdown-children open' : 'dropdown-children'}>
           {this.state.open ?

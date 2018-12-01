@@ -50,27 +50,25 @@ h2 {
   width: auto;
 }
 
-.pagination button, {
+.pagination button {
   cursor: pointer;
-  background: white;
   width: auto;
+  background: none;
   padding-left: 12px;
   padding-right: 12px;
   padding-top: 6px;
   padding-bottom: 6px;
-  color: black;
+  color: white;
   border-radius: 4px;
-  border: 2px white solid;
+  border: 1px white solid;
+  font-weight: bold;
 }
 
 .pagination button:hover {
-  background: black;
   color: white;
-  border: 2px white solid;
 }
 
 .pagination button:active {
-  background: white;
   color: black;
 }
 
@@ -203,7 +201,7 @@ h2 {
 
 .action.hover,
 .action:hover {
-  background-color: green;
+  background-color: #FFEA00;
 }
 
 .action.hover:hover {
@@ -258,13 +256,21 @@ h2 {
 .dropdown button {
   border: 0;
   color: white;
-  background: none;
   padding-left: 12px;
   padding-right: 12px;
   padding-top: 6px;
   padding-bottom: 6px;
   margin-right: 20px;
   position: relative;
+  border-radius: 4px;
+  background: #EC407A;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown button:active {
+  background: white;
+  color: #EC407A;
 }
 
 .dropdown-children {
@@ -279,9 +285,40 @@ h2 {
   display: flex;
   padding: 0;
   border-top: 1px #40a79c solid;
+  align-items: center;
 }
 
 .dropdown-children.open {
-  height: 60px;
-  padding: 10px;
+  height: 100px;
+  padding: 20px;
+  padding-left:  60px;
+  padding-right: 60px;
+}
+
+.input-range,
+.input-range__label-container {
+  color: white;
+}
+
+.input-range__label-container {
+  font-size: 14px;
+  margin: 20px;
+}
+
+.input-range__track.input-range__track--active {
+  background: #EC407A
+}
+
+.input-range__slider {
+  background: #EC407A;
+  border-color: #EC407A;
+}
+
+.input-range__label--value {
+  top: -40px;
+}
+
+.input-range__label--min,
+.input-range__label--max {
+  bottom: -30px;
 }

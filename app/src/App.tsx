@@ -4,7 +4,9 @@ import { getAll, getPinned, getFilters, saveResult } from './services/Result'
 import { DebounceInput } from 'react-debounce-input'
 import PinnedResult from './components/PinnedResult'
 import Result from './components/Result'
-import Dropdown from './components/Dropdown';
+import Dropdown from './components/Dropdown'
+import InputRange from 'react-input-range'
+import debounce from 'lodash/debounce'
 
 interface AppState {
   results: any[]
@@ -13,6 +15,8 @@ interface AppState {
   offset: number
   total: number
   search: string
+  price: any
+  loading: boolean
 }
 
 class App extends Component<{}, AppState> {
@@ -26,6 +30,8 @@ class App extends Component<{}, AppState> {
       filters: {},
       total: 100000,
       search: '',
+      price: {},
+      loading: true,
     }
 
     this.offsetUpdated = this.offsetUpdated.bind(this)
@@ -66,8 +72,16 @@ class App extends Component<{}, AppState> {
 
   public renderResults() {
     this.fetchResults().then(([results, pinned, filters ]) => {
+      const { min, max } = this.state.price
       const { min_price, max_price, min_size, max_size, total } = filters[0]
-      this.setState({
+
+      const price = {
+        min: parseInt(min_price, 10),
+        max: parseInt(max_price, 10),
+      }
+
+      let state = {
+        loading: false,
         results,
         pinned,
         total: parseInt(total, 10),
@@ -75,25 +89,49 @@ class App extends Component<{}, AppState> {
           price: [parseInt(min_price, 10), parseInt(max_price, 10)],
           size: [parseInt(min_size, 10), parseInt(max_size, 10)],
         },
-       })
+       }
+
+      if (min === undefined && max === undefined) {
+        state = Object.assign(state, { price })
+      }
+
+      this.setState(state)
     })
   }
 
   public fetchResults() {
     return Promise.all([
-      getAll(this.state.offset, this.state.search),
+      getAll(this.state.offset, this.state.search, this.state.price),
       getPinned(),
       getFilters(),
     ])
   }
 
   public render() {
+    if (this.state.loading) {
+      return <div className="loading">Loading...</div>
+    }
+
+    const priceFilterUpdated = debounce(() => {
+      console.log('priceFilterupdated', this.state.price)
+      this.renderResults()
+    }, 16)
+
     return (<>
       <div className="header">
         <h1>🏠 immo-feed</h1>
         <DebounceInput className="search" placeholder="Examples: Nantes | 44300 | T2 | Maison" debounceTimeout={400} onChange={this.searchUpdated}/>
         <Dropdown label="Price">
-          <input type="range" />
+          <InputRange
+            formatLabel={(value: number, type: string) => {
+              return `€${value.toLocaleString()}`
+            }}
+            minValue={this.state.filters.price[0]}
+            maxValue={this.state.filters.price[1]}
+            value={this.state.price}
+            onChange={(price) => this.setState({ price }) }
+            onChangeComplete={() => priceFilterUpdated()}
+          />
         </Dropdown>
         <Dropdown label="Size"></Dropdown>
         <Pagination total={this.state.total} offsetUpdated={this.offsetUpdated} offset={this.state.offset}/>
