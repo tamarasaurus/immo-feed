@@ -114,8 +114,8 @@ class App extends Component<{}, AppState> {
 
     const priceFilterUpdated = debounce(() => {
       console.log('priceFilterupdated', this.state.price)
-      this.renderResults()
-    }, 16)
+      this.setState({ offset: 0 }, () => this.renderResults())
+    }, 20)
 
     return (<>
       <div className="header">
