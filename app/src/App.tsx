@@ -95,7 +95,7 @@ class App extends Component<{}, AppState> {
       </div>
       { this.state.pinned.length > 0 ?
         <>
-          <h2>Pinned</h2>
+          <h2>Favourites</h2>
           <ul className="list">
             {this.state.pinned.map((result) =><PinnedResult key={result.id} result={result} unpinResult={this.unpinResult}/>)}
           </ul>
