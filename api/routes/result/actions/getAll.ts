@@ -25,18 +25,19 @@ export default function(request: Request, response: Response, next: any) {
   ]
 
   if (search !== undefined && search.length > 0) {
-    const searchTerms = search.split(' ').map((term: string) => `${term}:*`).join('|')
-
     searchQuery = `
       AND (
-        to_tsvector('french', COALESCE(name, ''))      ||
-        to_tsvector('french', COALESCE(description, ''))         ||
-        to_tsvector('french', COALESCE(price::text, ''))         ||
-        to_tsvector('french', COALESCE(size::text, ''))
-      ) @@ to_tsquery('french', $7)
+          to_tsvector('french', COALESCE(name, ''))      ||
+          to_tsvector('french', COALESCE(description, ''))         ||
+          to_tsvector('french', COALESCE(price::text, ''))         ||
+          to_tsvector('french', COALESCE(size::text, ''))
+      ) @@ phraseto_tsquery('french', $7)
+      OR description LIKE $8
+      OR name LIKE $8
+      OR link LIKE $8
     `
-
-    queryData.push(searchTerms)
+    queryData.push(search)
+    queryData.push(`%${search}%`)
   }
 
   db.query(`

@@ -120,7 +120,7 @@ class App extends Component<{}, AppState> {
       <div className="header">
         <h1>🏠 immo-feed</h1>
         <DebounceInput className="search" placeholder="Examples: Nantes | 44300 | T2 | Maison" debounceTimeout={400} onChange={this.searchUpdated}/>
-        <Dropdown label="Price">
+        <Dropdown label="Filters">
           <InputRange
             formatLabel={(value: number, type: string) => {
               return `€${value.toLocaleString()}`
@@ -132,7 +132,6 @@ class App extends Component<{}, AppState> {
             onChangeComplete={() => priceFilterUpdated()}
           />
         </Dropdown>
-        <Dropdown label="Size"></Dropdown>
         <Pagination total={this.state.total} offsetUpdated={this.offsetUpdated} offset={this.state.offset}/>
       </div>
       { this.state.pinned.length > 0 ?
