@@ -1,5 +1,6 @@
 {
   "itemSelector": "li[itemtype=\"http://schema.org/Offer\"]",
+  "pageQuery": "page",
   "load": true,
   "attributes": {
     "name": { "type": "Text", "selector": "[itemprop=\"name\"]"},

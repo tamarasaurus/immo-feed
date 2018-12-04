@@ -28,10 +28,35 @@ store
 
 store.process('store', 500, require('./jobs/store'))
 
+function getPaginatedURLs(url: string, pageQuery: string, pages: number) {
+  const urlParts = url.split('?')
+  const searchParams = new URLSearchParams(urlParts[1])
+  const urls = []
+
+  for (let i = 1; i < (pages + 1); i++) {
+    searchParams.set(pageQuery, i.toString())
+    const paginatedURL = new URL(urlParts[0])
+    paginatedURL.search = searchParams.toString()
+    urls.push(paginatedURL.toString())
+  }
+
+  return urls;
+}
+
 function scrape() {
-  sites.forEach((site: any) => {
-    const [name, url] = site
-    scrapeAttributes.add('scrape', { name, url })
+  sites.forEach((siteData: any) => {
+    const [ name, url, pages ] = siteData
+    const contract: any = require(`./contracts/${name}.json`)
+    const { pageQuery } = contract
+
+    if (pageQuery === undefined && pages === undefined) {
+      scrapeAttributes.add('scrape', { name, contract, url })
+    } else {
+      const urls = getPaginatedURLs(url, pageQuery, pages)
+      urls.forEach((url: string) => {
+        scrapeAttributes.add('scrape', { name, contract, url })
+      })
+    }
   })
 }
 

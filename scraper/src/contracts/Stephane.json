@@ -1,5 +1,6 @@
 {
   "itemSelector": "[data-product-id]",
+  "pageQuery": "page",
   "attributes": {
     "name": { "type": "Text", "selector": ".item-products_pieces"},
     "description": { "type": "Text", "selector": ".item-products_address"},

@@ -66,7 +66,7 @@ class App extends Component<{}, AppState> {
     const search = event.target.value
 
     if (this.state.search !== search) {
-      this.setState({ search }, () => this.renderResults())
+      this.setState({ search, offset: 0 }, () => this.renderResults())
     }
   }
 
@@ -113,7 +113,6 @@ class App extends Component<{}, AppState> {
     }
 
     const priceFilterUpdated = debounce(() => {
-      console.log('priceFilterupdated', this.state.price)
       this.setState({ offset: 0 }, () => this.renderResults())
     }, 20)
 
@@ -129,7 +128,7 @@ class App extends Component<{}, AppState> {
             minValue={this.state.filters.price[0]}
             maxValue={this.state.filters.price[1]}
             value={this.state.price}
-            onChange={(price) => this.setState({ price }) }
+            onChange={(price: any) => this.setState({ price }) }
             onChangeComplete={() => priceFilterUpdated()}
           />
         </Dropdown>

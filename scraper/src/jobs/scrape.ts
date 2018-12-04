@@ -43,13 +43,12 @@ async function getPageContentsWithRequest(url: string, userAgent: string): Promi
 
 module.exports = function(job: Job, done: DoneCallback) {
     try {
-      const { name, url } = job.data
-      const site: any = require(`../sites/${name}.json`)
+      const { url, contract } = job.data
       const userAgent = randomUserAgent.getRandom()
-      const getMethod = (site.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
+      const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
       return getMethod(url, userAgent)
         .then((contents: string) => {
-          const page = new HTMLSite(site, url, contents)
+          const page = new HTMLSite(contract, url, contents)
           return page.getMappedItems()
         })
         .then((results: ScrapedItem[]) => done(null, results))

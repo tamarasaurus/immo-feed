@@ -1,5 +1,6 @@
 {
   "itemSelector": "[data-listing-id]",
+  "pageQuery": "LISTING-LISTpg",
   "attributes": {
     "name": { "type": "Text", "selector": ".c-pa-link"},
     "description": { "type": "Text", "selector": ".c-pa-city"},

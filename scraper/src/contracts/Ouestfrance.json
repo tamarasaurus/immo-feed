@@ -1,5 +1,6 @@
 {
   "itemSelector": "#listAnnonces .annLink",
+  "pageQuery": "page",
   "attributes": {
     "name": { "type": "Text", "selector": ".annVille" },
     "description": { "type": "Text", "selector": ".annTitre" },

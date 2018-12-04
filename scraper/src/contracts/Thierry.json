@@ -1,5 +1,6 @@
 {
   "itemSelector": ".teaser--immobilier",
+  "pageQuery": "page",
   "attributes":  {
     "name": { "type": "Text", "selector": ".teaser__title" },
     "description": { "type": "Text", "selector": ".teaser__body .dot-ellipsis p" },
