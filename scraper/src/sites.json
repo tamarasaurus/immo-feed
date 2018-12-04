@@ -3,6 +3,7 @@
   ["Leboncoin","https://www.leboncoin.fr/recherche/?regions=18&location=Nantes_44000", 3],
   ["Francois","https://www.francois-et-francois-immobilier.com/achat/"],
   ["Ouestfrance", "https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement", 3],
-  ["Stephane", "http://www.stephaneplazaimmobilier-nantesest.com/catalog/result_carto.php?action=update_search&map_polygone=&C_28=Vente&C_28_search=EGAL&C_28_type=UNIQUE&site-agence=&C_65_search=CONTIENT&C_65_type=TEXT&C_65=44+NANTES&C_65_temp=44+NANTES&cfamille_id=&C_33_search=COMPRIS&C_33_type=TEXT&C_33_MIN=&C_33_MAX=&C_30_search=INFERIEUR&C_30_type=NUMBER&C_30=&C_30_format_quick=", 3],
-  ["Thierry", "https://www.thierry-immobilier.fr/vente/appartement--maison", 2]
+  ["Stephane", "http://www.stephaneplazaimmobilier-nantesest.com/catalog/result_carto.php?action=update_search&map_polygone=&C_28=Vente&C_28_search=EGAL&C_28_type=UNIQUE&site-agence=&C_65_search=CONTIENT&C_65_type=TEXT&C_65=44+NANTES&C_65_temp=44+NANTES&cfamille_id=&C_33_search=COMPRIS&C_33_type=TEXT&C_33_MIN=&C_33_MAX=&C_30_search=INFERIEUR&C_30_type=NUMBER&C_30=&C_30_format_quick=", 1],
+  ["Thierry", "https://www.thierry-immobilier.fr/vente/appartement--maison", 1],
+  ["Blot", "https://www.blot-immobilier.fr/habitat/achat-location/immobilier/loire-atlantique/nantes/", 1]
 ]
