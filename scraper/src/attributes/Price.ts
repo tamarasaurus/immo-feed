@@ -13,7 +13,7 @@ export default class Price {
     return this.value
   }
 
-  private normalize(price: string): number {
+  public normalize(price: string): number {
     const strippedString = price.replace(/\s+/g, '')
     const getValue = /(\d+)|(\D+)/gm
     const parsedString = strippedString.match(getValue)

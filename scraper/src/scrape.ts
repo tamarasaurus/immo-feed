@@ -45,16 +45,16 @@ function getPaginatedURLs(url: string, pageQuery: string, pages: number) {
 
 function scrape() {
   sites.forEach((siteData: any) => {
-    const [ name, url, pages ] = siteData
-    const contract: any = require(`./contracts/${name}.json`)
+    const { type, url, pages } = siteData
+    const contract: any = require(`./contracts/${type}.json`)
     const { pageQuery } = contract
 
     if (pageQuery === undefined && pages === undefined) {
-      scrapeAttributes.add('scrape', { name, contract, url })
+      scrapeAttributes.add('scrape', { name: type, contract, url })
     } else {
       const urls = getPaginatedURLs(url, pageQuery, pages)
       urls.forEach((url: string) => {
-        scrapeAttributes.add('scrape', { name, contract, url })
+        scrapeAttributes.add('scrape', { name: type, contract, url })
       })
     }
   })

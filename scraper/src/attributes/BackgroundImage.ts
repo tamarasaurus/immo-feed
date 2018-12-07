@@ -15,7 +15,7 @@ export default class BackgroundImage {
     return this.value
   }
 
-  private normalize(style: string, root: string): string {
+  public normalize(style: string, root: string): string {
     const url = new URL(root)
     const image = /(background-image:url\("|')(.*)("|'\))/.exec(style)
     if (image === null) return null

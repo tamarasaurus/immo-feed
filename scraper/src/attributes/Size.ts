@@ -13,7 +13,7 @@ export default class Size {
     return this.value
   }
 
-  private normalize(size: string): number {
+  public normalize(size: string): number {
     const sizeNumber = parseInt(size, 10)
     let parsedSize: number = sizeNumber
 

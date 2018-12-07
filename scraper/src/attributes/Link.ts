@@ -15,7 +15,7 @@ export default class Link {
     return this.value
   }
 
-  private normalize(link: string, root: string): string {
+  public normalize(link: string, root: string): string {
     const url = new URL(root)
 
     if (!link.startsWith('http') && !link.startsWith('www')) {

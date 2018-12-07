@@ -13,7 +13,7 @@ export default class Text {
     return this.value
   }
 
-  private normalize(value: string): string {
+  public normalize(value: string): string {
     return value.trim()
   }
 }
