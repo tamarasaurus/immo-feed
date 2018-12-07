@@ -1,0 +1,12 @@
+{
+    "itemSelector": ".results-compact > li",
+    "pageQuery": "page",
+    "attributes": {
+      "name": { "type": "Text", "selector": "a", "attribute": "alt" },
+      "price": { "type": "Price", "selector": ".price"},
+      "description": { "type": "Text", "selector": "h3 span"},
+      "size": { "type": "Size", "selector": ".details .surface"},
+      "link": { "type": "Link", "selector": "a", "attribute": "href"},
+      "photo": { "type": "Link", "selector": ".main-picture", "attribute": "src"}
+    }
+  }
