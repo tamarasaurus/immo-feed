@@ -10,6 +10,8 @@ import db from './db'
 
 const app = express()
 
+// @TODO - Run this in the build script
+// @TODO - Make sure db supports UTF-8
 db.query(
   `CREATE TABLE IF NOT EXISTS results(
     id SERIAL,
@@ -33,8 +35,12 @@ db.query(
   })
 
 app.options('*', cors())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(function(req, res, next) {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next()
+})
 app.use('/results', cors(), result)
 app.use('/filters', cors(), filters)
 app.use('/pinned', cors(), pinned)

@@ -5,7 +5,13 @@ import * as randomUserAgent from 'random-useragent'
 import HTMLSite from '../types/HTMLSite'
 import * as puppeteer from 'puppeteer'
 
-async function getPageContentsWithFullLoad(url: string, userAgent: string): Promise<string> {
+interface ScrapedResponse {
+  contents: string
+  encoding: string
+}
+
+// @TODO - Return encoding and contents from these requests
+async function getPageContentsWithFullLoad(url: string, userAgent: string): Promise<ScrapedResponse> {
   const browser = await puppeteer.launch({
     executablePath: '/usr/bin/chromium-browser',
     headless: true,
@@ -16,24 +22,33 @@ async function getPageContentsWithFullLoad(url: string, userAgent: string): Prom
   const page = await browser.newPage()
   await page.setUserAgent(userAgent)
   await page.setExtraHTTPHeaders({
+    'Content-Type': 'text/html; charset=utf-8',
     'Accept': 'text/html',
     'Accept-Language': 'fr-FR',
   })
   await page.setViewport({ width: 1280, height: 1000 })
-  await page.goto(url)
+  const response = await page.goto(url)
   const contents = await page.content()
   await page.close()
   await browser.close()
 
-  return contents
+  const headers = response.headers()
+
+  console.log(headers)
+
+  return {
+    encoding: '',
+    contents
+  }
 }
 
-async function getPageContentsWithRequest(url: string, userAgent: string): Promise<string> {
+async function getPageContentsWithRequest(url: string, userAgent: string): Promise<ScrapedResponse> {
   return await request.get({
     url,
     gzip: true,
     proxy: null,
     headers: {
+      'Content-Type': 'text/html; charset=utf-8',
       'Accept': 'text/html',
       'Accept-Language': 'fr-FR',
       'User-Agent': userAgent,
@@ -48,6 +63,7 @@ module.exports = function(job: Job, done: DoneCallback) {
       const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
       return getMethod(url, userAgent)
         .then((contents: string) => {
+          // decode the contents according to the encoding
           const page = new HTMLSite(contract, url, contents)
           return page.getMappedItems()
         })

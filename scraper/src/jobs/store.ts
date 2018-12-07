@@ -9,6 +9,9 @@ module.exports = function(job: Job, done: DoneCallback) {
         url: `${process.env.API_URL}/results`,
         body: result,
         json: true,
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
     })
     .then((savedResult) => done(null, savedResult))
     .catch((error: Error) => done(error))

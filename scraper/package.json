@@ -22,6 +22,7 @@
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.4",
     "glob": "^7.1.2",
+    "iconv-lite": "^0.4.24",
     "puppeteer": "^1.10.0",
     "redis": "^2.8.0",
     "request": "^2.88.0",
