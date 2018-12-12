@@ -37,7 +37,7 @@ class Pagination extends Component<PaginationProps, PaginationState> {
   }
 
   public getRange() {
-    return this.state.offset + RESULTS_PER_PAGE
+    return this.state.offset + Math.min(RESULTS_PER_PAGE, this.props.total)
   }
 
   public isLastRange() {
@@ -53,9 +53,14 @@ class Pagination extends Component<PaginationProps, PaginationState> {
   public render() {
     return (
       <div className="pagination">
-        <button onClick={this.goPrev}>Previous</button>
+      {
+        (this.props.total > RESULTS_PER_PAGE)
+        ?
+        <><button onClick={this.goPrev}>Previous</button>
         <strong>{this.state.offset} {this.isLastRange() ? '' : '- ' + this.getRange()}  / {this.props.total}</strong>
-        <button onClick={this.goNext}>Next</button>
+        <button onClick={this.goNext}>Next</button></>
+        : ''
+      }
       </div>
     )
   }

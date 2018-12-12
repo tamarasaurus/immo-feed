@@ -10,6 +10,17 @@ interface ScrapedResponse {
   encoding: string
 }
 
+function getEncodingFromPageHTML()
+{
+  // Find the encoding from a meta tag OR headers
+}
+
+function getEncodingFromHeaders(headers: any){
+  const contentType = headers['content-type'] || headers['Content-type'] || headers['Content-Type'];
+  const regex = /charset=(\w+\-\w+)/gm;
+  const charset = contentType.match(regex)
+}
+
 // @TODO - Return encoding and contents from these requests
 async function getPageContentsWithFullLoad(url: string, userAgent: string): Promise<ScrapedResponse> {
   const browser = await puppeteer.launch({
@@ -26,6 +37,7 @@ async function getPageContentsWithFullLoad(url: string, userAgent: string): Prom
     'Accept': 'text/html',
     'Accept-Language': 'fr-FR',
   })
+
   await page.setViewport({ width: 1280, height: 1000 })
   const response = await page.goto(url)
   const contents = await page.content()
@@ -43,10 +55,11 @@ async function getPageContentsWithFullLoad(url: string, userAgent: string): Prom
 }
 
 async function getPageContentsWithRequest(url: string, userAgent: string): Promise<ScrapedResponse> {
-  return await request.get({
+  const contents = await request.get({
     url,
     gzip: true,
     proxy: null,
+    encoding: 'utf-8',
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Accept': 'text/html',
@@ -54,6 +67,11 @@ async function getPageContentsWithRequest(url: string, userAgent: string): Promi
       'User-Agent': userAgent,
     },
   })
+
+  return {
+    encoding: '',
+    contents
+  }
 }
 
 module.exports = function(job: Job, done: DoneCallback) {
@@ -62,9 +80,9 @@ module.exports = function(job: Job, done: DoneCallback) {
       const userAgent = randomUserAgent.getRandom()
       const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
       return getMethod(url, userAgent)
-        .then((contents: string) => {
+        .then((response: ScrapedResponse) => {
           // decode the contents according to the encoding
-          const page = new HTMLSite(contract, url, contents)
+          const page = new HTMLSite(contract, url, response.contents)
           return page.getMappedItems()
         })
         .then((results: ScrapedItem[]) => done(null, results))
