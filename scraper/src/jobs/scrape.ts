@@ -4,21 +4,16 @@ import * as request from 'request-promise'
 import * as randomUserAgent from 'random-useragent'
 import HTMLSite from '../types/HTMLSite'
 import * as puppeteer from 'puppeteer'
+import * as jschardet from 'jschardet'
 
 interface ScrapedResponse {
   contents: string
   encoding: string
 }
 
-function getEncodingFromPageHTML()
-{
-  // Find the encoding from a meta tag OR headers
-}
-
-function getEncodingFromHeaders(headers: any){
-  const contentType = headers['content-type'] || headers['Content-type'] || headers['Content-Type'];
-  const regex = /charset=(\w+\-\w+)/gm;
-  const charset = contentType.match(regex)
+function guessEncoding(content: string) {
+  // If there's no content type defined with a charset, try to guess it from the content
+  return jschardet.detect(content).encoding
 }
 
 // @TODO - Return encoding and contents from these requests
@@ -44,12 +39,8 @@ async function getPageContentsWithFullLoad(url: string, userAgent: string): Prom
   await page.close()
   await browser.close()
 
-  const headers = response.headers()
-
-  console.log(headers)
-
   return {
-    encoding: '',
+    encoding: guessEncoding(contents),
     contents
   }
 }
@@ -69,7 +60,7 @@ async function getPageContentsWithRequest(url: string, userAgent: string): Promi
   })
 
   return {
-    encoding: '',
+    encoding: guessEncoding(contents),
     contents
   }
 }
@@ -81,6 +72,7 @@ module.exports = function(job: Job, done: DoneCallback) {
       const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
       return getMethod(url, userAgent)
         .then((response: ScrapedResponse) => {
+          console.log('response encoding \n\n', response.encoding)
           // decode the contents according to the encoding
           const page = new HTMLSite(contract, url, response.contents)
           return page.getMappedItems()
