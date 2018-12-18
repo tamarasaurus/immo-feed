@@ -44,7 +44,7 @@ function guessEncoding(contentType: string, contents: string) {
   return jschardet.detect(contents).encoding
 }
 
-async function getPageContentsWithFullLoad(url: string, userAgent: string): Promise<ScrapedResponse> {
+async function getPageContentsWithFullLoad(url: string, userAgent: string, waitFor: string): Promise<ScrapedResponse> {
   const browser = await puppeteer.launch({
     executablePath: '/usr/bin/chromium-browser',
     headless: true,
@@ -62,6 +62,7 @@ async function getPageContentsWithFullLoad(url: string, userAgent: string): Prom
 
   await page.setViewport({ width: 1280, height: 1000 })
   const response = await page.goto(url)
+  await page.waitForSelector(waitFor)
   const contents = await page.content()
   await page.close()
   await browser.close()
@@ -100,7 +101,7 @@ module.exports = function(job: Job, done: DoneCallback) {
       const { url, contract } = job.data
       const userAgent = randomUserAgent.getRandom()
       const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
-      return getMethod(url, userAgent)
+      return getMethod(url, userAgent, contract.itemSelector)
         .then((response: ScrapedResponse) => {
           const lib: any = Iconv
           const converter: any = lib['Iconv']
