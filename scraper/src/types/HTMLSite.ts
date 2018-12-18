@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio'
 import Attribute, { DataAttribute } from './Attribute'
 import ScrapedItem from './ScrapedItem'
-import * as iconv from 'iconv-lite'
 
 interface Site {
   attributes: {[name: string]: Attribute}

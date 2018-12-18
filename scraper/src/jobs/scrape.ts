@@ -5,18 +5,45 @@ import * as randomUserAgent from 'random-useragent'
 import HTMLSite from '../types/HTMLSite'
 import * as puppeteer from 'puppeteer'
 import * as jschardet from 'jschardet'
+import * as cheerio from 'cheerio'
+import * as Iconv from 'iconv'
 
 interface ScrapedResponse {
   contents: string
   encoding: string
 }
 
-function guessEncoding(content: string) {
-  // If there's no content type defined with a charset, try to guess it from the content
-  return jschardet.detect(content).encoding
+function getCharsetFromContentType(contentType: string) {
+  const regex = /(?<=charset=)[^;]*/gm
+  const charset = regex.exec(contentType);
+  return charset;
 }
 
-// @TODO - Return encoding and contents from these requests
+function getContentTypeHeaders(headers: any) {
+  return headers['content-type'] || headers['Content-type'] || headers['Content-Type']
+}
+
+function getContentTypeFromHTML(contents: string) {
+  const $ = cheerio.load(contents)
+  return $('meta[charset]').attr('charset');
+}
+
+function guessEncoding(contentType: string, contents: string) {
+  const headerCharset = getCharsetFromContentType(contentType);
+
+  if (headerCharset) {
+    return headerCharset;
+  }
+
+  const metaCharset = getContentTypeFromHTML(contents)
+
+  if (metaCharset) {
+    return metaCharset;
+  }
+
+  return jschardet.detect(contents).encoding
+}
+
 async function getPageContentsWithFullLoad(url: string, userAgent: string): Promise<ScrapedResponse> {
   const browser = await puppeteer.launch({
     executablePath: '/usr/bin/chromium-browser',
@@ -39,18 +66,21 @@ async function getPageContentsWithFullLoad(url: string, userAgent: string): Prom
   await page.close()
   await browser.close()
 
+  const contentType = getContentTypeHeaders(await response.headers())
+
   return {
-    encoding: guessEncoding(contents),
+    encoding: guessEncoding(contentType, contents),
     contents
   }
 }
 
 async function getPageContentsWithRequest(url: string, userAgent: string): Promise<ScrapedResponse> {
-  const contents = await request.get({
+  const response = await request.get({
     url,
     gzip: true,
     proxy: null,
     encoding: 'utf-8',
+    resolveWithFullResponse: true,
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Accept': 'text/html',
@@ -60,8 +90,8 @@ async function getPageContentsWithRequest(url: string, userAgent: string): Promi
   })
 
   return {
-    encoding: guessEncoding(contents),
-    contents
+    encoding: guessEncoding(response.headers, response.body),
+    contents: response.body
   }
 }
 
@@ -72,9 +102,11 @@ module.exports = function(job: Job, done: DoneCallback) {
       const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
       return getMethod(url, userAgent)
         .then((response: ScrapedResponse) => {
-          console.log('response encoding \n\n', response.encoding)
-          // decode the contents according to the encoding
-          const page = new HTMLSite(contract, url, response.contents)
+          const lib: any = Iconv
+          const converter: any = lib['Iconv']
+          const iconv = new converter(response.encoding, 'UTF-8//IGNORE//TRANSLIT');
+          const normalizedContents = iconv.convert(response.contents).toString('utf-8');
+          const page = new HTMLSite(contract, url, normalizedContents)
           return page.getMappedItems()
         })
         .then((results: ScrapedItem[]) => done(null, results))
