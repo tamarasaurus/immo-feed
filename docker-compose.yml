@@ -33,13 +33,6 @@ services:
     depends_on:
       - postgres
 
-  app:
-    build:
-      context: .
-      dockerfile: app/Dockerfile
-    depends_on:
-      - api
-
   redis:
     image: redis
     container_name: cache

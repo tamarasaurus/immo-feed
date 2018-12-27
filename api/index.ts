@@ -11,7 +11,6 @@ import db from './db'
 const app = express()
 
 // @TODO - Run this in the build script
-// @TODO - Make sure db supports UTF-8
 db.query(
   `CREATE TABLE IF NOT EXISTS results(
     id SERIAL,
