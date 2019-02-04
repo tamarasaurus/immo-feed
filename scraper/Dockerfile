@@ -1,5 +1,7 @@
-FROM mhart/alpine-node:11
+FROM mhart/alpine-node:10
 WORKDIR /usr/src/app
+
+RUN apk add --no-cache make gcc g++ python
 
 RUN apk update && apk upgrade && \
     echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
