@@ -2,11 +2,16 @@ sudo: required
 
 language: node_js
 
+node_js:
+  - "10"
+
 services:
   - docker
 
 before_install:
-  - docker-compose up --build test
+  - cd scraper && npm install
+  - cd ../api && npm install
+  - cd ../ docker-compose up --build test
 
 script:
-  - docker-compose run --rm test npm run test
+  - docker-compose run --rm test npm test

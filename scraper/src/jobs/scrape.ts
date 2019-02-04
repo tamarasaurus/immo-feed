@@ -46,7 +46,6 @@ function guessEncoding(contentType: string, contents: string) {
 
 async function getPageContentsWithFullLoad(url: string, userAgent: string, waitFor: string): Promise<ScrapedResponse> {
   const browser = await puppeteer.launch({
-    executablePath: '/usr/bin/chromium-browser',
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--allow-insecure'],
     ignoreHTTPSErrors: true,

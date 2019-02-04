@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "start": "./node_modules/.bin/ts-node --files ./src/scrape",
-    "monitor": "./node_modules/.bin/ts-node monitor.js"
+    "monitor": "./node_modules/.bin/ts-node monitor.js",
+    "test": "echo 'test'"
   },
   "author": "Tamara Robichet",
   "license": "MIT",
