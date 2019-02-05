@@ -53,16 +53,11 @@ export default function(request: Request, response: Response, next: any) {
     )) AND COALESCE($4, (
       SELECT MAX(size) from results
     ))
-    AND pinned = false
     ${searchQuery}
     ORDER BY created DESC
     LIMIT COALESCE($6, 100)
     OFFSET COALESCE($5, 0)
   `, queryData)
-    .then((result: QueryResult) => {
-      response.send(result.rows)
-    })
-    .catch((error: Error) => {
-      return next(error)
-    })
+    .then((result: QueryResult) => response.send(result.rows))
+    .catch((error: Error) => next(error))
 }

@@ -10,7 +10,7 @@
     "notification"
   ],
   "scripts": {
-    "start": "./node_modules/.bin/ts-node --files ./src/scrape",
+    "start": "./node_modules/.bin/ts-node --files ./src/index",
     "monitor": "./node_modules/.bin/ts-node monitor.js",
     "test": "echo 'test'"
   },

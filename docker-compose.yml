@@ -8,12 +8,10 @@ services:
       POSTGRES_PASSWORD: postgres
 
   scraper:
-    restart: always
     image: scraper
     build:
       context: .
       dockerfile: scraper/Dockerfile
-    command: 'npm start'
     environment:
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'

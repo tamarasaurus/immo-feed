@@ -12,10 +12,6 @@ export default function(request: Request, response: Response, next: any) {
       COUNT(id) as total
     FROM results
   `, [])
-    .then((result: QueryResult) => {
-      response.send(result.rows)
-    })
-    .catch((error: Error) => {
-      return next(error)
-    })
+    .then((result: QueryResult) => response.send(result.rows))
+    .catch((error: Error) => next(error))
 }

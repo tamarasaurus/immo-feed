@@ -10,9 +10,7 @@ export default function(request: Request, response: Response, next: any) {
     description,
     link,
     photo,
-    hidden,
-    pinned,
-    seen,
+    hidden
   } = request.body
 
   db.query(`
@@ -27,25 +25,10 @@ export default function(request: Request, response: Response, next: any) {
             description = COALESCE($4, results.description),
             photo = COALESCE($6, results.photo),
             updated = now(),
-            hidden = COALESCE($7, results.hidden),
-            pinned = COALESCE($8, results.pinned),
-            seen = COALESCE($9, results.seen)
+            hidden = COALESCE($7, results.hidden)
     RETURNING *
   `,
-    [ name,
-      price,
-      size,
-      description,
-      link,
-      photo,
-      hidden,
-      pinned,
-      seen,
-    ])
-  .then((result: QueryResult) => {
-    response.json(result.rows)
-  })
-  .catch((error: Error) => {
-    return next(error)
-  })
+    [ name, price, size, description, link, photo, hidden ])
+  .then((result: QueryResult) => response.json(result.rows))
+  .catch((error: Error) => next(error))
 }

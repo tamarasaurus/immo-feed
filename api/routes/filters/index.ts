@@ -8,7 +8,6 @@ const router = express.Router()
 router.options('*', cors())
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
-
 router.get('/', getMaxValues)
 
 export default router

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/ts-node index.ts"
+    "start": "ts-node setup.ts && ts-node index.ts"
   },
   "author": "",
   "license": "MIT",

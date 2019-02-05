@@ -6,10 +6,6 @@ export default function(request: Request, response: Response, next: any) {
   const id = request.params.id
 
   db.query('DELETE FROM results WHERE id = $1', [id])
-    .then((result: QueryResult) => {
-      response.send(result.rows)
-    })
-    .catch((error: Error) => {
-      return next(error)
-    })
+    .then((result: QueryResult) => response.send(result.rows))
+    .catch((error: Error) => next(error))
 }
