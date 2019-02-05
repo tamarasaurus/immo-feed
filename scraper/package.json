@@ -12,7 +12,7 @@
   "scripts": {
     "start": "./node_modules/.bin/ts-node --files ./src/index",
     "monitor": "./node_modules/.bin/ts-node monitor.js",
-    "test": "echo 'test'"
+    "test": "./node_modules/.bin/ts-node tests/contracts.test.ts"
   },
   "author": "Tamara Robichet",
   "license": "MIT",
