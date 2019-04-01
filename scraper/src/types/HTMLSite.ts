@@ -70,6 +70,7 @@ export default class HTMLSite {
   public getMappedItems(): ScrapedItem[] {
     const scrapedItems: ScrapedItem[] = []
     const items = this.$(this.itemSelector).toArray()
+    console.log(this)
 
     items.forEach(item => {
       const scrapedAttributes: any = {}

@@ -95,23 +95,25 @@ async function getPageContentsWithRequest(url: string, userAgent: string): Promi
   }
 }
 
-module.exports = function(job: Job, done: DoneCallback) {
-    try {
-      const { url, contract } = job.data
-      const userAgent = randomUserAgent.getRandom()
-      const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
-      return getMethod(url, userAgent, contract.itemSelector)
-        .then((response: ScrapedResponse) => {
-          const lib: any = Iconv
-          const converter: any = lib['Iconv']
-          const iconv = new converter(response.encoding, 'UTF-8//IGNORE//TRANSLIT');
-          const normalizedContents = iconv.convert(response.contents).toString('utf-8');
-          const page = new HTMLSite(contract, url, normalizedContents)
-          return page.getMappedItems()
-        })
-        .then((results: ScrapedItem[]) => done(null, results))
-        .catch((e: Error) => done(e))
-    } catch (e) {
-      done(e)
-    }
+function scrape(job: Job, done: DoneCallback) {
+  try {
+    const { url, contract } = job.data
+    const userAgent = randomUserAgent.getRandom()
+    const getMethod = (contract.load === true) ? getPageContentsWithFullLoad : getPageContentsWithRequest
+    return getMethod(url, userAgent, contract.itemSelector)
+      .then((response: ScrapedResponse) => {
+        const lib: any = Iconv
+        const converter: any = lib['Iconv']
+        const iconv = new converter(response.encoding, 'UTF-8//IGNORE//TRANSLIT');
+        const normalizedContents = iconv.convert(response.contents).toString('utf-8');
+        const page = new HTMLSite(contract, url, normalizedContents)
+        return page.getMappedItems()
+      })
+      .then((results: ScrapedItem[]) => done(null, results))
+      .catch((e: Error) => done(e))
+  } catch (e) {
+    done(e)
+  }
 }
+
+export default scrape

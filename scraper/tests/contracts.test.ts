@@ -1,18 +1,21 @@
-import * as scrape from '../src/jobs/scrape'
+import scrape from '../src/jobs/scrape'
 import * as assert from 'assert'
 import ScrapedItem from '../src/types/ScrapedItem';
 import { Job, DoneCallback } from 'bull';
 
+const Ouestfrance = require('../src/contracts/Ouestfrance.json')
+
+
 const job: any = {
     data: {
-        url: '',
-        contract: ''
+        url: 'https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement',
+        contract: Ouestfrance
     }
 }
-const callback: DoneCallback = () => {
-    console.log('done')
+const callback: DoneCallback = (error, scrapedItems: ScrapedItem[]) => {
+    console.log('done', scrapedItems)
+
 }
 
-console.log(scrape)
-// const scrapedItem: ScrapedItem = scrape(job, callback)
+const scrapedItem = scrape(job, callback)
 
