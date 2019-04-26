@@ -1,13 +1,13 @@
 {
     "itemSelector": "article[data-id]",
-    "load": true,
+    "scrapeAfterLoading": true,
     "pageQuery": "page",
     "attributes": {
-      "name": { "type": "Text", "selector": ".generatedTitleWithHighlight" },
-      "description": { "type": "Text", "selector": ".cityAndDistrict" },
-      "size": { "type": "Size", "selector": ".generatedTitleWithHighlight" },
-      "link": { "type": "Link", "selector": "a.detailedSheetLink", "attribute": "href" },
-      "price": { "type": "Price", "selector": ".thePrice" },
-      "photo": { "type": "Link", "selector": ".searchItemPhoto", "attribute": "src"}
+      "name": { "type": "text", "selector": ".generatedTitleWithHighlight" },
+      "description": { "type": "text", "selector": ".cityAndDistrict" },
+      "size": { "type": "size", "selector": ".generatedTitleWithHighlight" },
+      "link": { "type": "link", "selector": "a.detailedSheetLink", "attribute": "href" },
+      "price": { "type": "price", "selector": ".thePrice" },
+      "photo": { "type": "link", "selector": ".searchItemPhoto", "attribute": "src"}
     }
   }

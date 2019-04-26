@@ -1,13 +1,13 @@
 {
   "itemSelector": "li[itemtype=\"http://schema.org/Offer\"]",
   "pageQuery": "page",
-  "load": true,
+  "scrapeAfterLoading": true,
   "attributes": {
-    "name": { "type": "Text", "selector": "[itemprop=\"name\"]"},
-    "price": { "type": "Price", "selector": "[itemprop=\"price\"]"},
-    "description": { "type": "Text", "selector": "[itemprop=\"availableAtOrFrom\"]"},
-    "size": { "type": "Size", "selector": "[itemprop=\"name\"]"},
-    "link": { "type": "Link", "selector": "> a", "attribute": "href"},
-    "photo": { "type": "Link", "selector": "img", "attribute": "src"}
+    "name": { "type": "text", "selector": "[itemprop=\"name\"]"},
+    "price": { "type": "price", "selector": "[itemprop=\"price\"]"},
+    "description": { "type": "text", "selector": "[itemprop=\"availableAtOrFrom\"]"},
+    "size": { "type": "size", "selector": "[itemprop=\"name\"]"},
+    "link": { "type": "link", "selector": "> a", "attribute": "href"},
+    "photo": { "type": "link", "selector": "img", "attribute": "src"}
   }
 }

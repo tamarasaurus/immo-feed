@@ -1,16 +1,15 @@
 import * as Queue from 'bull'
-import ScrapedItem from './types/ScrapedItem'
 import chalk from 'chalk'
 
 const scrapeAttributes = new Queue('scrape_attributes', process.env.REDIS_URL)
 const store = new Queue('store_results', process.env.REDIS_URL)
 const sites = require('./sites.json')
 
-scrapeAttributes.process('scrape', 1, require('./jobs/scrape.ts'))
+scrapeAttributes.process('scrape', 1, require('./jobs/scrape.ts').default)
 scrapeAttributes
   .on('error', error => console.error('Error scraping', error))
   .on('active', job => console.log('\n\n🠮 Scrape', job.data.name, '\n     🌐', job.data.url))
-  .on('completed', function(job: Queue.Job, items: ScrapedItem[]) {
+  .on('completed', function(job: Queue.Job, items: any[]) {
     console.log('\nFound', items.length, 'results for', job.data.name)
 
     for (const item of items) {

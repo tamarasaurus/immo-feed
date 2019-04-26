@@ -2,11 +2,11 @@
   "itemSelector": "#listAnnonces .annLink",
   "pageQuery": "page",
   "attributes": {
-    "name": { "type": "Text", "selector": ".annVille" },
-    "description": { "type": "Text", "selector": ".annTitre" },
-    "price": { "type": "Price", "selector": ".annPrix" },
-    "size": { "type": "Size", "selector":  ".annCriteres em.firstCritere:nth-child(1)"},
-    "link": { "type": "Link", "attribute": "href" },
-    "photo": { "type": "Link", "selector": ".annPhoto", "attribute": "data-original"}
+    "name": { "type": "text", "selector": ".annVille" },
+    "description": { "type": "text", "selector": ".annTitre" },
+    "price": { "type": "price", "selector": ".annPrix" },
+    "size": { "type": "size", "selector":  ".annCriteres em.firstCritere:nth-child(1)"},
+    "link": { "type": "link", "attribute": "href" },
+    "photo": { "type": "link", "selector": ".annPhoto", "attribute": "data-original"}
   }
 }

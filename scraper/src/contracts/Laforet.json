@@ -2,11 +2,11 @@
     "itemSelector": ".results-compact > li",
     "pageQuery": "page",
     "attributes": {
-      "name": { "type": "Text", "selector": "a", "attribute": "alt" },
-      "price": { "type": "Price", "selector": ".price"},
-      "description": { "type": "Text", "selector": "h3 span"},
-      "size": { "type": "Size", "selector": ".details .surface"},
-      "link": { "type": "Link", "selector": "a", "attribute": "href"},
-      "photo": { "type": "Link", "selector": ".main-picture", "attribute": "src"}
+      "name": { "type": "text", "selector": "a", "attribute": "alt" },
+      "price": { "type": "price", "selector": ".price"},
+      "description": { "type": "text", "selector": "h3 span"},
+      "size": { "type": "size", "selector": ".details .surface"},
+      "link": { "type": "link", "selector": "a", "attribute": "href"},
+      "photo": { "type": "link", "selector": ".main-picture", "attribute": "src"}
     }
   }

@@ -2,11 +2,11 @@
     "itemSelector": ".bloc_annonce_habitat",
     "pageQuery": "page",
     "attributes": {
-      "name": { "type": "Text", "selector": "h3 a" },
-      "description": { "type": "Text", "selector": "h4" },
-      "size": { "type": "Size", "selector": ".chiffres_cles span:nth-child(2) strong" },
-      "link": { "type": "Link", "selector": "h3 a", "attribute": "href" },
-      "price": { "type": "Price", "selector": ".prix strong" },
-      "photo": { "type": "Link", "selector": ".visuel img", "attribute": "src"}
+      "name": { "type": "text", "selector": "h3 a" },
+      "description": { "type": "text", "selector": "h4" },
+      "size": { "type": "size", "selector": ".chiffres_cles span:nth-child(2) strong" },
+      "link": { "type": "link", "selector": "h3 a", "attribute": "href" },
+      "price": { "type": "price", "selector": ".prix strong" },
+      "photo": { "type": "link", "selector": ".visuel img", "attribute": "src"}
     }
   }

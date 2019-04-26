@@ -1,6 +1,5 @@
 import scrape from '../src/jobs/scrape'
 import * as assert from 'assert'
-import ScrapedItem from '../src/types/ScrapedItem';
 import { Job, DoneCallback } from 'bull';
 
 const Ouestfrance = require('../src/contracts/Ouestfrance.json')
@@ -12,7 +11,7 @@ const job: any = {
         contract: Ouestfrance
     }
 }
-const callback: DoneCallback = (error, scrapedItems: ScrapedItem[]) => {
+const callback: DoneCallback = (error, scrapedItems: any[]) => {
     console.log('done', scrapedItems)
 
 }

@@ -6,7 +6,6 @@ services:
       - 8000:8000
     volumes:
       - ./api:/usr/src/app
-      - /usr/src/app/node_modules
 
   monitor:
     image: scraper
@@ -29,9 +28,7 @@ services:
       - api
     volumes:
       - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
 
   scraper:
     volumes:
       - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules

@@ -2,11 +2,11 @@
   "itemSelector": "[data-listing-id]",
   "pageQuery": "LISTING-LISTpg",
   "attributes": {
-    "name": { "type": "Text", "selector": ".c-pa-link"},
-    "description": { "type": "Text", "selector": ".c-pa-city"},
-    "price": { "type": "Price", "selector": ".c-pa-price"},
-    "size": { "type": "Size", "selector": ".c-pa-criterion em:nth-child(3)"},
-    "link": { "type": "Link", "selector": ".c-pa-link", "attribute": "href"},
-    "photo": { "type": "Link", "selector": "[data-lazy]", "data": { "name": "lazy", "key": "url"}}
+    "name": { "type": "text", "selector": ".c-pa-link"},
+    "description": { "type": "text", "selector": ".c-pa-city"},
+    "price": { "type": "price", "selector": ".c-pa-price"},
+    "size": { "type": "size", "selector": ".c-pa-criterion em:nth-child(3)"},
+    "link": { "type": "link", "selector": ".c-pa-link", "attribute": "href"},
+    "photo": { "type": "link", "selector": "[data-lazy]", "data": { "name": "lazy", "key": "url"}}
   }
 }

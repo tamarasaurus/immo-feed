@@ -1,12 +1,18 @@
-import Link from './Link';
 import { join } from 'path'
 
-export default class StephaneLink extends Link {
+export default class StephaneLink {
+  private inputValue: [string, string] = null;
+
   public constructor(link: string, root: string) {
-    super(link, root)
+    this.inputValue = [link, root];
   }
 
-  public normalize(link: string, root: string): string {
+  public get value(): string {
+    const [link, root] = this.inputValue;
+    return this.normalize([link, root]);
+  }
+
+  public normalize([link, root]: [string, string]): string {
     const url = new URL(root)
     const strippedLink = link.replace('/../', '')
 

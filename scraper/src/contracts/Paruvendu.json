@@ -2,11 +2,11 @@
     "itemSelector": "#bloc_liste [data-id]",
     "pageQuery": "p",
     "attributes": {
-      "name": { "type": "Text", "selector": "a:nth-child(2)", "attribute": "title" },
-      "price": { "type": "Price", "selector": ".ergov3-priceannonce"},
-      "description": { "type": "Text", "selector": ".ergov3-txtannonce > p:nth-child(3)"},
-      "size": { "type": "Size", "selector": ".ergov3-txtannonce h3"},
-      "link": { "type": "Link", "selector": ".ergov3-annonce a:nth-child(2)", "attribute": "href"},
-      "photo": { "type": "Link", "selector": "img[original]", "attribute": "original"}
+      "name": { "type": "text", "selector": "a:nth-child(2)", "attribute": "title" },
+      "price": { "type": "price", "selector": ".ergov3-priceannonce"},
+      "description": { "type": "text", "selector": ".ergov3-txtannonce > p:nth-child(3)"},
+      "size": { "type": "size", "selector": ".ergov3-txtannonce h3"},
+      "link": { "type": "link", "selector": ".ergov3-annonce a:nth-child(2)", "attribute": "href"},
+      "photo": { "type": "link", "selector": "img[original]", "attribute": "original"}
     }
   }
