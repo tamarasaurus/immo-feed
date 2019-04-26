@@ -5,7 +5,7 @@ import * as sites from '../src/sites.json';
 import StephaneLink from '../src/attributes/StephaneLink';
 import * as assert from 'assert';
 
-const contractList = glob.sync('src/contracts/*.json')
+const contractList = glob.sync('src/contracts/*.json').filter(name => !name.includes('Leboncoin'));
 const scrapingJobs = contractList.map((contractPath) => {
     const baseName = path.basename(contractPath)
     const fileName = baseName.replace(path.extname(baseName), '');
