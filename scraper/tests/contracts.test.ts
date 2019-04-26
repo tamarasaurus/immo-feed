@@ -5,7 +5,11 @@ import * as sites from '../src/sites.json';
 import StephaneLink from '../src/attributes/StephaneLink';
 import * as assert from 'assert';
 
-const contractList = glob.sync('src/contracts/*.json').filter(name => !name.includes('Leboncoin'));
+// Leboncoin and Bienici are unstable
+const contractList = glob.sync('src/contracts/*.json').filter(name => {
+    return !name.includes('Leboncoin') && !name.includes('Bienici')
+});
+
 const scrapingJobs = contractList.map((contractPath) => {
     const baseName = path.basename(contractPath)
     const fileName = baseName.replace(path.extname(baseName), '');
@@ -14,6 +18,7 @@ const scrapingJobs = contractList.map((contractPath) => {
     const contract = require(`../${contractPath}`)
 
     return {
+        url,
         site: fileName,
         scraper: new Scraper(url, contract, { 'stephane-link': StephaneLink }),
         attributes: contract.attributes
@@ -22,14 +27,23 @@ const scrapingJobs = contractList.map((contractPath) => {
 
 for (let job of Object.values(scrapingJobs))
 {
-    it(`scrapes ${job.site} selectors`, () => {
-        return job.scraper.scrapePage().then((scrapedItems) => {
-            Object.entries(job.attributes).forEach(([name, attribute]: [string, any]) => {
+    const { url, site, attributes, scraper } = job;
+
+    it(`scrapes ${site} selectors`, () => {
+        return scraper.scrapePage().then((scrapedItems) => {
+            assert.equal(scrapedItems.length > 0, true, `${site} at ${url} didn't return any results`)
+
+            Object.entries(attributes).forEach(([name, attribute]: [string, any]) => {
                 const items = scrapedItems.filter((item) => {
                     return item.hasOwnProperty(name) && item[name] !== null
                 });
 
-                assert.equal(items.length > 0, true, `${job.site} is missing the ${name} attribute "${attribute.selector}" - \n\n ${JSON.stringify(scrapedItems[0], null, 2)}`);
+                assert.equal(
+                    items.length > 0,
+                    true,
+                    `${site} at ${url} is missing the ${name} attribute "${attribute.selector}" -
+                    \n\n ${JSON.stringify(scrapedItems[0], null, 2)}`
+                );
             });
         }).catch(e => { throw e });
     })

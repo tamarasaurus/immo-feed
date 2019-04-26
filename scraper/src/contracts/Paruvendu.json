@@ -1,6 +1,7 @@
 {
     "itemSelector": "#bloc_liste [data-id]",
     "pageQuery": "p",
+    "scrapeAfterLoading": true,
     "attributes": {
       "name": { "type": "text", "selector": "a:nth-child(2)", "attribute": "title" },
       "price": { "type": "price", "selector": ".ergov3-priceannonce"},

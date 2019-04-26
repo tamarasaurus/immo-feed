@@ -1,6 +1,7 @@
 {
   "itemSelector": "[data-product-id]",
   "pageQuery": "page",
+  "scrapeAfterLoading": true,
   "attributes": {
     "name": { "type": "text", "selector": ".item-products_pieces"},
     "description": { "type": "text", "selector": ".item-products_address"},

@@ -2,10 +2,10 @@
     "itemSelector": ".bloc_annonce_habitat",
     "pageQuery": "page",
     "attributes": {
-      "name": { "type": "text", "selector": "h3 a" },
-      "description": { "type": "text", "selector": "h4" },
+      "name": { "type": "text", "selector": ".title_part1" },
+      "description": { "type": "text", "selector": ".title_part2" },
       "size": { "type": "size", "selector": ".chiffres_cles span:nth-child(2) strong" },
-      "link": { "type": "link", "selector": "h3 a", "attribute": "href" },
+      "link": { "type": "link", "selector": ".title_part1 a", "attribute": "href" },
       "price": { "type": "price", "selector": ".prix strong" },
       "photo": { "type": "link", "selector": ".visuel img", "attribute": "src"}
     }

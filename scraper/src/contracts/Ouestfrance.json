@@ -5,7 +5,7 @@
     "name": { "type": "text", "selector": ".annVille" },
     "description": { "type": "text", "selector": ".annTitre" },
     "price": { "type": "price", "selector": ".annPrix" },
-    "size": { "type": "size", "selector":  ".annCriteres em.firstCritere:nth-child(1)"},
+    "size": { "type": "size", "selector":  ".annCriteres"},
     "link": { "type": "link", "attribute": "href" },
     "photo": { "type": "link", "selector": ".annPhoto", "attribute": "data-original"}
   }
