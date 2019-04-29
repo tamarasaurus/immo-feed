@@ -1,0 +1,156 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Slabo 27px', serif;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  font-family: 'Slabo 27px', serif;
+}
+
+body > nav {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-size: 28px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  font-weight: 800;
+}
+
+body > nav div {
+  flex: 1;
+}
+
+body > nav a {
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+body > nav a:hover {
+  text-decoration: underline;
+  color: #35b5ac;
+}
+
+label {
+  display: none;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  align-self: center;
+  margin: 0 auto;
+}
+
+main section {
+  width: 300px;
+  height: auto;
+}
+
+hr {
+  width: 100%;
+  align-self: center;
+}
+
+main section nav {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: auto;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+}
+
+main section nav a {
+  color: #008080;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+aside {
+  width: 100%;
+}
+
+form {
+  margin-bottom: 40px;
+}
+
+button {
+  color: black;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px #ddd solid;
+  background: none;
+  min-width: 100px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+button:hover {
+  background: #ddd;
+}
+
+button:active,
+button:focus {
+  border: 0;
+  background: #35b5ac;
+  color: white;
+}
+
+button:active:hover,
+button:focus:hover {
+  filter: brightness(90%);
+}
+
+input[type="search"] {
+  width: 100%;
+  height: 40px;
+  padding: 20px;
+  padding-left: 0;
+  margin-bottom: 20px;
+  box-shadow: none;
+  border: 0;
+  border-bottom: 2px black solid;
+  margin-bottom: 40px;
+  font-size: 22px;
+  outline: none;
+  position: relative;
+}
+
+input[type="search"]::placeholder {
+  font-size: 22px;
+}
+
+input[type="search"]:focus,
+input[type="search"]:valid {
+  border-color: #35b5ac;
+}
+
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+li {
+  width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}

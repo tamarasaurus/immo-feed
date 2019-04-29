@@ -1,46 +1,44 @@
 <html>
   <head>
     <title>immo-feed</title>
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-      <nav>
-        <div>immo-feed</div>
-        <a href="#settings">Settings</a>
-      </nav>
+    <nav>
+      <div>🏠 immo-feed</div>
+      <a href="#settings">Settings</a>
+    </nav>
     <main>
-      <section>
-        <nav>
-          <a href="#All">All</a>
-          <a href="#All">Saved</a>
-          <a href="#All">Ignored</a>
-          <hr />
-
-          <form>
-            <label>
-              Date
-              <input type="date" />
-              <input type="date" />
-            </label>
-            <label>
-              Size
-              <input type="number" />
-              <input type="number" />
-            </label>
-            <label>
-              Price
-              <input type="number" />
-              <input type="number" />
-            </label>
-            <label>
-              With photo
-              <input type="checkbox" />
-            </label>
-          </form>
-        </nav>
-      </section>
+      <nav class="bar">
+        <input pattern="[A-Za-z0-9]{1,20}" required placeholder="Search results by name, description or URL" type="search">
+        <form>
+          <button>Date</button>
+          <label for="date">
+            Date
+            <input type="date" />
+            <input type="date" />
+          </label>
+          <button>Size</button>
+          <label>
+            Size
+            <input type="number" />
+            <input type="number" />
+          </label>
+          <button>Price</button>
+          <label>
+            Price
+            <input type="number" />
+            <input type="number" />
+          </label>
+          <label>
+            Has photo
+            <input type="checkbox" />
+          </label>
+        </form>
+      </nav>
       <aside>
-        <input placeholder="search" type="search">
+
         <ul>
           <li>
             <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
