@@ -32,7 +32,8 @@ body > nav a {
   font-size: 18px;
 }
 
-body > nav a:hover {
+body > nav a:hover,
+body > nav a:focus {
   text-decoration: underline;
   color: #35b5ac;
 }
