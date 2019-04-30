@@ -145,7 +145,7 @@ input[type="search"] {
   box-shadow: none;
   border: 0;
   border-bottom: 2px black solid;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-size: 22px;
   outline: none;
   position: relative;
@@ -178,6 +178,7 @@ ul {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  margin-bottom: 40px;
 }
 
 li {
@@ -261,7 +262,7 @@ select {
   margin-bottom: 20px;
   font-size: 16px;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .pagination a,
