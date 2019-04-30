@@ -1,3 +1,7 @@
+:root {
+  --green: #35b5ac;
+}
+
 html, body {
   padding: 0;
   margin: 0;
@@ -35,11 +39,22 @@ body > nav a {
 body > nav a:hover,
 body > nav a:focus {
   text-decoration: underline;
-  color: #35b5ac;
+  color: var(--green);
+}
+
+label[for] {
+  display: none;
 }
 
 label {
-  display: none;
+  cursor: pointer;
+}
+
+.group {
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 main {
@@ -83,7 +98,14 @@ aside {
 }
 
 form {
+  display: flex;
   margin-bottom: 40px;
+}
+
+.left {
+  flex: 1;
+  flex-direction: row;
+  display: flex;
 }
 
 button {
@@ -138,6 +160,14 @@ input[type="search"]:valid {
   border-color: #35b5ac;
 }
 
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
 ul, li {
   list-style: none;
   margin: 0;
@@ -154,4 +184,111 @@ li {
   width: 300px;
   height: auto;
   margin-bottom: 20px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+}
+
+.sort ul {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-items: center;
+}
+
+.sort span {
+  display: none;
+  align-items: center;
+  width: auto;
+  margin: 0;
+}
+
+.sort span {
+  display: flex;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.sort span:hover {
+  color: var(--green)
+}
+
+.sort em {
+  cursor: pointer;
+}
+
+.sort em:hover:after {
+  content: 'high to low ▲';
+  color: black;
+  margin-left: 5px;
+  font-style: normal;
+}
+
+.sort em:after {
+  content: 'low to high ▼';
+  color: black;
+  margin-left: 5px;
+  font-style: normal;
+}
+
+.with-checkbox {
+  display: flex;
+}
+
+.with-checkbox span {
+  margin-right: 10px;
+}
+
+.with-checkbox input {
+  margin-left: 10px;
+}
+
+select {
+  height: 40px;
+  margin-left: 10px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  font-size: 16px;
+  font-family: 'Slabo 27px', serif;
+}
+
+.pagination {
+  display: flex;
+  margin-bottom: 20px;
+  font-size: 16px;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.pagination a,
+.pagination span {
+  font-size: 16px;
+  font-family: 'Slabo 27px', serif;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.pagination a {
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px #ddd solid;
+  border-radius: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.pagination a:nth-child(2) {
+  color: white;
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.pagination a:hover {
+  color: var(--green);
 }
