@@ -7,14 +7,14 @@
   <body>
     <nav>
       <div>🏠 immo-feed</div>
-      <a href="#settings">Settings</a>
+      <a href="settings.html">Settings</a>
     </nav>
     <main>
       <nav class="bar">
-        <input pattern="[A-Za-z0-9]{1,20}" required placeholder="Search results by name, description or URL" type="search">
+        <input pattern="[A-Za-z0-9]{1,20}" required placeholder="🔍 Search results by name, description or URL" type="search">
         <form>
           <div class="left">
-            <button>Date</button>
+            <button type="button">Date ▼</button>
             <label for="date">
               <span>Date</span>
               <div>
@@ -24,14 +24,14 @@
               <input type="date" />
             </div>
             </label>
-            <button>Size: <strong>96m² to 102m²</strong></button>
+            <button type="button">Size: <strong>96m² to 102m²</strong> ▼</button>
             <label for="size">
               <span>Size (m²) </span>
               <div>From&nbsp;<input value="34" type="number" />
               To&nbsp;<input value="600" type="number" />
             </div>
             </label>
-            <button>Price</button>
+            <button type="button">Price ▼</button>
             <label for="price">
               <span>Price</span>
               <div>
@@ -41,10 +41,15 @@
                 <input value="760000" type="number" />
               </div>
             </label>
-            <button>Photo</button>
+            <button type="button"><input type="checkbox"> Photo</button>
             <label for="photo">
               <span>Photo</span>
               <label><input type="checkbox" /> Result has a photo</label>
+            </label>
+            <button type="button"><input type="checkbox"> Saved</button>
+            <label for="photo">
+              <span>Saved</span>
+              <label><input type="checkbox" /> Saved</label>
             </label>
             <a href="#clear">Clear all</a>
           </div>
