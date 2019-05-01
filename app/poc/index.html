@@ -16,28 +16,39 @@
           <div class="left">
             <button>Date</button>
             <label for="date">
-              Date
+              <span>Date</span>
+              <div>
+              From
               <input type="date" />
+              To
               <input type="date" />
+            </div>
             </label>
-            <button>Size</button>
+            <button>Size: <strong>96m² to 102m²</strong></button>
             <label for="size">
-              Size
-              <input type="number" />
-              <input type="number" />
+              <span>Size (m²) </span>
+              <div>From&nbsp;<input value="34" type="number" />
+              To&nbsp;<input value="600" type="number" />
+            </div>
             </label>
             <button>Price</button>
             <label for="price">
-              Price
-              <input type="number" />
-              <input type="number" />
+              <span>Price</span>
+              <div>
+                From
+                <input value="102000" type="number" />
+                To
+                <input value="760000" type="number" />
+              </div>
             </label>
             <button>Photo</button>
             <label for="photo">
-              Photo
-              <input type="checkbox" />
+              <span>Photo</span>
+              <label><input type="checkbox" /> Result has a photo</label>
             </label>
+            <a href="#clear">Clear all</a>
           </div>
+
           <div class="sort">
               <label>Sort by</label>
               <select name="" id="">
@@ -47,12 +58,13 @@
                   <option value="price">low to high</option>
                 </select>
           </div>
+
         </form>
       </nav>
       <aside>
         <ul>
           <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -61,7 +73,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -70,7 +82,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -79,7 +91,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -88,7 +100,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -97,7 +109,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -106,7 +118,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -115,7 +127,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -124,7 +136,7 @@
             </summary>
           </li>
            <li>
-            <a href="#link"><img src="https://placeimg.com/300/200/arch" width="300" height="200" /></a>
+            <a href="#link"><img src="https://placeimg.com/300/200/arch" /></a>
             <h2>Nantes apartment in Mellinet</h2>
             <p>This apartment will be available blah blah</p>
             <summary>
@@ -140,5 +152,29 @@
         </div>
       </aside>
     </main>
+    <script type="text/javascript">
+    function hideAllLabels() {
+      const allLabels = document.querySelectorAll('label[for]')
+          allLabels.forEach(otherLabel => otherLabel.style.display = 'none')
+    }
+      const buttons = document.querySelectorAll('button')
+
+      buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          const type = e.target.innerText.toLowerCase();
+          const label = document.querySelector(`label[for="${type}"]`);
+          hideAllLabels();
+          label.style.display = 'flex'
+          label.style.left = e.target.offsetLeft
+        })
+      })
+
+      document.querySelector('body').addEventListener('click', (event) => {
+        if (event.target.tagName == 'BODY') {
+          hideAllLabels()
+        }
+      })
+
+    </script>
   </body>
 </html>
