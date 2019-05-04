@@ -4,14 +4,26 @@ import { RouteComponentProps } from '@reach/router';
 import Search from './components/Filter/Search';
 import { RangeValue, Range } from './components/Filter/Range';
 
+interface ResultData {
+    name: string;
+    description: string;
+    size: number;
+    link: string;
+    price: number;
+    photo: string;
+}
+
 interface ResultsState {
     searchValue: string;
     priceRange: RangeValue;
     priceDistribution: number[];
+    sizeRange: RangeValue;
+    sizeDistribution: number[];
+    results: ResultData[]
 }
 
 export default class Results extends React.Component<RouteComponentProps, ResultsState> {
-    state = {
+    state: ResultsState = {
         searchValue: '',
         priceRange: {
             start: 0,
@@ -30,7 +42,8 @@ export default class Results extends React.Component<RouteComponentProps, Result
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
-        ]
+        ],
+        results: []
     }
 
     public validate = (searchValue: string) => {
@@ -60,6 +73,12 @@ export default class Results extends React.Component<RouteComponentProps, Result
                             value={this.state.sizeRange}
                             handleChange={this.handleSizeChange}
                         />
+                    </div>
+
+                    <div className='results'>
+                        {this.state.results.map((result: ResultData) => {
+                            // return <Result data={result} />
+                        })}
                     </div>
                 </form>
 
