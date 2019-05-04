@@ -236,3 +236,29 @@ main {
 .result-details span:first-child {
     flex: 1;
 }
+
+.pagination {
+    justify-content: flex-end;
+    flex: 1;
+    display: flex;
+    justify-items: center;
+}
+
+.pagination-button {
+    height: 40px;
+    width: 80px;
+    background: white;
+    border: 1px #ddd solid;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination-button:hover {
+    background-color: #ddd;
+}
+
+.pagination-button:focus,
+.pagination-button:active {
+    background-color: var(--theme);
+    color: white;
+}

@@ -4,7 +4,9 @@ import { RouteComponentProps } from '@reach/router';
 import Search from './Filter/Search';
 import { RangeValue, Range } from './Filter/Range';
 import { ResultData, Result } from './Result';
-import { getResults } from '../services/api'
+import { getResults, ResultFilters } from '../services/api'
+
+const RESULT_LIMIT = 100;
 
 interface ResultsState {
     searchValue: string;
@@ -12,7 +14,9 @@ interface ResultsState {
     priceDistribution: number[];
     sizeRange: RangeValue;
     sizeDistribution: number[];
-    results: ResultData[]
+    results: ResultData[];
+    offset: number;
+    filters: ResultFilters;
 }
 
 export default class Results extends React.Component<RouteComponentProps, ResultsState> {
@@ -36,7 +40,15 @@ export default class Results extends React.Component<RouteComponentProps, Result
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
         ],
-        results: []
+        results: [],
+        offset: 0,
+        filters: {
+            min_size: 0,
+            max_size: 0,
+            min_price: 0,
+            max_price: 0,
+            total: '500'
+        }
     }
 
     public validate = (searchValue: string) => {
@@ -66,8 +78,17 @@ export default class Results extends React.Component<RouteComponentProps, Result
                             value={this.state.sizeRange}
                             handleChange={this.handleSizeChange}
                         />
+                        <div className='pagination'>
+                            <div className='pagination-page'>{this.state.offset}</div>
+                            <button
+                                type='button'
+                                className='pagination-button'
+                                onClick={this.goNext}
+                            >
+                                Next
+                            </button>
+                        </div>
                     </div>
-
                     <div className='results'>
                         {this.state.results.map((result: ResultData) => {
                             return <Result key={result.id} data={result} />
@@ -93,9 +114,19 @@ export default class Results extends React.Component<RouteComponentProps, Result
         console.log('price range', value)
     }
 
-    componentDidMount() {
-        getResults().then((results: ResultData[]) => {
+    fetchResults = (): void => {
+        getResults(this.state.offset).then((results: ResultData[]) => {
             this.setState({ results })
         })
+    }
+
+    componentDidMount() {
+        this.fetchResults();
+    }
+
+    goNext = () => {
+        const { offset } = this.state;
+        const nextOffset = (offset + RESULT_LIMIT)
+        this.setState({ offset: nextOffset}, this.fetchResults);
     }
 }
