@@ -4,7 +4,7 @@
     "scrapeAfterLoading": true,
     "attributes": {
       "name": { "type": "text", "selector": "a:nth-child(2)", "attribute": "title" },
-      "price": { "type": "price", "selector": ".ergov3-priceannonce"},
+      "price": { "type": "digit", "selector": ".ergov3-priceannonce"},
       "description": { "type": "text", "selector": ".ergov3-txtannonce > p:nth-child(3)"},
       "size": { "type": "size", "selector": ".ergov3-txtannonce h3"},
       "link": { "type": "link", "selector": ".ergov3-annonce a:nth-child(2)", "attribute": "href"},

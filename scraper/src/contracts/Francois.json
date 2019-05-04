@@ -6,7 +6,7 @@
     "description": { "type": "text", "selector": ".panel-body .text-justify" },
     "size": { "type": "size", "selector": ".panel-body .text-justify" },
     "link": { "type": "link", "selector": "a" },
-    "price": { "type": "price", "selector": ".panel-body .text-right" },
+    "price": { "type": "digit", "selector": ".panel-body .text-right" },
     "photo": { "type": "link", "selector": ".bien-pic", "attribute": "src"}
   }
 }

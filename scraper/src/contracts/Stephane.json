@@ -5,7 +5,7 @@
   "attributes": {
     "name": { "type": "text", "selector": ".item-products_pieces"},
     "description": { "type": "text", "selector": ".item-products_address"},
-    "price": { "type": "price", "selector": ".item-products_price"},
+    "price": { "type": "digit", "selector": ".item-products_price"},
     "size": { "type": "size", "selector": ".item-products_pieces"},
     "link": { "type": "stephane-link", "attribute": "data-url"},
     "photo": { "type": "background-image", "selector": ".slides-image.webresize", "attribute": "style"}

@@ -4,7 +4,7 @@
   "attributes": {
     "name": { "type": "text", "selector": ".c-pa-link"},
     "description": { "type": "text", "selector": ".c-pa-city"},
-    "price": { "type": "price", "selector": ".c-pa-price"},
+    "price": { "type": "digit", "selector": ".c-pa-price"},
     "size": { "type": "size", "selector": ".c-pa-criterion em:nth-child(3)"},
     "link": { "type": "link", "selector": ".c-pa-link", "attribute": "href"},
     "photo": { "type": "link", "selector": "[data-lazy]", "data": { "name": "lazy", "key": "url"}}

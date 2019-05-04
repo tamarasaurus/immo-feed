@@ -3,7 +3,7 @@
     "pageQuery": "page",
     "attributes": {
       "name": { "type": "text", "selector": "a", "attribute": "alt" },
-      "price": { "type": "price", "selector": ".price"},
+      "price": { "type": "digit", "selector": ".price"},
       "description": { "type": "text", "selector": "h3 span"},
       "size": { "type": "size", "selector": ".details .surface"},
       "link": { "type": "link", "selector": "a", "attribute": "href"},

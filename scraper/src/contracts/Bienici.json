@@ -7,7 +7,7 @@
       "description": { "type": "text", "selector": ".cityAndDistrict" },
       "size": { "type": "size", "selector": ".generatedTitleWithHighlight" },
       "link": { "type": "link", "selector": "a.detailedSheetLink", "attribute": "href" },
-      "price": { "type": "price", "selector": ".thePrice" },
+      "price": { "type": "digit", "selector": ".thePrice" },
       "photo": { "type": "link", "selector": ".searchItemPhoto", "attribute": "src"}
     }
   }

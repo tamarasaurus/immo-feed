@@ -4,7 +4,7 @@
   "scrapeAfterLoading": true,
   "attributes": {
     "name": { "type": "text", "selector": "[itemprop=\"name\"]"},
-    "price": { "type": "price", "selector": "[itemprop=\"price\"]"},
+    "price": { "type": "digit", "selector": "[itemprop=\"price\"]"},
     "description": { "type": "text", "selector": "[itemprop=\"availableAtOrFrom\"]"},
     "size": { "type": "size", "selector": "[itemprop=\"name\"]"},
     "link": { "type": "link", "selector": "> a", "attribute": "href"},
