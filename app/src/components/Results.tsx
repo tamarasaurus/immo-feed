@@ -1,17 +1,10 @@
 import * as React from 'react';
 import { debounce } from 'lodash';
 import { RouteComponentProps } from '@reach/router';
-import Search from './components/Filter/Search';
-import { RangeValue, Range } from './components/Filter/Range';
-
-interface ResultData {
-    name: string;
-    description: string;
-    size: number;
-    link: string;
-    price: number;
-    photo: string;
-}
+import Search from './Filter/Search';
+import { RangeValue, Range } from './Filter/Range';
+import { ResultData, Result } from './Result';
+import { getResults } from '../services/api'
 
 interface ResultsState {
     searchValue: string;
@@ -77,7 +70,7 @@ export default class Results extends React.Component<RouteComponentProps, Result
 
                     <div className='results'>
                         {this.state.results.map((result: ResultData) => {
-                            // return <Result data={result} />
+                            return <Result key={result.id} data={result} />
                         })}
                     </div>
                 </form>
@@ -98,5 +91,11 @@ export default class Results extends React.Component<RouteComponentProps, Result
 
     handleSizeChange = (value: RangeValue): void => {
         console.log('price range', value)
+    }
+
+    componentDidMount() {
+        getResults().then((results: ResultData[]) => {
+            this.setState({ results })
+        })
     }
 }

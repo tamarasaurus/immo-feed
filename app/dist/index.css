@@ -180,3 +180,59 @@ main {
     flex: 1;
     border-right: 1px white solid;
 }
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr) );
+    margin-bottom: 40px;
+    grid-row-gap: 40px;
+    grid-column-gap: 20px;
+    margin-top: 20px;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-photo {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: cover;
+    height: 180px;
+    margin-bottom: 10px;
+}
+
+.result-photo:hover {
+    filter: brightness(80%);
+}
+
+.result-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.result-description {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.result-details {
+    display: flex;
+    border-top: 1px #eee solid;
+    border-bottom: 1px #eee solid;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 20px;
+}
+
+.result-details span {
+    margin-right: 10px;
+    color: #666;
+}
+
+.result-details span:first-child {
+    flex: 1;
+}
