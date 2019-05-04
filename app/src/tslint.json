@@ -1,0 +1,9 @@
+{
+    "extends": ["tslint:latest", "tslint-react"],
+    "rules": {
+        "quotemark": [true, "single"],
+        "object-literal-sort-keys": false,
+        "interface-name": false,
+        "jsx-no-multiline-js": false
+    }
+}
