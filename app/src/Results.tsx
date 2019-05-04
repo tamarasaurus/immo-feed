@@ -21,6 +21,15 @@ export default class Results extends React.Component<RouteComponentProps, Result
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
             5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
+        ],
+        sizeRange: {
+            start: 0,
+            end: 100,
+        },
+        sizeDistribution: [
+            5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
+            5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
+            5, 10, 20, 30, 45, 48, 50, 30, 20, 10,
         ]
     }
 
@@ -33,8 +42,6 @@ export default class Results extends React.Component<RouteComponentProps, Result
     render() {
         return (
             <div>
-                <h1>Results</h1>
-
                 <form>
                     <Search
                         onChange={this.handleSearchChange}
@@ -47,8 +54,15 @@ export default class Results extends React.Component<RouteComponentProps, Result
                             value={this.state.priceRange}
                             handleChange={this.handlePriceChange}
                         />
+                        <Range
+                            distribution={this.state.sizeDistribution}
+                            label='Size'
+                            value={this.state.sizeRange}
+                            handleChange={this.handleSizeChange}
+                        />
                     </div>
                 </form>
+
             </div>
         )
     }
@@ -60,6 +74,10 @@ export default class Results extends React.Component<RouteComponentProps, Result
     }
 
     handlePriceChange = (value: RangeValue): void => {
+        console.log('price range', value)
+    }
+
+    handleSizeChange = (value: RangeValue): void => {
         console.log('price range', value)
     }
 }

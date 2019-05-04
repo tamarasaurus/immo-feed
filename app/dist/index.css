@@ -95,6 +95,7 @@ main {
     cursor: pointer;
     font-size: 16px;
     font-family: var(--font);
+    margin-right: 10px;
 }
 
 .filter-button:hover {
