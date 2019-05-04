@@ -1,5 +1,6 @@
 :root {
     --font: 'Slabo 27px';
+    --theme: #35b5ac;
 }
 
 body, html {
@@ -71,4 +72,110 @@ main {
     font-family: var(--font);
     font-size: 22px;
     height: 40px;
+}
+
+.filters {
+    display: flex;
+    margin-top: 20px;
+}
+
+.filter {
+    position: relative;
+}
+
+.filter-button {
+    background: none;
+    border: 1px #ddd solid;
+    width: auto;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-width: 100px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: var(--font);
+}
+
+.filter-button:hover {
+    background: #ddd;
+}
+
+.filter-button:focus,
+.filter-button:active,
+.filter-button--open {
+    background-color: var(--theme);
+    color: white;
+}
+
+.filter-button:focus .filter-value,
+.filter-button:active .filter-value,
+.filter-button--open .filter-value {
+    color: white;
+}
+
+.filter-box {
+    position: absolute;
+    top: 50px;
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 6px 1px
+}
+
+.filter-distribution {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.filter-value {
+    color: var(--theme);
+    font-weight: 600;
+    font-family: var(--font);
+}
+
+.filter-values {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.filter-values input {
+    width: 120px;
+    height: 40px;
+    border-radius: 2px;
+    border: 1px #ddd solid;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.filter-values input:first-child {
+    margin-right: 10px;
+}
+
+.filter-values input:last-child {
+    margin-left: 10px;
+}
+
+.filter-close {
+    color: var(--theme);
+    text-align: right;
+    font-weight: 4 00;
+    font-family: var(--font);
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.filter-close:hover {
+    text-decoration: underline;
+}
+
+.filter-bar {
+    background: var(--theme);
+    flex: 1;
+    border-right: 1px white solid;
 }
