@@ -5,9 +5,9 @@ import * as sites from '../src/sites.json';
 import StephaneLink from '../src/attributes/StephaneLink';
 import * as assert from 'assert';
 
-// Leboncoin and Bienici are unstable
+// Leboncoin is unstable
 const contractList = glob.sync('src/contracts/*.json').filter(name => {
-    return !name.includes('Leboncoin') && !name.includes('Bienici')
+    return !name.includes('Leboncoin');
 });
 
 const scrapingJobs = contractList.map((contractPath) => {
