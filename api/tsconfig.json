@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "outDir": "./build",
         "allowJs": false,
         "target": "es6",
         "lib": [
@@ -13,13 +12,13 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
-        "strictPropertyInitialization": false,
-        "resolveJsonModule": true
+        "strictPropertyInitialization": false
     },
     "include": [
-        "src/**/*",
-        "tests/**/*",
-        "declarations.d.ts"
+       "server.ts",
+       "routes/**/*.ts",
+       "index.ts",
+       "postgres.ts"
     ],
     "exclude": [
         "node_modules"

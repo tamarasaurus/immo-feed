@@ -1,0 +1,12 @@
+{
+  "itemSelector": "#listAnnonces .annLink",
+  "pageQuery": "page",
+  "attributes": {
+    "name": { "type": "text", "selector": ".annVille" },
+    "description": { "type": "text", "selector": ".annTitre" },
+    "price": { "type": "digit", "selector": ".annPrix" },
+    "size": { "type": "size", "selector":  ".annCriteres"},
+    "link": { "type": "link", "attribute": "href" },
+    "photo": { "type": "link", "selector": ".annPhoto", "attribute": "data-original"}
+  }
+}

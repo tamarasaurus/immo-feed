@@ -1,42 +1,49 @@
 version: '3.4'
 
 services:
-  mongo:
+  postgres:
+    image: postgres
     restart: always
-    image: mongo
-    volumes:
-      - mongo:/data/db
-    ports:
-      - 27017:27017
+    environment:
+      POSTGRES_PASSWORD: postgres
 
   scraper:
-    restart: always
     image: scraper
     build:
       context: .
       dockerfile: scraper/Dockerfile
-    depends_on:
-      - mongo
     environment:
-      MONGODB_URI: 'mongo'
-    command: 'npm run serve'
-
-  runner:
-    image: scraper
-    environment:
-      MONGODB_URI: 'mongo'
-    command: 'npm run start'
+      REDIS_URL: 'redis://cache:6379'
+      POSTGRES_HOST: 'postgres'
+      API_URL: 'http://api:8000'
     depends_on:
-      - scraper
+      - postgres
+      - redis
 
-  frontend:
+  api:
     restart: always
     build:
       context: .
-      dockerfile: frontend/Dockerfile
-    command: 'npm run start'
+      dockerfile: api/Dockerfile
+    command: 'npm start'
+    environment:
+      POSTGRES_HOST: 'postgres://postgres:postgres@postgres:5432/postgres'
     depends_on:
-      - mongo
+      - postgres
+
+  redis:
+    image: redis
+    container_name: cache
+
+  # proxy:
+  #   image: zeta0/alpine-tor:latest
+  #   environment:
+  #     privoxy: 1
+  #     tors: 25
+  #     new_circuit_period: 10
+  #   ports:
+  #     - 8118:8118
+  #     - 2090:2090
 
 volumes:
-  mongo: ~
+  postgres: ~

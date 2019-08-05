@@ -1,42 +1,34 @@
 version: '3.4'
 
 services:
-  mongo:
+  api:
     ports:
-      - 27017:27017
+      - 8000:8000
+    volumes:
+      - ./api:/usr/src/app
 
-  scraper:
+  monitor:
+    image: scraper
     ports:
-      - 3000:3000
-    environment:
-      MONGODB_URI: 'mongo'
-    volumes:
-      - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
+      - 4567:4567
+    command: 'npm run monitor'
+    depends_on:
+      - scraper
+      - postgres
+      - redis
 
-  runner:
-    environment:
-      SCRAPER_FREQUENCY_MINUTES: ${SCRAPER_FREQUENCY_MINUTES:-10}
-      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
-      MAILGUN_API_BASE_URL: ${MAILGUN_API_BASE_URL}
-      MAILGUN_NOTIFY_EMAIL: ${MAILGUN_NOTIFY_EMAIL}
-      NOTIFY: ${NOTIFY:-false}
-    volumes:
-      - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
+  redis:
+    ports:
+      - 6379:6379
 
   test:
     image: scraper
     depends_on:
-    - runner
-    - scraper
+      - scraper
+      - api
     volumes:
       - ./scraper:/usr/src/app
-      - /usr/src/app/node_modules
 
-  frontend:
-    ports:
-      - 8080:8080
+  scraper:
     volumes:
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./scraper:/usr/src/app

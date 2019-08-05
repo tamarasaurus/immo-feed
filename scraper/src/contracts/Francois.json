@@ -1,0 +1,12 @@
+{
+  "itemSelector": "#biens-ls > .row.panel.panel-default",
+  "scrapeAfterLoading": true,
+  "attributes": {
+    "name": { "type": "text", "selector": ".panel-body h2" },
+    "description": { "type": "text", "selector": ".panel-body .text-justify" },
+    "size": { "type": "size", "selector": ".panel-body .text-justify" },
+    "link": { "type": "link", "selector": "a" },
+    "price": { "type": "digit", "selector": ".panel-body .text-right" },
+    "photo": { "type": "link", "selector": ".bien-pic", "attribute": "src"}
+  }
+}
