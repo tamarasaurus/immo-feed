@@ -1,5 +1,5 @@
 {
-    "itemSelector": "#bloc_liste [data-id]",
+    "itemSelector": "#bloc_liste",
     "pageQuery": "p",
     "scrapeAfterLoading": true,
     "attributes": {
