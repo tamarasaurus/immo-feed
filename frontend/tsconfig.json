@@ -1,24 +1,25 @@
 {
-    "compilerOptions": {
-        "allowJs": false,
-        "target": "es6",
-        "lib": [
-            "es2017",
-            "es5",
-            "es6",
-            "es2015.promise",
-            "dom"
-        ],
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "strictPropertyInitialization": false,
-        "esModuleInterop": true
-    },
-    "include": [
-       "server.ts",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "exclude": [
-        "node_modules"
-    ]
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "include": [
+    "src"
+  ]
 }

@@ -9,7 +9,7 @@ services:
 
   frontend:
     ports:
-      - 4000:4000
+      - 3000:3000
     volumes:
       - ./frontend:/usr/src/app
 
