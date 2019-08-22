@@ -10,8 +10,7 @@ services:
   scraper:
     image: scraper
     build:
-      context: .
-      dockerfile: scraper/Dockerfile
+      context: scraper
     environment:
       REDIS_URL: 'redis://cache:6379'
       POSTGRES_HOST: 'postgres'
@@ -23,13 +22,21 @@ services:
   api:
     restart: always
     build:
-      context: .
-      dockerfile: api/Dockerfile
+      context: api
     command: 'npm start'
     environment:
       POSTGRES_HOST: 'postgres://postgres:postgres@postgres:5432/postgres'
     depends_on:
       - postgres
+
+  frontend:
+    restart: always
+    build:
+      context: frontend
+    environment:
+      API_URL: 'http://api:8000'
+    depends_on:
+      - api
 
   redis:
     image: redis
