@@ -7,6 +7,12 @@ services:
     volumes:
       - ./api:/usr/src/app
 
+  frontend:
+    ports:
+      - 4000:4000
+    volumes:
+      - ./frontend:/usr/src/app
+
   monitor:
     image: scraper
     ports:
