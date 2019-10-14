@@ -30,6 +30,7 @@ function ResultList() {
       return <li key={result.id}>
         <img src={result.photo}/>
 
+
       </li>
     })}
   </ul>
