@@ -10,20 +10,24 @@ interface Result {
   created: string
   updated: string
   photo: string
-  hidden: boolean
 }
 
-function ResultList() {
+interface ResultListProps {
+  filter: string
+  search: string
+}
+
+function ResultList({ filter, search }: ResultListProps) {
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const results: Result[] = await get('/results')
+      const results: Result[] = await get(`/results?filter=${filter}&search=${search}`)
       setResults(results)
     }
 
     fetchData()
-  }, [])
+  }, [filter, search])
 
   return <ul className="result-list">
     { results.map((result: any) => {
@@ -38,7 +42,7 @@ function ResultList() {
         </div>
         <div className="result-item-summary">
           <div className="result-item-size">{result.size}m²</div>
-          <div className="result-item-price">{new Number(result.price).toLocaleString()}€</div>
+          <div className="result-item-price">{parseInt(result.price).toLocaleString()}€</div>
         </div>
       </li>
     })}

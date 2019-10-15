@@ -10,7 +10,6 @@ export default function(request: Request, response: Response, next: any) {
     description,
     link,
     photo,
-    hidden
   } = request.body
 
   db.query(`
@@ -24,11 +23,10 @@ export default function(request: Request, response: Response, next: any) {
             size = COALESCE($3, results.size),
             description = COALESCE($4, results.description),
             photo = COALESCE($6, results.photo),
-            updated = now(),
-            hidden = COALESCE($7, results.hidden)
+            updated = now()
     RETURNING *
   `,
-    [ name, price, size, description, link, photo, hidden ])
+    [ name, price, size, description, link, photo ])
   .then((result: QueryResult) => response.json(result.rows))
   .catch((error: Error) => next(error))
 }

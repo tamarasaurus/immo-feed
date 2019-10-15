@@ -7,7 +7,7 @@ interface SidebarProps {
 }
 
 function Sidebar({ filterBySection }: SidebarProps) {
-  const [ section, setSection ] = useState('All')
+  const [ section, setSection ] = useState('all')
 
   const onSectionChanged = (event: ChangeEvent<HTMLInputElement>) => {
     setSection(event.currentTarget.value)

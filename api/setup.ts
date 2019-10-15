@@ -11,8 +11,7 @@ db.query(
       link TEXT PRIMARY KEY,
       created timestamp NOT NULL DEFAULT current_timestamp,
       updated timestamp NOT NULL DEFAULT current_timestamp,
-      photo TEXT,
-      hidden BOOLEAN NOT NULL DEFAULT false
+      photo TEXT
      )`, [])
     .then((results: QueryResult) => {
       console.log('Finished setting up database \n', results)

@@ -4,9 +4,8 @@
   margin: 0;
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-column-gap: 10px;
-  grid-row-gap: 10px;
-  padding: 20px;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
   list-style: none;
   text-indent: none;
   height: 100vh;
@@ -19,7 +18,8 @@
   background-size: cover;
   background-position: 50%;
   display: block;
-  transition: opacity .2s
+  transition: opacity .2s;
+  background-color: #eee;
 }
 
 .result-item-image:hover {
@@ -28,7 +28,8 @@
 
 .result-item-details {
   padding: 10px;
-  background: var(--bg-light)
+  background: #fefefe;
+  min-height: 160px;
 }
 
 .result-item-name {
@@ -43,11 +44,12 @@
 }
 
 .result-item-summary {
-  background: var(--bg-light);
+  background: #fefefe;
   display: flex;
   flex-direction: row;
   padding: 10px;
   border-top: 1px #ddd solid;
+  border-bottom: 1px #ddd solid;
 }
 
 .result-item-size {
