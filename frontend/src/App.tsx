@@ -12,10 +12,8 @@ function App() {
     console.log('filter by section', section)
   }
 
-  return <div className="App">
-      <header className="App-header">
-        immo-feed
-      </header>
+  return <div>
+      <header>immo-feed</header>
       <main>
         <Sidebar filterBySection={filterBySection} />
         <ResultList />
