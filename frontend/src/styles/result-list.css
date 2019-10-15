@@ -9,6 +9,8 @@
   padding: 20px;
   list-style: none;
   text-indent: none;
+  height: 100vh;
+  overflow: auto;
 }
 
 .result-item-image {
