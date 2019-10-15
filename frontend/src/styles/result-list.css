@@ -42,16 +42,27 @@
   margin-bottom: 20px;
 }
 
-.result-item-size {
+.result-item-summary {
+  background: var(--bg-light);
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  border-top: 1px #ddd solid;
+}
 
+.result-item-size {
+  font-size: 12px;
+  padding-right: 20px;
+  flex: 1;
 }
 
 .result-item-price {
-
+  font-size: 12px;
 }
 
 .result-item-created {
-  color: var(--text-light)
+  color: var(--text-light);
+  font-size: 12px;
 }
 
 

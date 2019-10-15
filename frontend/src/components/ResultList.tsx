@@ -35,8 +35,10 @@ function ResultList() {
           <div className="result-item-name">{result.name}</div>
           <div className="result-item-created">{new Date(result.created).toLocaleDateString()}</div>
           <div className="result-item-desription">{result.desription}</div>
-          <div className="result-item-size">{result.size}</div>
-          <div className="result-item-price">{result.price}</div>
+        </div>
+        <div className="result-item-summary">
+          <div className="result-item-size">{result.size}m²</div>
+          <div className="result-item-price">{new Number(result.price).toLocaleString()}€</div>
         </div>
       </li>
     })}
