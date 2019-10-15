@@ -14,11 +14,11 @@ interface Result {
 }
 
 function ResultList() {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const results = await get('/results')
+      const results: Result[] = await get('/results')
       setResults(results)
     }
 
@@ -30,10 +30,10 @@ function ResultList() {
       const style = { backgroundImage: `url(${result.photo})` }
 
       return <li key={result.id}>
-        <div className="result-item-image" style={style}/>
+        <a href={result.link} rel="noopener noreferrer" title="Image" target="_blank" className="result-item-image" style={style}/>
         <div className="result-item-details">
-          <div className="result-item-created">{result.created}</div>
           <div className="result-item-name">{result.name}</div>
+          <div className="result-item-created">{new Date(result.created).toLocaleDateString()}</div>
           <div className="result-item-desription">{result.desription}</div>
           <div className="result-item-size">{result.size}</div>
           <div className="result-item-price">{result.price}</div>

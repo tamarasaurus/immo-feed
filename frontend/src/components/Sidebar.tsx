@@ -16,7 +16,7 @@ function Sidebar({ filterBySection }: SidebarProps) {
 
   return <div className="sidebar">
     { sections.map((option: string) => {
-      return <label className="sidebar-item"><input type="radio" name="section" checked={section === option} onChange={onSectionChanged} value={option}/> {option}</label>
+      return <label key={option} className="sidebar-item"><input type="radio" name="section" checked={section === option} onChange={onSectionChanged} value={option}/> {option}</label>
     })}
   </div>
 };

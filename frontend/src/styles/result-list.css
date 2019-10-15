@@ -18,10 +18,17 @@
   height: 180px;
   background-size: cover;
   background-position: 50%;
+  display: block;
+  transition: opacity .2s
+}
+
+.result-item-image:hover {
+  opacity: 0.9;
 }
 
 .result-item-details {
   padding: 10px;
+  background: var(--bg-light)
 }
 
 .result-item-name {

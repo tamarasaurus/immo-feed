@@ -2,7 +2,7 @@ body {
   padding: 0;
   margin: 0;
   color: black;
-  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 *, *:before, *:after {
@@ -11,4 +11,9 @@ body {
 
 main {
   display: flex;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
 }
