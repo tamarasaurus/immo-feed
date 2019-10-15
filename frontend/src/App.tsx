@@ -27,6 +27,10 @@ function App() {
   })
 
   useEffect(() => {
+    setOffset(0);
+  }, [section, searchQuery])
+
+  useEffect(() => {
     const fetchFilterState = async () => {
       const state  = await get('/filters');
       setFilterState(state[0])

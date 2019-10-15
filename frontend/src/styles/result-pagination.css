@@ -1,5 +1,6 @@
 .result-pagination {
   display: flex;
+  flex: 1;
   justify-content: flex-end;
   width: calc(100% - 40px);
   margin-bottom: 40px;

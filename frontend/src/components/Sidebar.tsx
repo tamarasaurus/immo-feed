@@ -10,8 +10,9 @@ function Sidebar({ onSectionChange }: SidebarProps) {
   const [ section, setSection ] = useState('all')
 
   const onSectionChanged = (event: ChangeEvent<HTMLInputElement>) => {
-    setSection(event.currentTarget.value)
-    onSectionChange(section);
+    const { value } = event.currentTarget
+    setSection(value)
+    onSectionChange(value);
   }
 
   return <div className="sidebar">

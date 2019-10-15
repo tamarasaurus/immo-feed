@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ResultPaginationProps {
   offset: number
@@ -9,6 +9,10 @@ interface ResultPaginationProps {
 
 function ResultPagination({ offset, totalResults, onOffsetChange, limit }: ResultPaginationProps) {
   const [pageOffset, setPageOffset] = useState<number>(offset)
+
+  useEffect(() => {
+    setPageOffset(offset)
+  }, [offset])
 
   const goNext = () => {
     const nextOffset = pageOffset + limit
