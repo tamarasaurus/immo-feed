@@ -1,8 +1,8 @@
 .result-pagination {
   display: flex;
-  flex: 1;
+  flex: 1 1;
   justify-content: flex-end;
-  width: calc(100% - 40px);
+  width: calc(100% - 20px);
   margin-bottom: 40px;
 }
 

@@ -13,14 +13,14 @@ function ResultSearch({ searchQuery, onSearchChange }: ResultSearchProps) {
     onSearchChange(value);
   }, 500);
 
-  return <input
+  return <div className="result-search"><input
     className="result-search"
     name="Search results"
     type="search"
     placeholder="Search by name, price, location"
     defaultValue={query}
     onChange={(event: ChangeEvent<HTMLInputElement>) => handleSearchChange(event.currentTarget.value)}
-    />
+    /></div>
 };
 
 export default ResultSearch;

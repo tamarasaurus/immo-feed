@@ -41,7 +41,7 @@ function ResultList({ filter, search, offset, limit }: ResultListProps) {
         <div className="result-item-details">
           <div className="result-item-name">{result.name}</div>
           <div className="result-item-created">{new Date(result.created).toLocaleDateString()}</div>
-          <div className="result-item-desription">{result.description}</div>
+          <div className="result-item-description">{result.description}</div>
         </div>
         <div className="result-item-summary">
           <div className="result-item-size">{result.size}m²</div>

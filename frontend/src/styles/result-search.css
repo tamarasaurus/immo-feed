@@ -1,9 +1,19 @@
 .result-search {
   display: flex;
-  width: calc(100% - 36px);
+  width: 100%;
+  position: sticky;
+  top: 0;
+  margin-right: 20px;
   margin-bottom: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
+  margin-top: 20px;
+  z-index: 1;
+  background: white;
+}
+
+.result-search input {
   height: 40px;
   font-size: 14px;
+  padding-left: 10px;
+  box-shadow: none;
+  padding-right: 10px;
 }

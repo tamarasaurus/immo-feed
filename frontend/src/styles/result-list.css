@@ -7,10 +7,8 @@
   grid-column-gap: 20px;
   grid-row-gap: 20px;
   list-style: none;
-  overflow-y: scroll;
-  flex: 1 1;
-  max-height: calc(100vh - 140px);
   padding-right: 20px;
+  height: auto;
 }
 
 .result-item-image {
@@ -67,7 +65,7 @@
 .result-item-created {
   color: var(--text-light);
   font-size: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 
