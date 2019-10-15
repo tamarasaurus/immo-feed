@@ -47,6 +47,7 @@ function App() {
         <Sidebar onSectionChange={(value: string) => setSection(value)} />
 
         <section>
+          <h2>{section} results</h2>
           <ResultSearch
             searchQuery={searchQuery}
             onSearchChange={(query: string) => setSearchQuery(query) }

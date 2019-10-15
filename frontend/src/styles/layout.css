@@ -37,3 +37,7 @@ section {
   position: relative;
   margin-left: 20px;
 }
+
+h2 {
+  text-transform: capitalize;
+}
