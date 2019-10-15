@@ -1,0 +1,15 @@
+.sidebar {
+  width: 20vw;
+  height: 100vh;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  text-transform: capitalize;
+  padding: 20px;
+  background: var(--bg);
+}
+
+.sidebar-item {
+  width: 33.3%;
+  height: auto;
+}

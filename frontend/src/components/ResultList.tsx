@@ -25,12 +25,19 @@ function ResultList() {
     fetchData()
   }, [])
 
-  return <ul>
+  return <ul className="result-list">
     { results.map((result: any) => {
+      const style = { backgroundImage: `url(${result.photo})` }
+
       return <li key={result.id}>
-        <img src={result.photo}/>
-
-
+        <div className="result-item-image" style={style}/>
+        <div className="result-item-details">
+          <div className="result-item-created">{result.created}</div>
+          <div className="result-item-name">{result.name}</div>
+          <div className="result-item-desription">{result.desription}</div>
+          <div className="result-item-size">{result.size}</div>
+          <div className="result-item-price">{result.price}</div>
+        </div>
       </li>
     })}
   </ul>

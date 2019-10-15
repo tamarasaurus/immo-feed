@@ -1,0 +1,13 @@
+body {
+  padding: 0;
+  margin: 0;
+  color: black;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+}
