@@ -1,0 +1,23 @@
+.result-pagination {
+  display: flex;
+  justify-content: flex-end;
+  width: calc(100% - 40px);
+  margin-bottom: 40px;
+}
+
+.result-pagination button {
+  height: 40px;
+  background: #999;
+  color: white;
+  border: 0;
+  width: 100px;
+  cursor: pointer;
+}
+
+.result-pagination button:hover {
+  background: #333;
+}
+
+.result-pagination button:last-child {
+  margin-left: 10px;
+}

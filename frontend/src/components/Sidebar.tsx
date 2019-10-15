@@ -3,15 +3,15 @@ import React, { useState, ChangeEvent } from 'react';
 const sections = ['all', 'saved', 'shortlisted', 'ignored'];
 
 interface SidebarProps {
-  filterBySection: (section: string) => void
+  onSectionChange: (section: string) => void
 }
 
-function Sidebar({ filterBySection }: SidebarProps) {
+function Sidebar({ onSectionChange }: SidebarProps) {
   const [ section, setSection ] = useState('all')
 
   const onSectionChanged = (event: ChangeEvent<HTMLInputElement>) => {
     setSection(event.currentTarget.value)
-    filterBySection(section);
+    onSectionChange(section);
   }
 
   return <div className="sidebar">

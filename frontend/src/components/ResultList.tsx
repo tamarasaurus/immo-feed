@@ -16,19 +16,21 @@ interface Result {
 interface ResultListProps {
   filter: string
   search: string
+  offset: number
+  limit: number
 }
 
-function ResultList({ filter, search }: ResultListProps) {
+function ResultList({ filter, search, offset, limit }: ResultListProps) {
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const results: Result[] = await get(`/results?filter=${filter}&search=${search}`)
+      const results: Result[] = await get(`/results?filter=${filter}&search=${search}&offset=${offset}&limit=${limit}`)
       setResults(results)
     }
 
     fetchData()
-  }, [filter, search])
+  }, [filter, search, limit, offset])
 
   return <ul className="result-list">
     { results.map((result: Result) => {
