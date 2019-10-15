@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   text-transform: capitalize;
-  background: var(--bg);
+  background: #ddd;
 }
 
 .sidebar-item {
@@ -27,4 +27,6 @@
 .sidebar-item input {
   margin-right: 10px;
   margin-left: 10px;
+  width: 16px;
+  height: 16px;
 }

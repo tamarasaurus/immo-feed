@@ -5,11 +5,12 @@ interface Result {
   name: string
   description: string
   size: number
-  price: number
+  price: string
   link: string
   created: string
   updated: string
   photo: string
+  id: string
 }
 
 interface ResultListProps {
@@ -30,7 +31,7 @@ function ResultList({ filter, search }: ResultListProps) {
   }, [filter, search])
 
   return <ul className="result-list">
-    { results.map((result: any) => {
+    { results.map((result: Result) => {
       const style = { backgroundImage: `url(${result.photo})` }
 
       return <li key={result.id}>
@@ -38,7 +39,7 @@ function ResultList({ filter, search }: ResultListProps) {
         <div className="result-item-details">
           <div className="result-item-name">{result.name}</div>
           <div className="result-item-created">{new Date(result.created).toLocaleDateString()}</div>
-          <div className="result-item-desription">{result.desription}</div>
+          <div className="result-item-desription">{result.description}</div>
         </div>
         <div className="result-item-summary">
           <div className="result-item-size">{result.size}m²</div>
