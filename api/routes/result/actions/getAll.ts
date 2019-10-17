@@ -41,7 +41,7 @@ export default function(request: Request, response: Response, next: any) {
   }
 
   db.query(`
-    SELECT *
+    SELECT *, COUNT(*) OVER() AS total
     FROM results
     WHERE price BETWEEN COALESCE($1, (
       SELECT MIN(price) from results

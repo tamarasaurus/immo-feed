@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ResultList from './components/ResultList';
+import ResultList, { Result } from './components/ResultList';
 import ResultSearch from './components/ResultSearch';
 import ResultPagination from './components/ResultPagination';
 import Sidebar from './components/Sidebar';
@@ -13,18 +13,17 @@ import './styles/result-pagination.css';
 import './styles/sidebar.css';
 
 interface FilterState {
-  total: string;
+  total: number;
 }
 
-const PAGINATION_OFFSET = 40;
+const PAGINATION_LIMIT = 40;
 
 function App() {
+  const [results, setResults] = useState<Result[]>([]);
   const [section, setSection] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [offset, setOffset] = useState(0);
-  const [filterState, setFilterState] = useState<FilterState>({
-    total: '9999999'
-  })
+  const [totalResults, setTotalResults] = useState(999999)
 
   useEffect(() => {
     setOffset(0);
@@ -32,14 +31,23 @@ function App() {
 
   useEffect(() => {
     const fetchFilterState = async () => {
-      const state  = await get('/filters');
-      setFilterState(state[0])
+      const { total } = await get('/filters');
+      setTotalResults(total)
     }
 
     fetchFilterState();
   }, [])
 
-  const { total } = filterState;
+  useEffect(() => {
+    const fetchData = async () => {
+      const results: Result[] = await get(`/results?filter=${section}&search=${searchQuery}&offset=${offset}&limit=${PAGINATION_LIMIT}`)
+
+      setResults(results)
+      setTotalResults(results.length > 0 ? parseInt(results[0].total) : 0)
+    }
+
+    fetchData()
+  }, [section, searchQuery, offset])
 
   return <div>
       <header>immo-feed</header>
@@ -47,7 +55,7 @@ function App() {
         <Sidebar onSectionChange={(value: string) => setSection(value)} />
 
         <section>
-          <h2>{section} results</h2>
+          <h2>{section} results ({ totalResults })</h2>
           <ResultSearch
             searchQuery={searchQuery}
             onSearchChange={(query: string) => setSearchQuery(query) }
@@ -55,17 +63,12 @@ function App() {
 
           <ResultPagination
             offset={offset}
-            limit={PAGINATION_OFFSET}
-            totalResults={parseInt(total)}
+            limit={PAGINATION_LIMIT}
+            totalResults={totalResults}
             onOffsetChange={(offset: number) => setOffset(offset)}
           />
 
-          <ResultList
-            search={searchQuery}
-            filter={section}
-            offset={offset}
-            limit={PAGINATION_OFFSET}
-          />
+          <ResultList results={results} />
         </section>
       </main>
     </div>

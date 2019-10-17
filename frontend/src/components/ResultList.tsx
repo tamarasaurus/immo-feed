@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { get } from '../api'
+import React from 'react';
 
-interface Result {
+export interface Result {
   name: string
   description: string
   size: number
@@ -11,33 +10,21 @@ interface Result {
   updated: string
   photo: string
   id: string
+  total: string;
 }
+
 
 interface ResultListProps {
-  filter: string
-  search: string
-  offset: number
-  limit: number
+  results: Result[]
 }
 
-function ResultList({ filter, search, offset, limit }: ResultListProps) {
-  const [results, setResults] = useState<Result[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const results: Result[] = await get(`/results?filter=${filter}&search=${search}&offset=${offset}&limit=${limit}`)
-      setResults(results)
-    }
-
-    fetchData()
-  }, [filter, search, limit, offset])
-
+function ResultList({results }: ResultListProps) {
   return <ul className="result-list">
     { results.map((result: Result) => {
       const style = { backgroundImage: `url(${result.photo})` }
 
       return <li key={result.id}>
-        <a href={result.link} rel="noopener noreferrer" title="Image" target="_blank" className="result-item-image" style={style}/>
+        <a href={result.link} rel="noopener noreferrer" title="Image" target="_blank" className="result-item-image" style={style}></a>
         <div className="result-item-details">
           <div className="result-item-name">{result.name}</div>
           <div className="result-item-created">{new Date(result.created).toLocaleDateString()}</div>
