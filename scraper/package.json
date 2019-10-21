@@ -39,6 +39,7 @@
     "@types/node": "^9.6.48",
     "@types/request-promise": "^4.1.41",
     "@types/sinon": "^5.0.1",
+    "@types/yargs": "^13.0.3",
     "bull-arena": "^2.6.2",
     "chalk": "^2.4.1",
     "express": "^4.16.3",
@@ -48,6 +49,7 @@
     "ts-mocha": "^6.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.16.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "yargs": "^14.2.0"
   }
 }

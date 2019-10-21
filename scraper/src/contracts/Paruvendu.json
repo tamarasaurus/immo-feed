@@ -1,5 +1,5 @@
 {
-    "itemSelector": "#bloc_liste",
+    "itemSelector": "#ergov3-annonce",
     "pageQuery": "p",
     "scrapeAfterLoading": true,
     "attributes": {
