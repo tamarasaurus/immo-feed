@@ -8,7 +8,6 @@ An API to aggregate real-estate listings from these sites:
 - LaForet
 - Leboncoin
 - Ouestfrance immo
-- Paruvendu
 - Seloger
 - Stephane
 - Thierry
