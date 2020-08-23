@@ -1,13 +1,12 @@
 {
-  "itemSelector": "[data-product-id]",
+  "itemSelector": ".roomlistings .room",
   "pageQuery": "page",
   "scrapeAfterLoading": true,
   "attributes": {
-    "name": { "type": "text", "selector": ".item-products_pieces"},
-    "description": { "type": "text", "selector": ".item-products_address"},
-    "price": { "type": "digit", "selector": ".item-products_price"},
-    "size": { "type": "size", "selector": ".item-products_pieces"},
-    "link": { "type": "stephane-link", "attribute": "data-url"},
-    "photo": { "type": "background-image", "selector": ".slides-image.webresize", "attribute": "style"}
+    "name": { "type": "text", "selector": ".title-wrap"},
+    "price": { "type": "digit", "selector": ".card-right"},
+    "size": { "type": "size", "selector": ".title-wrap"},
+    "link": { "type": "link", "selector": ".title-wrap", "attribute": "href"},
+    "photo": { "type": "background-image", "selector": ".img", "attribute": "style"}
   }
 }

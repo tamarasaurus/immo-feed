@@ -1,12 +1,11 @@
 {
-  "itemSelector": "[data-listing-id]",
+  "itemSelector": "[class^='Page__Wrap']",
   "pageQuery": "LISTING-LISTpg",
   "attributes": {
-    "name": { "type": "text", "selector": ".c-pa-link"},
-    "description": { "type": "text", "selector": ".c-pa-city"},
-    "price": { "type": "digit", "selector": ".c-pa-price"},
-    "size": { "type": "size", "selector": ".c-pa-criterion em:nth-child(3)"},
-    "link": { "type": "link", "selector": ".c-pa-link", "attribute": "href"},
-    "photo": { "type": "link", "selector": "[data-lazy]", "data": { "name": "lazy", "key": "url"}}
+    "name": { "type": "text", "selector": "[class^='ContentZone__Title']"},
+    "description": { "type": "text", "selector": "[class^='Card__Description']"},
+    "price": { "type": "digit", "selector": "[class^='Price__Label']"},
+    "size": { "type": "size", "selector": "[class^='ContentZone__Tags'] li:nth-child(3)"},
+    "link": { "type": "link", "selector": "[class^='CoveringLink']", "attribute": "href"}
   }
 }

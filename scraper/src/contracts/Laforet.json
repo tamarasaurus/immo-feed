@@ -1,12 +1,12 @@
 {
-    "itemSelector": ".results-compact > li",
+    "itemSelector": ".properties__list .property-card",
     "pageQuery": "page",
     "attributes": {
-      "name": { "type": "text", "selector": "a", "attribute": "alt" },
-      "price": { "type": "digit", "selector": ".price"},
-      "description": { "type": "text", "selector": "h3 span"},
-      "size": { "type": "size", "selector": ".details .surface"},
+      "name": { "type": "text", "selector": ".property-card__title" },
+      "price": { "type": "digit", "selector": ".property-card__price"},
+      "description": { "type": "text", "selector": ".property-card__infos .property-card__feature:nth-child(2)"},
+      "size": { "type": "size", "selector": ".property-card__infos .property-card__feature:nth-child(1)"},
       "link": { "type": "link", "selector": "a", "attribute": "href"},
-      "photo": { "type": "link", "selector": ".main-picture", "attribute": "src"}
+      "photo": { "type": "link", "selector": ".property-card__photo", "attribute": "src"}
     }
   }
