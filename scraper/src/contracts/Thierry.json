@@ -1,12 +1,31 @@
 {
   "itemSelector": ".teaser--immobilier",
-  "pageQuery": "page",
-  "attributes":  {
-    "name": { "type": "text", "selector": ".teaser__title" },
-    "description": { "type": "text", "selector": ".teaser__body .dot-ellipsis p" },
-    "size": { "type": "size", "selector": ".teaser__additional-inner span:nth-child(2)" },
-    "price": { "type": "digit", "selector": ".teaser__price b"},
-    "photo": { "type": "link", "selector": ".teaser__cover .field-type-image img", "attribute": "src"},
-    "link": { "type": "link", "selector": "> a", "attribute": "href"}
+  "attributes": {
+    "name": {
+      "type": "text",
+      "selector": ".teaser__title"
+    },
+    "description": {
+      "type": "text",
+      "selector": ".teaser__body .dot-ellipsis p"
+    },
+    "size": {
+      "type": "size",
+      "selector": ".teaser__additional-inner span:nth-child(2)"
+    },
+    "price": {
+      "type": "number",
+      "selector": ".teaser__price b"
+    },
+    "photo": {
+      "type": "link",
+      "selector": ".teaser__cover .field-type-image img",
+      "attribute": "src"
+    },
+    "link": {
+      "type": "link",
+      "selector": "> a",
+      "attribute": "href"
+    }
   }
 }

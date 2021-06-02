@@ -1,13 +1,30 @@
 {
   "itemSelector": "[data-product-id]",
-  "pageQuery": "page",
-  "scrapeAfterLoading": true,
   "attributes": {
-    "name": { "type": "text", "selector": ".item-products_pieces"},
-    "description": { "type": "text", "selector": ".item-products_address"},
-    "price": { "type": "digit", "selector": ".item-products_price"},
-    "size": { "type": "size", "selector": ".item-products_pieces"},
-    "link": { "type": "stephane-link", "attribute": "data-url"},
-    "photo": { "type": "background-image", "selector": ".slides-image.webresize", "attribute": "style"}
+    "name": {
+      "type": "text",
+      "selector": ".item-products_pieces"
+    },
+    "description": {
+      "type": "text",
+      "selector": ".item-products_address"
+    },
+    "price": {
+      "type": "number",
+      "selector": ".item-products_price"
+    },
+    "size": {
+      "type": "size",
+      "selector": ".item-products_pieces"
+    },
+    "link": {
+      "type": "stephane-link",
+      "attribute": "data-url"
+    },
+    "photo": {
+      "type": "background-image",
+      "selector": ".slides-image.webresize",
+      "attribute": "style"
+    }
   }
 }

@@ -1,47 +1,30 @@
 [
   {
     "type": "Seloger",
-    "url": "https://www.seloger.com/list.htm?types=1,2&projects=2,5&natures=1,2,4&qsVersion=1.0",
-    "pages": 3
+    "url": "https://www.seloger.com/list.htm?types=1,2&projects=2,5&natures=1,2,4&qsVersion=1.0"
   },
   {
     "type": "Leboncoin",
-    "url": "https://www.leboncoin.fr/recherche/?regions=18&location=Nantes_44000",
-    "pages": 3
+    "url": "https://www.leboncoin.fr/recherche/?regions=18&location=Nantes_44000"
   },
   {
     "type": "Francois",
-    "url": "https://www.francois-et-francois-immobilier.com/achat/",
-    "pages": 1
+    "url": "https://www.francois-et-francois-immobilier.com/achat/"
   },
   {
     "type": "Ouestfrance",
-    "url": "https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement",
-    "pages": 3
+    "url": "https://www.ouestfrance-immo.com/acheter/nantes-44-44000/?types=maison,appartement"
   },
   {
     "type": "Stephane",
-    "url": "http://www.stephaneplazaimmobilier-nantesest.com/catalog/result_carto.php?action=update_search&map_polygone=&C_28=Vente&C_28_search=EGAL&C_28_type=UNIQUE&site-agence=&C_65_search=CONTIENT&C_65_type=TEXT&C_65=44+NANTES&C_65_temp=44+NANTES&cfamille_id=&C_33_search=COMPRIS&C_33_type=TEXT&C_33_MIN=&C_33_MAX=&C_30_search=INFERIEUR&C_30_type=NUMBER&C_30=&C_30_format_quick=",
-    "pages": 1
+    "url": "http://www.stephaneplazaimmobilier-nantesest.com/catalog/result_carto.php?action=update_search&map_polygone=&C_28=Vente&C_28_search=EGAL&C_28_type=UNIQUE&site-agence=&C_65_search=CONTIENT&C_65_type=TEXT&C_65=44+NANTES&C_65_temp=44+NANTES&cfamille_id=&C_33_search=COMPRIS&C_33_type=TEXT&C_33_MIN=&C_33_MAX=&C_30_search=INFERIEUR&C_30_type=NUMBER&C_30=&C_30_format_quick="
   },
   {
     "type": "Thierry",
-    "url": "https://www.thierry-immobilier.fr/vente/appartement--maison",
-    "pages": 1
+    "url": "https://www.thierry-immobilier.fr/vente/appartement--maison"
   },
   {
     "type": "Blot",
-    "url": "https://www.blot-immobilier.fr/habitat/achat-location/immobilier/loire-atlantique/nantes/",
-    "pages": 1
-  },
-  {
-    "type": "Laforet",
-    "url": "http://www.laforet.com/acheter",
-    "pages": 3
-  },
-  {
-    "type": "Paruvendu",
-    "url": "https://www.paruvendu.fr/immobilier/annonceimmofo/liste/listeAnnonces?tt=1&tbApp=1&tbDup=1&tbChb=1&tbLof=1&tbAtl=1&tbPla=1&tbMai=1&tbVil=1&tbCha=1&tbPro=1&tbHot=1&tbMou=1&tbFer=1&at=1&pa=FR&lol=0&ray=50&codeINSEE=44XX0",
-    "pages": 2
+    "url": "https://www.blot-immobilier.fr/habitat/achat-location/immobilier/loire-atlantique/nantes/"
   }
 ]
