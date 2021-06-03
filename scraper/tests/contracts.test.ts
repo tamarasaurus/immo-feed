@@ -7,7 +7,7 @@ import * as assert from 'assert';
 
 // Leboncoin is unstable
 const contractList = glob.sync('src/contracts/*.json').filter(name => {
-  return !name.includes('Leboncoin');
+  return !name.includes('leboncoin');
 });
 
 const scrapingJobs = contractList.map(contractPath => {
@@ -20,7 +20,12 @@ const scrapingJobs = contractList.map(contractPath => {
   return {
     url,
     site: fileName,
-    scraper: new Scraper(url, contract, { 'stephane-link': StephaneLink }),
+    scraper: new Scraper(
+      url,
+      contract,
+      { 'stephane-link': StephaneLink },
+      { headless: false },
+    ),
     attributes: contract.attributes,
   };
 });
@@ -33,8 +38,7 @@ for (let job of Object.values(scrapingJobs)) {
       .scrapePage()
       .then(async scrapedItems => {
         if (scrapedItems.length === 0) {
-          //   console.log(await scraper.getPageContents());
-          console.log(scraper, scraper.getFetcher());
+          // console.log(await scraper.getPageContents());
         }
         assert.equal(
           scrapedItems.length > 0,

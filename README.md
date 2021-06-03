@@ -3,13 +3,12 @@
 [![Build Status](https://travis-ci.org/tamarasaurus/immo-feed.svg?branch=master)](https://travis-ci.org/tamarasaurus/immo-feed)
 
 An API to aggregate real-estate listings from these sites:
+
 - Blot
 - Francois et Francois Immobilier
 - LaForet
 - Leboncoin
 - Ouestfrance immo
-- Paruvendu
-- Seloger
 - Stephane
 - Thierry
 

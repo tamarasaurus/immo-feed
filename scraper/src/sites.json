@@ -1,13 +1,5 @@
 [
   {
-    "type": "Seloger",
-    "url": "https://www.seloger.com/list.htm?types=1,2&projects=2,5&natures=1,2,4&qsVersion=1.0"
-  },
-  {
-    "type": "Leboncoin",
-    "url": "https://www.leboncoin.fr/recherche/?regions=18&location=Nantes_44000"
-  },
-  {
     "type": "Francois",
     "url": "https://www.francois-et-francois-immobilier.com/achat/"
   },
@@ -21,10 +13,14 @@
   },
   {
     "type": "Thierry",
-    "url": "https://www.thierry-immobilier.fr/vente/appartement--maison"
+    "url": "https://www.thierry-immobilier.fr/fr/ventes"
   },
   {
     "type": "Blot",
     "url": "https://www.blot-immobilier.fr/habitat/achat-location/immobilier/loire-atlantique/nantes/"
+  },
+  {
+    "type": "Bienici",
+    "url": "https://www.bienici.com/recherche/achat/nantes-44000"
   }
 ]

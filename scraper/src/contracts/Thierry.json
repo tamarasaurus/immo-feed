@@ -1,30 +1,26 @@
 {
-  "itemSelector": ".teaser--immobilier",
+  "itemSelector": ".vignette-annonces .vignette-mf",
   "attributes": {
     "name": {
       "type": "text",
-      "selector": ".teaser__title"
+      "selector": ".card-titre"
     },
     "description": {
       "type": "text",
-      "selector": ".teaser__body .dot-ellipsis p"
-    },
-    "size": {
-      "type": "size",
-      "selector": ".teaser__additional-inner span:nth-child(2)"
+      "selector": ".accroche"
     },
     "price": {
       "type": "number",
-      "selector": ".teaser__price b"
+      "selector": ".prix"
     },
     "photo": {
       "type": "link",
-      "selector": ".teaser__cover .field-type-image img",
+      "selector": "img",
       "attribute": "src"
     },
     "link": {
       "type": "link",
-      "selector": "> a",
+      "selector": ".card-image a",
       "attribute": "href"
     }
   }

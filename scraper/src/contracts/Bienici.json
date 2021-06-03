@@ -1,32 +1,32 @@
 {
-  "itemSelector": ".acheter-right .room",
+  "itemSelector": ".resultsListContainer .sideListItemContainer",
   "puppeteer": true,
-  "waitForPageLoadSelector": ".acheter-right .room",
+  "waitForPageLoadSelector": ".resultsListContainer",
   "attributes": {
     "name": {
       "type": "text",
-      "selector": ".title-wrap"
+      "selector": ".generatedTitleWithHighlight"
     },
     "description": {
       "type": "text",
-      "selector": ".title-wrap"
+      "selector": ".cityAndDistrict"
     },
     "price": {
       "type": "number",
-      "selector": ".card-top .card-right"
+      "selector": ".thePrice"
     },
     "size": {
       "type": "size",
-      "selector": ".title-wrap"
+      "selector": ".generatedTitleWithHighlight"
     },
     "link": {
       "type": "link",
-      "selector": ".title-wrap",
+      "selector": ".detailedSheetLink",
       "attribute": "href"
     },
     "photo": {
       "type": "link",
-      "selector": "img",
+      "selector": ".searchItemPhoto",
       "attribute": "src"
     }
   }
