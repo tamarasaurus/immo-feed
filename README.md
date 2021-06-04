@@ -14,10 +14,11 @@ An API to aggregate real-estate listings from these sites:
 
 ### Installation
 
+Install Docker & Docker compose
+
 ```
-cd scraper && npm install
-cd api && npm install
-docker-composer up -d --build
+./install.sh
+./scrape.sh
 ```
 
 Go to `http://localhost:8000/results` to get the results in JSON
