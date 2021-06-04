@@ -4,13 +4,12 @@
 
 An API to aggregate real-estate listings from these sites:
 
+- Bienici
+- Thierry immobilier
+- Stephane plaza
 - Blot
-- Francois et Francois Immobilier
-- LaForet
-- Leboncoin
+- Francois & Francois immobilier
 - Ouestfrance immo
-- Stephane
-- Thierry
 
 ### Installation
 
