@@ -3,22 +3,21 @@
 [![Build Status](https://travis-ci.org/tamarasaurus/immo-feed.svg?branch=master)](https://travis-ci.org/tamarasaurus/immo-feed)
 
 An API to aggregate real-estate listings from these sites:
+
+- Bienici
+- Thierry immobilier
+- Stephane plaza
 - Blot
-- Francois et Francois Immobilier
-- LaForet
-- Leboncoin
+- Francois & Francois immobilier
 - Ouestfrance immo
-- Paruvendu
-- Seloger
-- Stephane
-- Thierry
 
 ### Installation
 
+Install Docker & Docker compose
+
 ```
-cd scraper && npm install
-cd api && npm install
-docker-composer up -d --build
+./install.sh
+./scrape.sh
 ```
 
 Go to `http://localhost:8000/results` to get the results in JSON

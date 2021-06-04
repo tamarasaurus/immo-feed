@@ -1,27 +1,17 @@
 {
-    "compilerOptions": {
-        "outDir": "./build",
-        "allowJs": false,
-        "target": "es6",
-        "lib": [
-            "es2017",
-            "es5",
-            "es6",
-            "es2015.promise",
-            "dom"
-        ],
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "strictPropertyInitialization": false,
-        "resolveJsonModule": true
-    },
-    "include": [
-        "src/**/*",
-        "tests/**/*",
-        "declarations.d.ts"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": false,
+    "target": "es6",
+    "lib": ["es2017", "es5", "es6", "es2015.promise", "dom"],
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "strict": false
+  },
+  "include": ["src/**/*", "tests/**/*", "declarations.d.ts"],
+  "exclude": ["node_modules"]
 }

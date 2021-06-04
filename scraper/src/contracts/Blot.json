@@ -1,12 +1,31 @@
 {
-    "itemSelector": ".bloc_annonce_habitat",
-    "pageQuery": "page",
-    "attributes": {
-      "name": { "type": "text", "selector": ".title_part1" },
-      "description": { "type": "text", "selector": ".title_part2" },
-      "size": { "type": "size", "selector": ".chiffres_cles span:nth-child(2) strong" },
-      "link": { "type": "link", "selector": ".title_part1 a", "attribute": "href" },
-      "price": { "type": "digit", "selector": ".prix strong" },
-      "photo": { "type": "link", "selector": ".visuel img", "attribute": "src"}
+  "itemSelector": ".bloc_annonce_habitat",
+  "attributes": {
+    "name": {
+      "type": "text",
+      "selector": ".title_part1"
+    },
+    "description": {
+      "type": "text",
+      "selector": ".title_part2"
+    },
+    "size": {
+      "type": "size",
+      "selector": ".chiffres_cles span:nth-child(2) strong"
+    },
+    "link": {
+      "type": "link",
+      "selector": ".title_part1 a",
+      "attribute": "href"
+    },
+    "price": {
+      "type": "number",
+      "selector": ".prix strong"
+    },
+    "photo": {
+      "type": "link",
+      "selector": ".visuel img",
+      "attribute": "src"
     }
   }
+}
