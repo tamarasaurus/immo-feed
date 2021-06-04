@@ -20,12 +20,7 @@ const scrapingJobs = contractList.map(contractPath => {
   return {
     url,
     site: fileName,
-    scraper: new Scraper(
-      url,
-      contract,
-      { 'stephane-link': StephaneLink },
-      { headless: false },
-    ),
+    scraper: new Scraper(url, contract, { 'stephane-link': StephaneLink }),
     attributes: contract.attributes,
   };
 });
@@ -37,9 +32,6 @@ for (let job of Object.values(scrapingJobs)) {
     return scraper
       .scrapePage()
       .then(async scrapedItems => {
-        if (scrapedItems.length === 0) {
-          // console.log(await scraper.getPageContents());
-        }
         assert.equal(
           scrapedItems.length > 0,
           true,
